@@ -32,7 +32,7 @@ yum install rubygem-asciidoctor.noarch
 
 A HTML version of this documentation is also available on https://blog.simlau.net/netscaler/[my website].
 
-The asciidoc source is available on GitHub[https://github.com/slauger/netscaler_docs].
+The asciidoc source is available on https://github.com/slauger/netscaler_docs[GitHub].
 
 === Contribute
 
