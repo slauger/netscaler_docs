@@ -7,7 +7,7 @@ This is an example configuration for Exchange 2016 on NetScaler.
 - 401 Preauth for Active Sync Traffic
 - NTLM Preauth for Outlook Anywhere Traffic
 
-To use all features (e.g. Preauthentifcation) at least a Enterprise license is required (AAA).
+To use all features (e.g. preauth) at least a Enterprise license is required (AAA).
 
 This configuration was built for my Citrix Networking specialist exam and Exchange 2013.
 I added some improvements and support for Exchange 2016 (e.g. MAPI over HTTPS) afterwards.
