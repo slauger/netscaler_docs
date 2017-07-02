@@ -1,0 +1,124 @@
+== Basics
+
+=== Timezone
+
+If not already done you should also configure your local timezone:
+```
+set ns param -timezone "GMT+01:00-CET-Europe/Berlin"
+```
+
+=== Basic Features
+
+This is an example for enabling the most used features. This depends by the installed license
+and your individual needs.
+
+Here are some examples.
+
+**NetScaler Gateway Platform license**
+```
+enable ns feature SSL SSLVPN REWRITE RESPONDER
+```
+
+**NetScaler Standard**
+```
+enable ns feature LB CS SSL CF SSLVPN REWRITE RESPONDER
+```
+
+**NetScaler Enteprise**
+```
+enable ns feature LB CS SSL CF SSLVPN AAA REWRITE RESPONDER RDPProxy
+```
+
+=== LDAP
+```
+add authentication ldapAction act_auth_ldap -serverName ${DC} -serverPort 636 -ldapBase "${LDAP_BASEDN}" -ldapBindDn "${LDAP_BINDDN}" -ldapBindDnPassword "${LDAP_BINDPW}" -ldapLoginName sAMAccountName -searchFilter "${LDAP_FILTER}" -groupAttrName memberOf -subAttributeName CN -secType SSL -ssoNameAttribute sAMAccountName -passwdChange ENABLED -nestedGroupExtraction ON -ldapHostname ${LDAP_FQDN} -groupNameIdentifier sAMAccountName -groupSearchAttribute memberOf -groupSearchSubAttribute CN
+add authentication ldapPolicy pol_auth_ldap ns_true act_auth_ldap
+```
+
+**Admin authentication**
+```
+bind system global pol_auth_ldap
+```
+
+```
+add system group "${LDAP_ADMINS}"
+bind system group "${LDAP_ADMINS}" -policyName superuser 100
+```
+=== Syslog
+```
+add audit syslogAction act_audit_syslog ${SYSLOG} -logLevel ${SYSLOG_LOGLEVEL}
+add audit syslogPolicy pol_audit_syslog ns_true act_audit_syslog
+bind system global pol_audit_syslog -priority 100
+```
+
+=== SNMP
+```
+add snmp community ${SNMP_COMMUNITY} GET_NEXT
+set snmp mib -name ${SNMP_NAME} -contact ${SNMP_CONTACT} -customID ${SNMP_CUSTOM_ID} -location ${SNMP_LOCATION}
+```
+
+=== NTP
+```
+add ntp server ${NTP1}
+add ntp server ${NTP2}
+```
+
+NTP synchronisation is disabled by default.
+```
+enable ntp sync
+```
+
+=== VLAN Binding
+
+You should configure a SNIP for each network interface and bind it to a VLAN.
+This avoids MAC flapping between ports (NetScaler auto discovery). 
+```
+add vlan ${VLAN_EXT} -aliasName ${VLAN_EXT_ALIAS}
+bind vlan ${VLAN_EXT} -IPAddress ${SNIP_EXT} ${SNIP_EXT_MASK}
+bind vlan ${VLAN_EXT} -ifnum ${VLAN_EXT_INTERFACE}
+```
+
+=== DNS Loadbalancing
+
+```
+add server ${DNS1_FQDN} ${DNS1_IP}
+add server ${DNS2_FQDN} ${DNS2_IP}
+```
+
+```
+add serviceGroup sg_dns_ad DNS -maxClient 0 -maxReq 0 -usip NO -useproxyport NO -cltTimeout 180 -svrTimeout 360 -CKA NO -TCPB NO -CMP NO
+```
+
+```
+bind serviceGroup sg_dns_ad ${DNS1_FQDN} 53
+bind serviceGroup sg_dns_ad ${DNS2_FQDN} 53
+```
+
+```
+add lb vserver vs_lb_dns_ad DNS 0.0.0.0 0 -persistenceType NONE -cltTimeout 180
+```
+
+```
+bind lb vserver vs_lb_dns_ad sg_dns_ad
+```
+
+```
+add dns nameServer vs_lb_dns_ad
+```
+
+=== DNS Suffix
+```
+add dns suffix ${DNS_SUFFIX}
+```
+
+=== Generic SSL Redirect
+```
+add responder action act_responder_ssl_redirect_generic redirect "\"https://\" + HTTP.REQ.HOSTNAME.HTTP_URL_SAFE + HTTP.REQ.URL.HTTP_URL_SAFE" -responseStatusCode 301
+add responder policy pol_responder_ssl_redirect_generic true act_responder_ssl_redirect_generic
+```
+
+=== Access Log
+
+```
+add audit messageaction access_log INFORMATIONAL q/CLIENT.IP.SRC + HTTP.REQ.HEADER("X-Forwarded-For").HTTP_HEADER_SAFE + " " + HTTP.REQ.HOSTNAME + " \"" +HTTP.REQ.METHOD + " " +HTTP.REQ.URL.PATH_AND_QUERY.HTTP_URL_SAFE + "\"" +" \"" + HTTP.REQ.HEADER("User-Agent").HTTP_HEADER_SAFE + "\"" /
+```

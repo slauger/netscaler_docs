@@ -1,0 +1,19 @@
+== External links
+
+**Common**
+
+- https://www.citrix.com/community/citrix-developer/netscaler/howto-guides.html[Netscaler HowTo Guides] - Common Configuration HowTo guides
+- https://www.citrix.de/products/netscaler-adc/resources/deploy.html[NetScaler Deployment Guides] - Some offical Deployment Guides by Citrix
+
+**CTX Articles**
+
+- https://support.citrix.com/article/CTX214033[CTX214033] - NetScaler Networking and VLAN Best Practices
+- https://support.citrix.com/article/CTX121149[CTX121149] - Recommended Settings and Best Practices for Generic Implementation of a NetScaler Appliance
+
+**Monitoring**
+
+- https://github.com/slauger/check_netscaler[check_netscaler] - check_netscaler Nagios Plugin
+- https://github.com/slauger/check_netscaler[check_netscaler_gateway] - check_netscaler_gateway Nagios Plugin
+
+
+

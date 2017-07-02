@@ -1,0 +1,58 @@
+== SSL Hardening
+
+=== Recommended Ciphers
+These are the recommended ciphers as of Jun 2017. It should work with recent builds
+of 11.0 or 11.1 and above.
+```
+add ssl cipher cipher_custom_secure
+bind ssl cipher cipher_custom_secure -cipherName TLS1.2-ECDHE-RSA-AES256-GCM-SHA384
+bind ssl cipher cipher_custom_secure -cipherName TLS1.2-ECDHE-RSA-AES128-GCM-SHA256
+bind ssl cipher cipher_custom_secure -cipherName TLS1.2-ECDHE-RSA-AES-256-SHA384
+bind ssl cipher cipher_custom_secure -cipherName TLS1.2-ECDHE-RSA-AES-128-SHA256
+bind ssl cipher cipher_custom_secure -cipherName TLS1-ECDHE-RSA-AES256-SHA
+bind ssl cipher cipher_custom_secure -cipherName TLS1-ECDHE-RSA-AES128-SHA
+bind ssl cipher cipher_custom_secure -cipherName TLS1.2-DHE-RSA-AES256-GCM-SHA384
+bind ssl cipher cipher_custom_secure -cipherName TLS1.2-DHE-RSA-AES128-GCM-SHA256
+bind ssl cipher cipher_custom_secure -cipherName TLS1-DHE-RSA-AES-256-CBC-SHA
+bind ssl cipher cipher_custom_secure -cipherName TLS1-DHE-RSA-AES-128-CBC-SHA
+bind ssl cipher cipher_custom_secure -cipherName TLS1-AES-256-CBC-SHA
+bind ssl cipher cipher_custom_secure -cipherName TLS1-AES-128-CBC-SHA
+```
+
+If support for Windows XP and some older devices is required, you can also add
+the the following cipher. A SSL check on ssllabs.com will show a warning if this 
+cipher is in use.
+```
+bind ssl cipher cipher_custom_secure -cipherName SSL3-DES-CBC3-SHA
+```
+=== Default Profile
+
+```
+set ssl parameter -defaultProfile ENABLED
+Y
+
+set ssl profile ns_default_ssl_profile_frontend -denySSLReneg NONSECURE
+bind ssl profile ns_default_ssl_profile_frontend -cipherName cipher_custom_secure
+unbind ssl profile ns_default_ssl_profile_frontend -cipherName DEFAULT
+
+set ssl profile ns_default_ssl_profile_backend -denySSLReneg NONSECURE
+bind ssl profile ns_default_ssl_profile_backend -cipherName cipher_custom_secure
+unbind ssl profile ns_default_ssl_profile_backend -cipherName DEFAULT_BACKEND
+```
+
+=== STS global rewrite
+
+This adds the STS header to all HTTP responses. This is required to get an A+ rating
+on ssllabs.com.
+```
+add rewrite action act_rewrite_inject_http_sts_header insert_http_header Strict-Transport-Security "\"max-age=31536000\""
+add rewrite policy pol_rewrite_inject_http_sts_header true act_rewrite_inject_http_sts_header
+bind rewrite global pol_rewrite_inject_http_sts_header 100 NEXT -type RES_OVERRIDE
+```
+
+=== Enable ECDHE Ciphers 
+Create a ECDHE key to enable ECDHE ciphers (this could take a lot of time).
+```
+create dhParam /nsconfig/ssl/ECDHE.key -gen 5 2048
+set ssl profile ns_default_ssl_profile_frontend -dh ENABLED -dhFile "/nsconfig/ssl/ECDHE.key"
+```

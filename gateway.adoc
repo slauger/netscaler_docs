@@ -1,0 +1,64 @@
+== NetScaler Gateway 
+
+=== ICA only
+
+```
+add vpn sessionAction action_session_receiver -splitTunnel OFF -transparentInterception OFF -defaultAuthorizationAction ALLOW -SSO ON -icaProxy ON -wihome "https://${SF_FQDN}/Citrix/StoreWeb" -ClientChoices OFF -ntDomain CTXDEMO -clientlessVpnMode OFF -storefronturl "https://${SF_FQDN}"
+add vpn sessionAction action_session_web -transparentInterception OFF -defaultAuthorizationAction ALLOW -SSO ON -homePage "https://${SF_FQDN}/Citrix/StoreWeb" -icaProxy ON -wihome "http://${SF_FQDN}/Citrix/StoreWeb" -ClientChoices OFF -ntDomain CTXDEMO -clientlessVpnMode OFF
+
+add vpn sessionPolicy pol_session_receiver "REQ.HTTP.HEADER User-Agent CONTAINS CitrixReceiver" action_session_receiver
+add vpn sessionPolicy pol_session_web ns_true action_session_web
+``` 
+
+```
+add vpn vserver vs_vpn_citrix SSL ${VIP_GW} 443 -icaOnly ON -downStateFlush DISABLED -Listenpolicy NONE
+```
+
+```
+bind vpn vserver vs_vpn_citrix -staServer "http://${XDC1_FQDN}"
+bind vpn vserver vs_vpn_citrix -staServer "http://${XDC2_FQDN}"
+```
+
+```
+bind vpn vserver vs_vpn_citrix -policy pol_auth_ldap
+```
+
+```
+bind vpn vserver vs_vpn_citrix -policy pol_session_receiver -priority 100
+bind vpn vserver vs_vpn_citrix -policy pol_session_web -priority 200
+```
+
+**Workaround: Inject internal Storefront FQDN into each Requests**
+Sometimes the request to Storefront is sent with the external FQDN. This causes that the 
+request is dropped in some situations (e.g. with Loadbalancing on a Sophos UTM).
+
+```
+add rewrite action act_rewrite_hostname replace HTTP.REQ.HOSTNAME "${SF_FQDN}"
+add rewrite policy pol_rewrite_hostname true act_rewrite_hostname
+bind vpn vserver vs_vpn_citrix -policy pol_rewrite_hostname -priority 100 -gotoPriorityExpression END -type REQUEST
+```
+
+=== SmartAccess
+
+Rewriting of Storefront Cookies need to be disabled.
+```
+add policy patset patset_storefront_cookies
+bind policy patset patset_storefront_cookies CsrfToken -index 1
+bind policy patset patset_storefront_cookies ASP.NET_SessionId -index 2
+bind policy patset patset_storefront_cookies CtxsPluginAssistantState -index 3
+bind policy patset patset_storefront_cookies CtxsAuthId -index 4
+add vpn clientlessAccessProfile profile_clientless_storefront
+set vpn clientlessAccessProfile profile_clientless_storefront -URLRewritePolicyLabel ns_cvpn_default_inet_url_label -ClientConsumedCookies patset_storefront_cookies
+add vpn clientlessAccessPolicy pol_clientless_storefront true profile_clientless_storefront
+```
+
+Setting for Storefront (web.config) to allow use in HTML Frames.
+```
+<add name="X-Frame-Options" value="SAMEORIGIN" />
+<add name="Content-Security-Policy" value="frame-ancestors 'self'" />
+```
+
+```
+add vpn sessionPolicy pol_session_web_portal ns_true profile_session_web_portal
+add vpn sessionAction profile_session_web_portal -sessTimeout 1440 -transparentInterception ON -defaultAuthorizationAction ALLOW -clientIdleTimeout 1440 -clientCleanupPrompt OFF -forceCleanup none -clientConfiguration trace -SSO ON -homePage none -icaProxy ON -wihome "https://${SF_FQDN}/Citrix/LabWeb" -citrixReceiverHome "https://${SF_FQDN}/Citrix/LabWeb" -wiPortalMode NORMAL -ClientChoices ON -ntDomain ${SSO_DOMAIN} -clientlessVpnMode OFF -emailHome "https://${EX_FQDN}/owa" -clientlessModeUrlEncoding TRANSPARENT -storefronturl "https://${SF_FQDN}/Citrix/Lab" -rdpClientProfileName profile_rdp_client_default -iconWithReceiver ON
+```

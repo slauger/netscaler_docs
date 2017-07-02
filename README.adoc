@@ -1,0 +1,71 @@
+= Netscaler Guide
+Simon Lauger <simon@lauger.name>
+
+Best practices and example configurations for Citrix NetScaler.
+
+== Intro
+
+=== What's this?
+
+In this documents i will share all my NetScaler best practices and guidelines.
+
+This is not a "no-brainer" copy & paste guide. Double check every configuration line before
+you paste it in your NetScaler.
+
+Custom configurations (like binding of ssl certificates) are not part of this document.
+
+=== Build HTML
+
+All content is written in ASCII Doc. You can convert the content to HTML via asciidoctor.
+A Makefile is included in this repository. Just run the following command to build it.
+
+```
+make all
+```
+
+Ruby and the asciidoctor gem Doctor need to be installed.
+A RPM package for Enterprise Linux (RHEL, CentOS, Fedora) is available trough EPEL.
+
+```
+yum install rubygem-asciidoctor.noarch
+```
+
+A hourly updated HTML version will be available on my website.
+
+=== Contribute
+
+Feedback and suggestion for improvement are appreciated. Just create a issue on GitHub.
+You can also send me an Pull requests to suggest changes.
+
+=== About me
+
+Comming soon.
+
+=== Available Guides
+
+  * Best Practices
+  * SSL Hardening
+  * Exchange 2016
+  * NetScaler Gateway (ICA only)
+  * NetScaler Gateway (Smartaccess)
+  * XenMobile
+  * Sharefile
+  * CensorNet MFA ("SMS Passcode")
+
+include::bestpractices.adoc[]
+
+include::basics.adoc[]
+
+include::ssl_hardening.adoc[]
+
+include::exchange2016.adoc[]
+
+include::gateway.adoc[]
+
+include::xenmobile.adoc[]
+
+include::sharefile.adoc[]
+
+include::smspasscode.adoc[]
+
+include::links.adoc[]

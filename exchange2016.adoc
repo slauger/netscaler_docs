@@ -1,0 +1,378 @@
+== Exchange 2016
+
+This is an example configuration for Exchange 2016 on NetScaler.
+
+- Content Switching for every single service/directory
+- Formbased Preauth for Outlook Web Access
+- 401 Preauth for Active Sync Traffic
+- NTLM Preauth for Outlook Anywhere Traffic
+
+To use all features (e.g. Preauthentifcation) at least a Enterprise license is required (AAA).
+
+This configuration was built for my Citrix Networking specialist exam and Exchange 2013.
+I added some improvements and support for Exchange 2016 (e.g. MAPI over HTTPS) afterwards.
+
+This configuration runs in production on 10+ customer setups (not all of them use preauth).
+
+=== Content Switching
+
+**Add your exchange servers**
+
+Be sure that you use the real FQDN of the machine as name for the server object. This is only
+important if you plan to use the Kerberos feature inside NetScaler.
+
+```
+add server ${EX1_FQDN} ${EX1_IP}
+add server ${EX2_FQDN} ${EX2_IP}
+```
+
+**Service groups**
+
+```
+add serviceGroup sg_ssl_ex2016_owa SSL -maxClient 0 -maxReq 0 -cip ENABLED X-Forwarded-For -usip NO -useproxyport YES -cltTimeout 180 -svrTimeout 360 -CKA YES -TCPB NO -CMP NO
+add serviceGroup sg_ssl_ex2016_ews SSL -maxClient 0 -maxReq 0 -cacheable YES -cip ENABLED X-Forwarded-For -usip NO -useproxyport YES -cltTimeout 180 -svrTimeout 360 -CKA YES -TCPB NO -CMP NO
+add serviceGroup sg_ssl_ex2016_activesync SSL -maxClient 0 -maxReq 0 -cacheable YES -cip ENABLED X-Forwarded-For -usip NO -useproxyport YES -cltTimeout 180 -svrTimeout 360 -CKA YES -TCPB NO -CMP NO
+add serviceGroup sg_ssl_ex2016_rpc SSL -maxClient 0 -maxReq 0 -cacheable YES -cip ENABLED X-Forwarded-For -usip NO -useproxyport YES -cltTimeout 180 -svrTimeout 360 -CKA YES -TCPB NO -CMP NO
+add serviceGroup sg_ssl_ex2016_autodiscover SSL -maxClient 0 -maxReq 0 -cacheable YES -cip ENABLED X-Forwarded-For -usip NO -useproxyport YES -cltTimeout 180 -svrTimeout 360 -CKA YES -TCPB NO -CMP NO
+add serviceGroup sg_ssl_ex2016_ecp SSL -maxClient 0 -maxReq 0 -cacheable YES -cip ENABLED X-Forwarded-For -usip NO -useproxyport YES -cltTimeout 180 -svrTimeout 360 -CKA YES -TCPB NO -CMP NO
+add serviceGroup sg_ssl_ex2016_oab SSL -maxClient 0 -maxReq 0 -cacheable YES -cip ENABLED X-Forwarded-For -usip NO -useproxyport YES -cltTimeout 180 -svrTimeout 360 -CKA YES -TCPB NO -CMP NO
+add serviceGroup sg_ssl_ex2016_mapi SSL -maxClient 0 -maxReq 0 -cacheable YES -cip ENABLED X-Forwarded-For -usip NO -useproxyport YES -cltTimeout 180 -svrTimeout 360 -CKA YES -TCPB NO -CMP NO
+```
+
+**Add Exchange servers to the servicegroups**
+```
+bind serviceGroup sg_ssl_ex2016_owa ${EX1_FQDN} 443
+bind serviceGroup sg_ssl_ex2016_owa ${EX2_FQDN} 443
+
+bind serviceGroup sg_ssl_ex2016_ews ${EX1_FQDN} 443
+bind serviceGroup sg_ssl_ex2016_ews ${EX2_FQDN} 443
+
+bind serviceGroup sg_ssl_ex2016_activesync ${EX1_FQDN} 443
+bind serviceGroup sg_ssl_ex2016_activesync ${EX2_FQDN} 443
+
+bind serviceGroup sg_ssl_ex2016_rpc ${EX1_FQDN} 443
+bind serviceGroup sg_ssl_ex2016_rpc ${EX2_FQDN} 443
+
+bind serviceGroup sg_ssl_ex2016_autodiscover ${EX1_FQDN} 443
+bind serviceGroup sg_ssl_ex2016_autodiscover ${EX2_FQDN} 443
+
+bind serviceGroup sg_ssl_ex2016_ecp ${EX1_FQDN} 443
+bind serviceGroup sg_ssl_ex2016_ecp ${EX2_FQDN} 443
+
+bind serviceGroup sg_ssl_ex2016_oab ${EX1_FQDN} 443
+bind serviceGroup sg_ssl_ex2016_oab ${EX2_FQDN} 443
+
+bind serviceGroup sg_ssl_ex2016_mapi ${EX1_FQDN} 443
+bind serviceGroup sg_ssl_ex2016_mapi ${EX2_FQDN} 443
+```
+
+**Monitoring**
+```
+add lb monitor mon_ex2016_owa HTTP -respCode 200 -httpRequest "GET /owa/healthcheck.htm" -LRTM ENABLED -secure YES
+add lb monitor mon_ex2016_ews HTTP -respCode 200 -httpRequest "GET /ews/healthcheck.htm" -LRTM ENABLED -secure YES
+add lb monitor mon_ex2016_activesync HTTP -respCode 200 -httpRequest "GET /Microsoft-Server-ActiveSync/healthcheck.htm" -LRTM ENABLED -secure YES
+add lb monitor mon_ex2016_rpc HTTP -respCode 200 -httpRequest "GET /rpc/healthcheck.htm" -LRTM ENABLED -secure YES
+add lb monitor mon_ex2016_autodiscover HTTP -respCode 200 -httpRequest "GET /Autodiscover/healthcheck.htm" -LRTM ENABLED -secure YES
+add lb monitor mon_ex2016_ecp HTTP -respCode 200 -httpRequest "GET /ecp/healthcheck.htm" -LRTM ENABLED -secure YES
+add lb monitor mon_ex2016_oab HTTP -respCode 200 -httpRequest "GET /oab/healthcheck.htm" -LRTM ENABLED -secure YES
+add lb monitor mon_ex2016_mapi HTTP -respCode 200 -httpRequest "GET /mapi/healthcheck.htm" -LRTM ENABLED -secure YES
+```
+
+```
+bind serviceGroup sg_ssl_ex2016_owa -monitorName mon_ex2016_owa
+bind serviceGroup sg_ssl_ex2016_ews -monitorName mon_ex2016_ews
+bind serviceGroup sg_ssl_ex2016_activesync -monitorName mon_ex2016_activesync
+bind serviceGroup sg_ssl_ex2016_rpc -monitorName mon_ex2016_rpc
+bind serviceGroup sg_ssl_ex2016_autodiscover -monitorName mon_ex2016_autodiscover
+bind serviceGroup sg_ssl_ex2016_ecp -monitorName mon_ex2016_ecp
+bind serviceGroup sg_ssl_ex2016_oab -monitorName mon_ex2016_oab
+bind serviceGroup sg_ssl_ex2016_mapi -monitorName mon_ex2016_mapi
+```
+
+**Internal LB vServers**
+```
+add lb vserver vs_lb_http_ex2016_owa HTTP 0.0.0.0 0 -lbMethod LEASTRESPONSETIME -cltTimeout 180 
+add lb vserver vs_lb_http_ex2016_owa_redirect HTTP 0.0.0.0 0 -cltTimeout 180
+add lb vserver vs_lb_http_ex2016_ews HTTP 0.0.0.0 0 -lbMethod LEASTRESPONSETIME -cltTimeout 180 
+add lb vserver vs_lb_http_ex2016_activesync HTTP 0.0.0.0 0 -lbMethod LEASTRESPONSETIME -cltTimeout 180
+add lb vserver vs_lb_http_ex2016_rpc HTTP 0.0.0.0 0 -lbMethod LEASTRESPONSETIME -cltTimeout 180
+add lb vserver vs_lb_http_ex2016_autodiscover HTTP 0.0.0.0 0 -lbMethod LEASTRESPONSETIME -cltTimeout 180
+add lb vserver vs_lb_http_ex2016_ecp HTTP 0.0.0.0 0 -lbMethod LEASTRESPONSETIME -cltTimeout 180
+add lb vserver vs_lb_http_ex2016_oab HTTP 0.0.0.0 0 -lbMethod LEASTRESPONSETIME -cltTimeout 180
+add lb vserver vs_lb_http_ex2016_mapi HTTP 0.0.0.0 0 -lbMethod LEASTRESPONSETIME -cltTimeout 180
+```
+
+**Connect LB vServers and the servicegroups**
+```
+bind lb vserver vs_lb_http_ex2016_owa sg_ssl_ex2016_owa
+bind lb vserver vs_lb_http_ex2016_owa_redirect sg_ssl_ex2016_owa
+bind lb vserver vs_lb_http_ex2016_ews sg_ssl_ex2016_ews
+bind lb vserver vs_lb_http_ex2016_activesync sg_ssl_ex2016_activesync
+bind lb vserver vs_lb_http_ex2016_rpc sg_ssl_ex2016_rpc
+bind lb vserver vs_lb_http_ex2016_autodiscover sg_ssl_ex2016_autodiscover
+bind lb vserver vs_lb_http_ex2016_ecp sg_ssl_ex2016_ecp
+bind lb vserver vs_lb_http_ex2016_oab sg_ssl_ex2016_oab
+bind lb vserver vs_lb_http_ex2016_mapi sg_ssl_ex2016_mapi
+```
+
+**Content Switching policies**
+
+```
+add cs action act_cs_ex2016_owa -targetLBVserver vs_lb_http_ex2016_owa
+add cs action act_cs_ex2016_ews -targetLBVserver vs_lb_http_ex2016_ews
+add cs action act_cs_ex2016_activesync -targetLBVserver vs_lb_http_ex2016_activesync
+add cs action act_cs_ex2016_rpc -targetLBVserver vs_lb_http_ex2016_rpc
+add cs action act_cs_ex2016_autodiscover -targetLBVserver vs_lb_http_ex2016_autodiscover
+add cs action act_cs_ex2016_ecp -targetLBVserver vs_lb_http_ex2016_ecp
+add cs action act_cs_ex2016_oab -targetLBVserver vs_lb_http_ex2016_oab
+add cs action act_cs_ex2016_mapi -targetLBVserver vs_lb_http_ex2016_mapi
+```
+
+```
+add cs policy pol_cs_ex2016_owa -rule "HTTP.REQ.URL.SET_TEXT_MODE(IGNORECASE).EQ(\"/owa\")\n|| HTTP.REQ.URL.SET_TEXT_MODE(IGNORECASE).STARTSWITH(\"/owa\")\n||HTTP.REQ.URL.SET_TEXT_MODE(IGNORECASE).EQ(\"/cgi/selfauth\") ||\nHTTP.REQ.URL.SET_TEXT_MODE(IGNORECASE).STARTSWITH(\"/cgi/selfauth\")" -action act_cs_ex2016_owa
+add cs policy pol_cs_ex2016_ews -rule "HTTP.REQ.URL.SET_TEXT_MODE(IGNORECASE).EQ(\"/ews\") || HTTP.REQ.URL.SET_TEXT_MODE(IGNORECASE).STARTSWITH(\"/ews\")" -action act_cs_ex2016_ews
+add cs policy pol_cs_ex2016_rpc -rule "HTTP.REQ.URL.SET_TEXT_MODE(IGNORECASE).EQ(\"/rpc\") || HTTP.REQ.URL.SET_TEXT_MODE(IGNORECASE).STARTSWITH(\"/rpc\")" -action act_cs_ex2016_rpc
+add cs policy pol_cs_ex2016_autodiscover -rule "HTTP.REQ.URL.SET_TEXT_MODE(IGNORECASE).EQ(\"/Autodiscover\") || HTTP.REQ.URL.SET_TEXT_MODE(IGNORECASE).STARTSWITH(\"/Autodiscover\")" -action act_cs_ex2016_autodiscover
+add cs policy pol_cs_ex2016_ecp -rule "HTTP.REQ.URL.SET_TEXT_MODE(IGNORECASE).EQ(\"/ecp\") || HTTP.REQ.URL.SET_TEXT_MODE(IGNORECASE).STARTSWITH(\"/ecp\")" -action act_cs_ex2016_ecp
+add cs policy pol_cs_ex2016_oab -rule "HTTP.REQ.URL.SET_TEXT_MODE(IGNORECASE).EQ(\"/oab\") || HTTP.REQ.URL.SET_TEXT_MODE(IGNORECASE).STARTSWITH(\"/oab\")" -action act_cs_ex2016_oab
+add cs policy pol_cs_ex2016_mapi -rule "HTTP.REQ.URL.SET_TEXT_MODE(IGNORECASE).EQ(\"/mapi\") || HTTP.REQ.URL.SET_TEXT_MODE(IGNORECASE).STARTSWITH(\"/mapi\")" -action act_cs_ex2016_mapi
+add cs policy pol_cs_ex2016_activesync -rule "HTTP.REQ.URL.SET_TEXT_MODE(IGNORECASE).EQ(\"/Microsoft-Server-ActiveSync\") || HTTP.REQ.URL.SET_TEXT_MODE(IGNORECASE).STARTSWITH(\"/Microsoft-Server-ActiveSync\")" -action act_cs_ex2016_activesync
+```
+
+**Create CS vServer**
+```
+add cs vserver vs_cs_ssl_ex2016 SSL ${EX_VIP} 443 -cltTimeout 180
+add cs vserver vs_cs_http_ex2016 HTTP ${EX_VIP} 80 -cltTimeout 180
+```
+
+**Add the CS policies to the CS vServer**
+```
+bind cs vserver vs_cs_ssl_ex2016 -policyName pol_cs_ex2016_owa -priority 100
+bind cs vserver vs_cs_ssl_ex2016 -policyName pol_cs_ex2016_ews -priority 110
+bind cs vserver vs_cs_ssl_ex2016 -policyName pol_cs_ex2016_activesync -priority 120
+bind cs vserver vs_cs_ssl_ex2016 -policyName pol_cs_ex2016_rpc -priority 130
+bind cs vserver vs_cs_ssl_ex2016 -policyName pol_cs_ex2016_autodiscover -priority 140
+bind cs vserver vs_cs_ssl_ex2016 -policyName pol_cs_ex2016_ecp -priority 150
+bind cs vserver vs_cs_ssl_ex2016 -policyName pol_cs_ex2016_oab -priority 160
+bind cs vserver vs_cs_ssl_ex2016 -policyName pol_cs_ex2016_mapi -priority 170
+bind cs vserver vs_cs_ssl_ex2016 -lbvserver vs_lb_http_ex2016_owa_redirect
+```
+
+**Redirect all HTTP requests to SSL**
+```
+bind cs vserver vs_cs_http_ex2016 -policyName pol_responder_ssl_redirect_generic -priority 100 -gotoPriorityExpression END -type REQUEST
+```
+
+**Redirect invalid requests to OWA**
+```
+add responder action act_responder_ssl_redirect_owa redirect "\"https://\" + HTTP.REQ.HOSTNAME.HTTP_URL_SAFE + \"/owa/\"" -responseStatusCode 302
+add responder policy pol_responder_ssl_redirect_owa "true" act_responder_ssl_redirect_owa
+```
+
+```
+bind lb vserver vs_lb_http_ex2016_owa_redirect -policyName pol_responder_ssl_redirect_owa -priority 100 -gotoPriorityExpression END -type REQUEST
+```
+
+=== Persistence
+
+This creates a SOURCEIP persistence group for Exchange services.
+This is not required, but it can make your troubleshooting a lot easier.
+```
+bind lb group persistency_group_ex2016_web vs_lb_http_ex2016_ews
+bind lb group persistency_group_ex2016_web vs_lb_http_ex2016_activesync
+bind lb group persistency_group_ex2016_web vs_lb_http_ex2016_rpc
+bind lb group persistency_group_ex2016_web vs_lb_http_ex2016_autodiscover
+bind lb group persistency_group_ex2016_web vs_lb_http_ex2016_oab
+bind lb group persistency_group_ex2016_web vs_lb_http_ex2016_mapi
+set lb group persistency_group_ex2016_web -persistenceType SOURCEIP
+```
+
+=== Preauth for Activesync
+
+**AAA vServer**
+```
+add authentication vserver vs_aaa_ex2016_auth_basic SSL 0.0.0.0 -AuthenticationDomain ${AAA_DOMAIN}
+```
+
+**Bind LDAP policy**
+```
+bind authentication vserver aaa_vs_ex2016_auth_basic -policy pol_auth_ldap -priority 100
+```
+
+**Enable 401 auth for ActiveSync**
+```
+set lb vserver vs_lb_http_ex2016_activesync -authn401 ON -authnVsName aaa_vs_ex2016_auth_basic
+```
+
+==== Group Filtering for ActiveSync
+
+**Authorization policy**
+```
+add authorization policy pol_authorization_activesync "HTTP.REQ.USER.IS_MEMBER_OF(\"Netscaler-ActiveSync\").NOT" DENY
+```
+
+**Bind authorization policy**
+```
+bind lb vserver vs_lb_http_ex2016_activesync -policyName pol_authorization_activesync -priority 100 -gotoPriorityExpression END -type REQUEST
+```
+=== Preauth for OWA
+
+**AAA vServer**
+```
+add authentication vserver vs_aaa_ex2016_auth_form SSL ${AAA_VIP} 443 -AuthenticationDomain ${AAA_DOMAIN}
+add cs vserver vs_cs_http_ex2016_auth_form HTTP ${AAA_VIP} 80 -cltTimeout 180
+```
+
+**Redirect all requests to SSL**
+```
+bind cs vserver vs_cs_http_ex2016_auth_form -policyName pol_responder_ssl_redirect_owa -priority 100 -gotoPriorityExpression END -type REQUEST
+```
+
+**Bind authentication policies**
+
+Bind your authentication policies as you like. This is an example with 2-factor (LDAP+RADIUS).
+```
+bind authentication vserver aaa_vs_ex2016_auth_form -policy pol_auth_ldap -priority 100
+bind authentication vserver aaa_vs_ex2016_auth_form -policy pol_auth_radius -priority 100 -secondary
+```
+
+**Enable formbased auth for OWA and ECP**
+```
+set lb vserver vs_lb_http_ex2016_owa -AuthenticationHost ${AAA_FQDN} -Authentication ON -authnVsName vs_aaa_ex2016_auth_form
+set lb vserver vs_lb_http_ex2016_ecp -AuthenticationHost ${AAA_FQDN} -Authentication ON -authnVsName vs_aaa_ex2016_auth_form
+```
+
+==== Group Filtering for OWA
+
+**Authorization policy**
+```
+add authorization policy pol_authorization_owa "HTTP.REQ.USER.IS_MEMBER_OF(\"Netscaler-OWA\").NOT" DENY
+```
+
+**Bind authorization policy**
+```
+bind lb vserver vs_lb_http_ex2016_owa -policyName pol_authorization_owa -priority 100 -gotoPriorityExpression END -type REQUEST 
+bind lb vserver vs_lb_http_ex2016_ecp -policyName pol_authorization_owa -priority 100 -gotoPriorityExpression END -type REQUEST
+```
+
+**FormSSO and Logout from OWA**
+```
+add tm formSSOAction prof_formsso_exchange_sso -actionURL "/owa/auth.owa" -userField username -passwdField password -ssoSuccessRule "HTTP.RES.SET_COOKIE.COOKIE(\"cadata\").VALUE(\"cadata\").LENGTH.GT(70)" -nameValuePair "destination=https://${EX_FQDN}/owa/#authRedirect=true&flags=4&forcedownlevel=0&passwordText=&isUtf8=1" -responsesize 60000 -submitMethod POST
+
+add tm trafficAction prof_traffic_exchange_sso_login -appTimeout 1 -SSO ON -formSSOAction prof_formsso_exchange_sso -persistentCookie ON -InitiateLogout OFF -kcdAccount NONE
+add tm trafficAction prof_traffic_exchange_sso_logout -appTimeout 1 -SSO ON -persistentCookie OFF -InitiateLogout ON -kcdAccount NONE
+
+add tm trafficPolicy pol_traffic_exchange_sso_login "HTTP.REQ.URL.SET_TEXT_MODE(IGNORECASE).CONTAINS(\"/owa/auth/logon.aspx\")" prof_traffic_exchange_sso_login
+add tm trafficPolicy pol_traffic_exchange_sso_logout "HTTP.REQ.URL.SET_TEXT_MODE(IGNORECASE).CONTAINS(\"/owa/logoff.owa\")" prof_traffic_exchange_sso_logout
+```
+
+=== Preauth for Outlook Anywhere
+
+You should already have an Keytab file. See https://support.citrix.com/article/CTX129314[CTX129314] for more information.
+
+**AAA vServer**
+```
+add authentication vserver vs_aaa_ex2016_auth_kerberos SSL 0.0.0.0 -AuthenticationDomain ${AAA_DOMAIN}
+```
+
+**Enable 401 based auth with Kerberos/NTLM**
+```
+set lb vserver vs_lb_http_ex2016_ews -authn401 ON -authnVsName vs_aaa_ex2016_auth_kerberos
+set lb vserver vs_lb_http_ex2016_rpc -authn401 ON -authnVsName vs_aaa_ex2016_auth_kerberos
+set lb vserver vs_lb_http_ex2016_autodiscover -authn401 ON -authnVsName vs_aaa_ex2016_auth_kerberos
+set lb vserver vs_lb_http_ex2016_oab -authn401 ON -authnVsName vs_aaa_ex2016_auth_kerberos
+set lb vserver vs_lb_http_ex2016_mapi -authn401 ON -authnVsName vs_aaa_ex2016_auth_kerberos
+```
+
+**Negotiate policy**
+
+For "NTML external path" a url with NTLM enabled auth on the target is required.
+This example may work if formbased auth is disabled for OWA. 
+```
+add authentication negotiateAction act_negotiate_ex2016 -keytab "/nsconfig/krb/ns_kcd.keytab" -NTLMPath "https://${INT_EX_LB}/owa/"
+add authentication negotiatePolicy pol_negotiate_ex2016 ns_true act_negotiate_ex2016
+```
+
+**Bind negotiate policy**
+```
+bind authentication vserver aaa_vs_ex2016_auth_kerberos -policy pol_negotiate_ex2016 -priority 100
+```
+
+**Add KCD account**
+
+The realm should be your internal domain name in uppercase.
+```
+add aaa kcdAccount svc_ctxnetscaler_krb -keytab "/nsconfig/krb/nskrb.keytab" -userRealm ${REALM}
+```
+
+**Session policy**
+```
+add tm sessionPolicy pol_session_ex2016 true prof_session_kerberos
+add tm sessionAction act_session_ex2016 -sessTimeout 60 -defaultAuthorizationAction ALLOW -SSO ON -ssoCredential PRIMARY -ssoDomain ${SSO_DOMAIN} -httpOnlyCookie NO -kcdAccount svc_ctxnetscaler_krb
+```
+
+**Bind session policy**
+```
+bind authentication vserver aaa_vs_ex2016_auth_kerberos -policy pol_session_ex2016 -priority 100 -gotoPriorityExpression NEXT
+```
+
+==== Group Filtering for Outlook Anywhere
+
+It's not possible to extract the groups from a user when NTLM or Kerberos authentication is used. Instead you could use
+a HTTP callout to a PHP script with and simple ldapsearch. You can find an example written in PHP inside of the contrib directory.
+
+It's possible to host the file directly on the NetScaler (NetScaler has php and php-ldap installed). I only recommend this if a 
+Platinum license is available (so caching of callout responses is possible). Otherwise consider hosting the script on a different machine.
+
+Just put the file ldapgroups.php inside of /nsconfig and create a symlink from /var/ns_gui/shared/ldapgroups.php to
+/nsconfig/ldapgroups.php. Use the nsbefore.sh to make this persistent across reboots.
+
+Callouts to the NSIP are blocked. Make sure you use a SNIP with management access (HTTP or HTTPS) enabled.
+
+**nsbefore.sh**
+```
+# /nsconfig/nsbefore.sh
+cd /var/ns_gui/shared && ln -s /nsconfig/ldapgroups.php . 
+```
+
+**HTTP Callout**
+```
+add policy httpCallout callout_http_usergroups -IPAddress ${MGMT_SNIP} -port 80 -returnType TEXT -hostExpr "\"${MGMT_SNIP}\"" -urlStemExpr "\"/shared/ldapgroups.php\"" -parameters username(HTTP.REQ.USER.LOGIN_NAME) -scheme http -resultExpr "HTTP.RES.BODY(99999)" -cacheForSecs 3600 -comment "get groups from active directory"
+```
+
+**Responder filtering policy**
+
+The HTTP response code is set to 503. If a user is blocked he will receive an error in his Outlook client.
+```
+add responder action act_responder_filter_outlook respondwithhtmlpage ex2016_deny.html -responseStatusCode 503
+add responder policy pol_responder_filter_outlook "SYS.HTTP_CALLOUT(callout_http_usergroups).CONTAINS(\"Netscaler-Outlook\").NOT" act_responder_filter_outlook
+```
+
+**Bind responder policy**
+```
+bind lb vserver vs_lb_http_ex2016_ews -policyName pol_responder_filter_outlook -priority 100 -gotoPriorityExpression END -type REQUEST
+bind lb vserver vs_lb_http_ex2016_rpc -policyName pol_responder_filter_outlook -priority 100 -gotoPriorityExpression END -type REQUEST
+bind lb vserver vs_lb_http_ex2016_autodiscover -policyName pol_responder_filter_outlook -priority 100 -gotoPriorityExpression END -type REQUEST
+bind lb vserver vs_lb_http_ex2016_oab -policyName pol_responder_filter_outlook -priority 100 -gotoPriorityExpression END -type REQUEST
+bind lb vserver vs_lb_http_ex2016_mapi -policyName pol_responder_filter_outlook -priority 100 -gotoPriorityExpression END -type REQUEST
+```
+
+=== SMTP, IMAP, POP3
+
+Be sure that you use USIP to forward the client IPs to the Exchange servers. 
+
+**LB vServers**
+```
+add lb vserver vs_lb_tcp_ex2016_pop3 TCP ${EX_VIP} 110 -persistenceType NONE -state DISABLED -cltTimeout 180
+add lb vserver vs_lb_tcp_ex2016_imap TCP ${EX_VIP} 143 -persistenceType NONE -state DISABLED -cltTimeout 180
+add lb vserver vs_lb_ssl_tcp_ex2016_imaps SSL ${EX_VIP} 993 -persistenceType NONE -state DISABLED -cltTimeout 180
+add lb vserver vs_lb_ssl_tcp_ex2016_pop3s SSL ${EX_VIP} 995 -persistenceType NONE -state DISABLED -cltTimeout 180
+add lb vserver vs_lb_tcp_ex2016_smtp TCP ${EX_VIP} 25 -persistenceType NONE -state DISABLED -cltTimeout 180
+add lb vserver vs_lb_ssl_tcp_ex2016_smtps SSL ${EX_VIP} 465 -persistenceType NONE -state DISABLED -cltTimeout 180
+add lb vserver vs_lb_tcp_ex2016_msa TCP ${EX_VIP} 587 -persistenceType NONE -state DISABLED -cltTimeout 180
+```
+
+@TODO: configuration of service groups
+
+@TODO: configuration of peristence
+

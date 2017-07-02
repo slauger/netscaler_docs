@@ -1,0 +1,118 @@
+== XenMobile
+
+=== MDM Loadbalancing
+```
+# Server
+add server ${XMS_FQDN} ${XMS_IP}
+```
+Servicegroups
+```
+add serviceGroup sg_xm_mdm SSL_BRIDGE -maxClient 0 -maxReq 0 -usip NO -useproxyport YES -cltTimeout 180 -svrTimeout 360 -CKA YES -TCPB NO -CMP NO
+add serviceGroup sg_xm_mdm_ios SSL_BRIDGE -maxClient 0 -maxReq 0 -cacheable YES -usip NO -useproxyport YES -cltTimeout 180 -svrTimeout 360 -CKA YES -TCPB NO -CMP NO
+```
+
+Server Binding
+```
+bind serviceGroup sg_xm_mdm ${XMS_FQDN} 443
+bind serviceGroup sg_xm_mdm_ios ${XMS_FQDN} 8443
+```
+
+Monitor
+```
+bind serviceGroup sg_xm_mdm -monitorName tcp
+bind serviceGroup sg_xm_mdm_ios -monitorName tcp
+```
+  
+vServers
+```
+add lb vserver vs_lb_ssl_bridge_xm_mdm SSL_BRIDGE ${MDM_VIP} 443 -persistenceType SSLSESSION -cltTimeout 180
+add lb vserver vs_lb_ssl_bridge_xm_mdm_ios SSL_BRIDGE ${MDM_VIP} 8443 -persistenceType SSLSESSION -cltTimeout 180
+```
+
+Servicegroup Binding
+```
+bind lb vserver vs_lb_ssl_bridge_xm_mdm sg_xm_mdm
+bind lb vserver vs_lb_ssl_bridge_xm_mdm_ios sg_xm_mdm_ios
+```
+
+=== MAM Loadbalancing
+```
+# Servicegroup
+add serviceGroup sg_xm_mam_http HTTP -maxClient 0 -maxReq 0 -cacheable YES -cip ENABLED X-Forwarded-For -usip NO -useproxyport YES -cltTimeout 180 -svrTimeout 360 -CKA YES -TCPB NO -CMP NO
+  
+# Server Binding
+bind serviceGroup sg_xm_mam_http ${XMS_FQDN} 80
+  
+# Monitor
+bind serviceGroup sg_xm_mam_http -monitorName tcp
+  
+# vServer
+add lb vserver vs_lb_xm_mam SSL ${MAM_LB_VIP} 8443 -persistenceType SOURCEIP -cltTimeout 180
+  
+# Service Binding
+bind lb vserver vs_lb_xm_mam sg_xm_mam_http
+```
+
+=== MAM Gateway
+```
+# Intranet Domains (Client VPN)
+bind vpn global -intranetDomain customer.local
+  
+# Intranet Domains (Clientless VPN)
+bind policy patset ns_cvpn_default_inet_domains customer.local -index 2
+bind policy patset ns_cvpn_default_inet_domains mdm.customer.com -index 3
+bind policy patset ns_cvpn_default_inet_domains mdm.customer.com:8443 -index 4
+  
+# Traffic fuer mdm.customer.com an den MAM Loadbalancer schicken
+add dns addRec mdm.customer.com ${MAM_LB_VIP}
+  
+# Storefront Cookies Patternset
+add policy patset storefront_cookies
+bind policy patset storefront_cookies CsrfToken -index 1
+bind policy patset storefront_cookies ASP.NET_SessionId -index 2
+bind policy patset storefront_cookies CtxsPluginAssistantState -index 3
+bind policy patset storefront_cookies CtxsAuthId -index 4
+  
+# Clientless Access Rewrite
+add vpn clientlessAccessProfile prof_clientless_rewrite_sf
+add vpn clientlessAccessProfile prof_clientless_norewrite
+set vpn clientlessAccessProfile prof_clientless_rewrite_sf -URLRewritePolicyLabel ns_cvpn_default_inet_url_label -ClientConsumedCookies storefront_cookies
+add vpn clientlessAccessPolicy pol_clientless_rewrite_sf true prof_clientless_rewrite_sf
+add  vpn clientlessAccessPolicy pol_clientless_norewrite "HTTP.REQ.HEADER(\"User-Agent\").CONTAINS(\"CitrixReceiver\") &&  HTTP.REQ.HEADER(\"X-Citrix-Gateway\").EXISTS" prof_clientless_norewrite
+  
+# Session Policies
+add vpn sessionAction act_session_xenmobile_os -splitDns BOTH -sessTimeout 1440 -splitTunnel OFF -transparentInterception ON -defaultAuthorizationAction ALLOW -SSO ON -ssoCredential PRIMARY -icaProxy OFF -ClientChoices OFF -forcedTimeout 1440 -clientlessVpnMode ON -clientlessModeUrlEncoding TRANSPARENT -SecureBrowse ENABLED -storefronturl "https://mdm.customer.com:8443"
+add vpn sessionAction act_session_xenmobile_web -defaultAuthorizationAction ALLOW -SSO ON -ssoCredential PRIMARY -homePage "https://mdm.customer.com:8443/Citrix/StoreWeb" -icaProxy OFF -wihome "https://mdm.customer.de:8443/Citrix/StoreWeb" -ClientChoices OFF -clientlessVpnMode ON -SecureBrowse ENABLED
+add  vpn sessionAction act_session_xenmobile_ag -splitDns BOTH -splitTunnel OFF -transparentInterception ON -defaultAuthorizationAction ALLOW -SSO ON -ssoCredential PRIMARY -homePage "https://mdm.customer.com:8443/Citrix/StoreWeb"
+ -icaProxy OFF -ClientChoices OFF -clientlessVpnMode OFF -clientlessModeUrlEncoding TRANSPARENT -SecureBrowse ENABLED -storefronturl "https://mdm.customer.com:8443"
+add  vpn sessionPolicy pol_session_xenmobile_os "REQ.HTTP.HEADER User-Agent CONTAINS CitrixReceiver && REQ.HTTP.HEADER X-Citrix-Gateway EXISTS" act_session_xenmobile_os
+add vpn sessionPolicy pol_session_xenmobile_web "REQ.HTTP.HEADER User-Agent NOTCONTAINS CitrixReceiver && REQ.HTTP.HEADER Referer EXISTS" act_session_xenmobile_web
+add vpn sessionPolicy pol_session_xenmobile_ag "REQ.HTTP.HEADER User-Agent NOTCONTAINS CitrixReceiver && REQ.HTTP.HEADER Referer NOTEXISTS" act_session_xenmobile_ag
+  
+# VPN vServer
+add vpn vserver vs_vpn_xm_mam_gateway SSL ${MAM_VIP} 443 -Listenpolicy NONE -cginfraHomePageRedirect DISABLED
+  
+# Binding Auth (UPN)
+bind vpn vserver vs_vpn_xm_mam_gateway -policy pol_auth_ldaps_lm_xenmobile -priority 100
+  
+# Binding Session Policies
+bind vpn vserver vs_vpn_xm_mam_gateway -policy pol_session_xenmobile_os -priority 100
+bind vpn vserver vs_vpn_xm_mam_gateway -policy pol_session_xenmobile_web -priority 110
+bind vpn vserver vs_vpn_xm_mam_gateway -policy pol_session_xenmobile_ag -priority 120
+  
+# Binding Clientless Access Policies
+bind vpn vserver vs_vpn_xm_mam_gateway -policy prof_clientless_norewrite -priority 80 -gotoPriorityExpression END -type REQUEST
+bind vpn vserver vs_vpn_xm_mam_gateway -policy pol_clientless_rewrite_sf -priority 100 -gotoPriorityExpression END -type REQUEST
+  
+# STA; Sharefile, AppController (obsolet)
+bind vpn vserver vs_vpn_xm_mam_gateway -staServer "http://mdm.customer.com:8443"
+bind vpn vserver vs_vpn_xm_mam_gateway -appController "https://mdm.customer.com:8443"
+bind vpn vserver vs_vpn_xm_mam_gateway -sharefile mdm.customer.com:8443
+  
+# Default Cache Policies
+bind vpn vserver vs_vpn_xm_mam_gateway -policy _cacheTCVPNStaticObjects -priority 10 -gotoPriorityExpression END -type REQUEST
+bind vpn vserver vs_vpn_xm_mam_gateway -policy _cacheOCVPNStaticObjects -priority 20 -gotoPriorityExpression END -type REQUEST
+bind vpn vserver vs_vpn_xm_mam_gateway -policy _cacheVPNStaticObjects -priority 30 -gotoPriorityExpression END -type REQUEST
+bind vpn vserver vs_vpn_xm_mam_gateway -policy _noCacheRest -priority 40 -gotoPriorityExpression END -type REQUEST
+bind vpn vserver vs_vpn_xm_mam_gateway -policy _cacheWFStaticObjects -priority 10 -gotoPriorityExpression END -type RESPONSE
+```

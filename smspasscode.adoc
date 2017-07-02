@@ -1,0 +1,8 @@
+== SMS Passcode
+
+RADIUS configuration for SMS Passcode, also known as CensorNet MFA.
+
+```
+add authentication radiusAction act_radius_smspasscode -serverName ${SMSPC_SERVER} -serverPort 1812 -radKey ${SMSPC_PSK} -radVendorID 1 -radAttributeType 99 -radGroupsPrefix CTXUserGroups= -radGroupSeparator "," -accounting ON -callingstationid ENABLED
+add authentication radiusPolicy pol_radius_smspasscode ns_true act_radius_smspasscode
+```

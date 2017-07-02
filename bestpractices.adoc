@@ -1,0 +1,43 @@
+== Best Practices
+
+=== Layer 3 mode
+
+Layer 3 mode is enabled by default. This enables IP fowarding and is only required in a few situations
+(e.g. if you need to fowrard Client IPs in different procotols than HTTP with the feature "USIP").
+
+If you don't need this Layer 3 mode should be disabled for security reasons.
+
+```
+disable mode L3mode
+```
+
+=== External auth for nsroot
+
+External auth for nsroot is enabled by default. If not needed this should be disabled for security
+reasons.
+
+```
+set system user nsroot -externalAuth DISABLED
+```
+
+=== Optmize HTTP/TCP
+
+These are a combination of the Citrix best practices from https://support.citrix.com/article/CTX121149[CTX121149] and
+my personal experience.
+
+```
+# configure timeout (GUI, SSH) to 10 minutes
+set system parameter -timeout 600 -doppler DISABLED
+
+# tips from CTX121149
+set ns tcpProfile nstcp_default_profile -WS ENABLED -SACK ENABLED -nagle ENABLED
+set ns httpProfile nshttp_default_profile -dropInvalReqs ENABLED -markHttp09Inval ENABLED -markConnReqInval ENABLED
+set ns tcpParam -WS ENABLED -SACK ENABLED -nagle ENABLED
+
+# drop invalid HTTP requests
+set ns httpParam -dropInvalReqs ON -markHttp09Inval ON -markConnReqInval ON
+
+# enable X-Forwarded-For header globaly, set Cookie version to v1
+set ns param -cip ENABLED X-Forwarded-For -cookieversion 1 
+```
+

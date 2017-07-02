@@ -1,0 +1,80 @@
+== ShareFile StorageZone
+
+
+``` 
+add server %{SZC_FQDN} ${SZC_IP}
+```
+
+```
+add serviceGroup sg_ssl_sharefile SSL -maxClient 0 -maxReq 0 -cacheable YES -cip ENABLED X-Forwarded-For -usip NO -useproxyport YES -cltTimeout 180 -svrTimeout 360 -CKA YES -TCPB NO -CMP NO
+```
+
+```
+bind serviceGroup sg_ssl_sharefile %{SZC_FQDN} 443
+```
+
+```
+add lb vserver vs_lb_http_sharefile_storagezone HTTP 0.0.0.0 0 -persistenceType SOURCEIP -lbMethod TOKEN -rule "http.REQ.URL.QUERY.VALUE(\"uploadid\")" -Listenpolicy NONE -cltTimeout 180
+add lb vserver vs_lb_http_sharefile_cifs_sp HTTP 0.0.0.0 0 -persistenceType COOKIEINSERT -timeout 240 -Listenpolicy NONE -cltTimeout 180 -authn401 ON -authnVsName vs_aaa_sharefile_auth
+add lb vserver vs_lb_http_sf_zone_options HTTP 0.0.0.0 0 -persistenceType SOURCEIP -Listenpolicy NONE -cltTimeout 180
+```
+
+```
+bind lb vserver vs_lb_ssl_sharefile_storagezone sg_http_sharefile
+bind lb vserver vs_lb_ssl_sharefile_cifs_sp sg_http_sharefile
+bind lb vserver vs_lb_ssl_sf_zone_options sg_http_sharefile
+```
+
+```
+add cs vserver vs_cs_ssl_sharefile SSL ${SZC_LB_VIP} 443 -cltTimeout 180 -Listenpolicy NONE
+add cs vserver vs_cs_http_sharefile_redirect_to_ssl HTTP ${SZC_LB_VIP} 80 -cltTimeout 180 -Listenpolicy NONE
+```
+
+```
+add authentication vserver vs_aaa_sharefile_auth SSL ${AAA_VIP} 443
+add cs vserver vs_cs_http_shareauth_redirect_to_ssl HTTP ${AAA_VIP} 80 -cltTimeout 180 -Listenpolicy NONE
+```
+
+```
+add policy httpCallout callout_sharefile -vServer vs_lb_http_sharefile_storagezone -returnType BOOL -hostExpr "\"ShareFile\"" -urlStemExpr "\"/validate.ashx?RequestURI=\" + HTTP.REQ.URL.BEFORE_STR(\"&h\").HTTP_URL_SAFE.B64ENCODE + \"&h=\"+ HTTP.REQ.URL.QUERY.VALUE(\"h\")" -scheme http -resultExpr "HTTP.RES.STATUS.EQ(200).N192OT"
+add policy httpCallout callout_sharefile_y -vServer vs_lb_http_sharefile_storagezone -returnType BOOL -hostExpr "\"ShareFile\"" -urlStemExpr "\"/validate.ashx?RequestURI=\" + HTTP.REQ.URL.HTTP_URL_SAFE.B64ENCODE + \"&h=\"" -scheme http -resultExpr "HTTP.RES.STATUS.EQ(200).NOT"
+set policy httpCallout callout_sharefile -vServer vs_lb_http_sharefile_storagezone -returnType BOOL -hostExpr "\"ShareFile\"" -urlStemExpr "\"/validate.ashx?RequestURI=\" + HTTP.REQ.URL.BEFORE_STR(\"&h\").HTTP_URL_SAFE.B64ENCODE + \"&h=\"+ HTTP.REQ.URL.QUERY.VALUE(\"h\")" -scheme http -resultExpr "HTTP.RES.STATUS.EQ(200).NOT"
+set policy httpCallout callout_sharefile_y -vServer vs_lb_http_sharefile_storagezone -returnType BOOL -hostExpr "\"ShareFile\"" -urlStemExpr "\"/validate.ashx?RequestURI=\" + HTTP.REQ.URL.HTTP_URL_SAFE.B64ENCODE + \"&h=\"" -scheme http -resultExpr "HTTP.RES.STATUS.EQ(200).NOT"
+```
+
+```
+add responder policy pol_responder_sharefile "HTTP.REQ.URL.CONTAINS(\"&h=\") && HTTP.REQ.URL.CONTAINS(\"/crossdomain.xml\").NOT&& HTTP.REQ.URL.CONTAINS(\"/validate.ashxrequri\").NOT&& SYS.HTTP_CALLOUT(callout_sharefile) || HTTP.REQ.URL.CONTAINS(\"&h=\").NOT && HTTP.REQ.URL.CONTAINS(\"/crossdomain.xml\").NOT&& HTTP.REQ.URL.CONTAINS(\"/validate.ashxrequri\").NOT&& SYS.HTTP_CALLOUT(callout_sharefile_y)" DROP
+```
+
+Import the SAML certificate from sharefile.com.
+``` 
+add ssl certKey saml_sharefile.com -cert saml_sharefile.com.crt
+```
+
+```
+add authentication samlIdPProfile profile_auth_saml_idp_sharefile -samlSPCertName ${SF_SUBDOMAIN}.sharefile.com -samlIdPCertName sharefile.customer.de -assertionConsumerServiceURL "https://customer.sharefile.com/saml/acs" -samlIssuerName "https://shareauth.customer.de" -rejectUnsignedRequests OFF -audience "https://customer.sharefile.com"
+add authentication samlIdPPolicy pol_auth_saml_idp_sharefile -rule "HTTP.REQ.URL.CONTAINS(\"saml\")" -action profile_auth_saml_idp_sharefile 
+ 
+add cs action act_cs_sharefile_options -targetLBVserver vs_lb_http_sf_zone_options
+add cs policy pol_cs_sharefile_options -rule "HTTP.REQ.METHOD.EQ(\"OPTIONS\")" -action act_cs_sharefile_options
+ 
+add cs policy pol_cs_sharefile_not_cifs_sp_proxy -rule "HTTP.REQ.URL.CONTAINS(\"/cifs/\").NOT && HTTP.REQ.URL.CONTAINS(\"/sp/\").NOT || HTTP.REQ.URL.CONTAINS(\"/ProxyService/\").NOT"
+add cs policy pol_cs_sharefile_cifs_sp_proxy -rule "HTTP.REQ.URL.CONTAINS(\"/cifs/\") || HTTP.REQ.URL.CONTAINS(\"/sp/\") || HTTP.REQ.URL.CONTAINS(\"/ProxyService/\") "
+ 
+bind lb vserver vs_lb_http_sharefile_storagezone sg_http_sharefile
+bind lb vserver vs_lb_http_sharefile_cifs_sp sg_http_sharefile
+bind lb vserver vs_lb_http_sf_zone_options sg_http_sharefile
+bind lb vserver vs_lb_http_sharefile_storagezone -policyName pol_responder_sharefile -priority 100 -gotoPriorityExpression END -type REQUEST
+bind cs vserver vs_cs_ssl_sharefile -policyName pol_cs_sharefile_options -priority 80
+bind cs vserver vs_cs_ssl_sharefile -policyName pol_cs_sharefile_cifs_sp_proxy -targetLBVserver vs_lb_http_sharefile_cifs_sp -priority 90
+bind cs vserver vs_cs_ssl_sharefile -policyName pol_cs_sharefile_not_cifs_sp_proxy -targetLBVserver vs_lb_http_sharefile_storagezone -priority 100
+bind cs vserver vs_cs_http_sharefile_redirect_to_ssl -policyName pol_responder_generic_redirect_ssl -priority 100 -gotoPriorityExpression END -type REQUEST
+ 
+ 
+add tm sessionAction act_session_sharefile -SSO ON -ssoCredential PRIMARY -ssoDomain CUSTOMER -homePage "https://${SF_SUBDOMAIN}.sharefile.com/saml/login"
+add tm sessionPolicy pol_session_sharefile ns_true act_session_sharefile
+ 
+bind authentication vserver vs_aaa_sharefile_auth -policy pol_ldap_sharefile -priority 100
+bind authentication vserver vs_aaa_sharefile_auth -policy pol_session_sharefile -priority 100
+bind authentication vserver vs_aaa_sharefile_auth -policy pol_auth_saml_idp_sharefile -priority 100 -gotoPriorityExpression END
+```
