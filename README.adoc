@@ -30,16 +30,14 @@ A RPM package for Enterprise Linux (RHEL, CentOS, Fedora) is available trough EP
 yum install rubygem-asciidoctor.noarch
 ```
 
-A hourly updated HTML version will be available on my website.
+A HTML version of this documentation is also available on https://blog.simlau.net/netscaler/[my website].
+
+The asciidoc source is available on GitHub[https://github.com/slauger/netscaler_docs].
 
 === Contribute
 
 Feedback and suggestion for improvement are appreciated. Just create a issue on GitHub.
 You can also send me an Pull requests to suggest changes.
-
-=== About me
-
-Comming soon.
 
 === Available Guides
 
@@ -50,7 +48,7 @@ Comming soon.
   * NetScaler Gateway (Smartaccess)
   * XenMobile
   * Sharefile
-  * CensorNet MFA ("SMS Passcode")
+  * SMS Passcode
 
 include::bestpractices.adoc[]
 
