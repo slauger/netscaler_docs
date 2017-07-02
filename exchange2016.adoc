@@ -18,8 +18,8 @@ This configuration runs in production on 10+ customer setups (not all of them us
 
 **Add your exchange servers**
 
-Be sure that you use the real FQDN of the machine as name for the server object. This is only
-important if you plan to use the Kerberos feature inside NetScaler.
+Be sure that you use the real FQDN of the machine as name for the server object.
+This is important if you plan to use Kerberos preauth for Outlook Anywhere.
 
 ```
 add server ${EX1_FQDN} ${EX1_IP}
