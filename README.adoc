@@ -23,7 +23,7 @@ A Makefile is included in this repository. Just run the following command to bui
 make all
 ```
 
-Ruby and the asciidoctor gem Doctor need to be installed.
+Ruby and the asciidoctor gem need to be installed.
 A RPM package for Enterprise Linux (RHEL, CentOS, Fedora) is available trough EPEL.
 
 ```
