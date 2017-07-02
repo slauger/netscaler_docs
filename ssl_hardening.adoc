@@ -50,8 +50,8 @@ add rewrite policy pol_rewrite_inject_http_sts_header true act_rewrite_inject_ht
 bind rewrite global pol_rewrite_inject_http_sts_header 100 NEXT -type RES_OVERRIDE
 ```
 
-=== Enable ECDHE Ciphers 
-Create a ECDHE key to enable ECDHE ciphers (this could take a lot of time).
+=== ECDHE
+Create a ECDHE key to bind it to the default frontend profile (this could take a lot of time).
 ```
 create dhParam /nsconfig/ssl/ECDHE.key -gen 5 2048
 set ssl profile ns_default_ssl_profile_frontend -dh ENABLED -dhFile "/nsconfig/ssl/ECDHE.key"
