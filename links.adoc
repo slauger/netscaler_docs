@@ -8,17 +8,22 @@
 **CTX Articles**
 
 - https://support.citrix.com/article/CTX214033[CTX214033] - NetScaler Networking and VLAN Best Practices
+
 - https://support.citrix.com/article/CTX121149[CTX121149] - Recommended Settings and Best Practices for Generic Implementation of a NetScaler Appliance
 
 **SSL Tips**
 - https://testssl.sh/ - Shell script for testing TLS/SSL encryption
+
 - https://cipherli.st/ - Strong Ciphers for Apache, nginx and Lighttpd
+
 - https://www.ssllabs.com/ssltest/ - Qualys SSL Labs server test
+
 - https://observatory.mozilla.org/ - Mozilla Observatory test
 
 **Monitoring**
 
 - https://github.com/slauger/check_netscaler[check_netscaler] - check_netscaler Nagios Plugin
+
 - https://github.com/slauger/check_netscaler[check_netscaler_gateway] - check_netscaler_gateway Nagios Plugin
 
 
