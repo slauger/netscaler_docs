@@ -12,6 +12,7 @@
 - https://support.citrix.com/article/CTX121149[CTX121149] - Recommended Settings and Best Practices for Generic Implementation of a NetScaler Appliance
 
 **SSL Tips**
+
 - https://testssl.sh/ - Shell script for testing TLS/SSL encryption
 
 - https://cipherli.st/ - Strong Ciphers for Apache, nginx and Lighttpd
