@@ -40,7 +40,7 @@ bind ssl profile ns_default_ssl_profile_backend -cipherName cipher_custom_secure
 unbind ssl profile ns_default_ssl_profile_backend -cipherName DEFAULT_BACKEND
 ```
 
-=== STS global rewrite
+=== Enable HSTS
 
 This adds the STS header to all HTTP responses. This is required to get an A+ rating
 on ssllabs.com.
@@ -50,7 +50,14 @@ add rewrite policy pol_rewrite_inject_http_sts_header true act_rewrite_inject_ht
 bind rewrite global pol_rewrite_inject_http_sts_header 100 NEXT -type RES_OVERRIDE
 ```
 
-=== ECDHE
+**NetScaler 12.0+**
+Since version 12.0 NetScaler has a builtin HSTS feature. The rewrite policy from above is no longer needed.
+
+```
+set ssl profile ns_default_ssl_profile_frontend -HSTS ENABLED -maxage 31536000
+```
+
+=== Enable ECDHE
 Create a ECDHE key to bind it to the default frontend profile (this could take a lot of time).
 ```
 create dhParam /nsconfig/ssl/ECDHE.key -gen 5 2048
