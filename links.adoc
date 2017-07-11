@@ -11,6 +11,11 @@
 
 - https://support.citrix.com/article/CTX121149[CTX121149] - Recommended Settings and Best Practices for Generic Implementation of a NetScaler Appliance
 
+- https://support.citrix.com/article/CTX200278[CTX200278] - NetScaler VPX Loses Network Connectivity on VMware ESXi 5.1.0 2191751, VMware ESXi 5.5 2143827 and also on VMware ESXi 6.0
+
+- https://support.citrix.com/article/CTX224576[CTX224576] - NetScaler VPX Loses Network Connectivity Intermittently on VMware ESXi After Upgrading to Version 12.0
+
+
 **SSL Tips**
 
 - https://testssl.sh/ - Shell script for testing TLS/SSL encryption
