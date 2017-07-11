@@ -1,0 +1,29 @@
+### Content Security Policy
+
+**frame-ancestors: 'none'**
+```
+add rewrite action act_rewrite_inject_http_csp_header_none insert_http_header Content-Security-Policy "\"frame-ancestors \'none\'\""
+add rewrite policy pol_rewrite_inject_http_csp_header_none true act_rewrite_inject_http_csp_header_none
+bind rewrite global pol_rewrite_inject_http_csp_header_none 55 NEXT -type RES_OVERRIDE
+```
+
+**frame-ancestors: 'self'**
+```
+add rewrite action act_rewrite_inject_http_csp_header_self insert_http_header Content-Security-Policy "\"frame-ancestors \'none\'\""
+add rewrite policy pol_rewrite_inject_http_csp_header_self true act_rewrite_inject_http_csp_header_self
+bind rewrite global pol_rewrite_inject_http_csp_header_self 55 NEXT -type RES_OVERRIDE
+```
+
+**X-Frame-Options: DENY**
+```
+add rewrite action act_rewrite_inject_http_xframe_header_deny insert_http_header X-Frame-Options "\"DENY\""
+add rewrite policy pol_rewrite_inject_http_xframe_header_deny true act_rewrite_inject_http_xframe_header_deny
+bind rewrite global pol_rewrite_inject_http_xframe_header_deny 60 NEXT -type RES_OVERRIDE
+```
+
+**X-Frame-Options: SAMEORIGIN**
+```
+add rewrite action act_rewrite_inject_http_xframe_header_sameorigin insert_http_header X-Frame-Options "\"SAMEORIGIN\""
+add rewrite policy pol_rewrite_inject_http_xframe_header_sameorigin true act_rewrite_inject_http_xframe_header_sameorigin
+bind rewrite global pol_rewrite_inject_http_xframe_header_sameorigin 60 NEXT -type RES_OVERRIDE
+```
