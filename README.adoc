@@ -1,5 +1,12 @@
 = Netscaler Guide
 Simon Lauger <simon@lauger.name>
+:doctype: book
+:reproducible:
+//:source-highlighter: coderay
+:source-highlighter: rouge
+:listing-caption: Listing
+// Uncomment next line to set page size (default is A4)
+//:pdf-page-size: Letter
 
 Best practices and example configurations for Citrix NetScaler.
 
