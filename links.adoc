@@ -17,6 +17,8 @@
 
 - https://support.citrix.com/article/CTX201949[CTX201949] - One Public IP for AAA-TM Deployments on NetScaler
 
+- https://support.citrix.com/article/CTX138055[CTX138055] - How to Force Secure and HttpOnly Cookie Options for Websites Using NetScaler Appliance
+
 **SSL Tips**
 
 - https://testssl.sh/ - Shell script for testing TLS/SSL encryption
