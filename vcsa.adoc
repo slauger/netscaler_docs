@@ -1,0 +1,79 @@
+== VMware vCenter (vCSA)
+
+- Publishing VMware vSphere 6.5 vCSA HTML5 UI behind NetScaler
+- Rewriting the internal dnsname for external access
+- Preauth with NetScaler AAA (SSO: to be done)
+
+=== Loadbalancing
+Server
+```
+add server ${VCSA_FQDN} ${VCSA_IP}
+```
+
+Servicegroup
+```
+add serviceGroup sg_ssl_vcsa SSL -cip ENABLED X-Forwarded-For 
+```
+
+Server Binding
+```
+bind serviceGroup sg_ssl_vcsa ${VCSA_FQDN} 443
+```
+
+vServer
+```
+add lb vserver vs_lb_http_vcsa HTTP 0.0.0.0 0 -persistenceType NONE -cltTimeout 180
+```
+
+Servicegroup Binding
+```
+bind lb vserver vs_lb_http_vcsa sg_ssl_vcsa
+```
+
+=== Content Switching
+
+vServer
+```
+add cs vserver vs_cs_ssl_vcsa SSL ${VCSA_VIP} 443 -cltTimeout 180 
+add cs vserver vs_cs_http_vcsa HTTP ${VCSA_VIP} 80 -cltTimeout 180 
+```
+
+CS Policy
+```
+add cs policy pol_cs_vcsa_ui -rule "HTTP.REQ.URL.STARTSWITH(\"/websso/\") || HTTP.REQ.URL.STARTSWITH(\"/ui/\")" -action act_cs_vcsa_ui
+add cs action act_cs_vcsa_ui -targetLBVserver vs_lb_http_vcsa_websso
+```
+
+Enable Websockets
+```
+add ns httpProfile profile_http_websockets -dropInvalReqs ENABLED -markHttp09Inval ENABLED -conMultiplex DISABLED -webSocket ENABLED
+set cs vserver vs_cs_ssl_vcsa -httpProfileName profile_http_websockets
+```
+
+=== URL Rewriting
+
+Transform Policy
+```
+add transform profile prof_transform_vcsa
+add transform action act_transform_vcsa prof_transform_vcsa 100
+set transform action act_transform_vcsa -priority 100 -reqUrlFrom vcsa.example.com -reqUrlInto vcenter01.example.local -resUrlFrom vcenter01.example.local -resUrlInto vcsa.example.com
+add transform policy pol_transform_vcsa "HTTP.REQ.URL.STARTSWITH(\"/ui/login\") || HTTP.REQ.URL.STARTSWITH(\"/ui/logout\") || HTTP.REQ.URL.STARTSWITH(\"/ui/saml\") || HTTP.REQ.URL.STARTSWITH(\"/websso/\")" prof_transform_vcsa
+```
+
+Binding Policy
+```
+bind lb vserver vs_lb_http_vcsa -policyName pol_transform_vcsa -priority 100 -gotoPriorityExpression END -type REQUEST
+```
+
+=== Preauth
+
+Traffic Policy (Logout)
+```
+add tm trafficAction prof_traffic_vcsa_logout -persistentCookie OFF -InitiateLogout ON -kcdAccount NONE
+add tm trafficPolicy pol_traffic_vcsa_logout "HTTP.REQ.URL.EQ(\"/ui/logout\")" prof_traffic_vcsa_logout
+```
+
+Traffic Policy Binding (also possible on cs level)
+```
+bind lb vserver vs_lb_http_vcsa -policyName pol_traffic_vcsa_logout -priority 100 -gotoPriorityExpression END -type REQUEST
+```
