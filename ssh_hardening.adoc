@@ -1,0 +1,48 @@
+== SSH Hardening
+
+=== Create ed25519 hostkey
+
+The default configuration does not use ed25519 hostkeys.
+
+```
+ssh-keygen -t ed25519 -f /nsconfig/ssh/ssh_host_ed25519_key -N ""
+```
+
+=== Secure configuration
+
+This will disable legacy ciphers, the dsa hostkey and the password authentication.
+
+Copy this file to /nsconfig/sshd_config and reboot your NetScaler.
+
+```
+Port 22
+ListenAddress 0.0.0.0
+ListenAddress ::
+#HostKey /nsconfig/ssh/ssh_host_dsa_key
+#HostKey /nsconfig/ssh/ssh_host_ecdsa_key
+HostKey /nsconfig/ssh/ssh_host_rsa_key
+HostKey /nsconfig/ssh/ssh_host_ed25519_key
+LoginGraceTime 120
+PermitRootLogin without-password
+LogLevel INFO
+IgnoreRhosts no
+StrictModes yes
+X11Forwarding no
+X11DisplayOffset 10
+PrintMotd no
+KeepAlive yes
+SyslogFacility AUTH
+PasswordAuthentication no
+PermitEmptyPasswords no
+UsePam no
+UseDNS no
+ClientAliveInterval 10
+ClientAliveCountMax 5
+Subsystem sftp /usr/libexec/sftp-server
+AllowTcpForwarding no
+MaxStartups 10:30:60
+MaxAuthTries 3
+KexAlgorithms curve25519-sha256@libssh.org
+Ciphers chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr
+MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,umac-128-etm@openssh.com
+```

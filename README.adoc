@@ -50,6 +50,7 @@ You can also send me an Pull requests to suggest changes.
 
   * Best Practices
   * SSL Hardening
+  * SSH Hardening
   * Exchange 2016
   * NetScaler Gateway (ICA only)
   * NetScaler Gateway (Smartaccess)
@@ -62,6 +63,8 @@ include::bestpractices.adoc[]
 include::basics.adoc[]
 
 include::ssl_hardening.adoc[]
+
+include::ssh_hardening.adoc[]
 
 include::exchange2016.adoc[]
 
