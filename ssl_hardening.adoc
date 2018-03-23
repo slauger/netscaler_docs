@@ -1,29 +1,70 @@
 == SSL Hardening
 
-=== Recommended Ciphers
-These are the recommended ciphers as of Jun 2017. It should work with recent builds
-of 11.0 or 11.1 and above.
+=== Secure Ciphers
+
+ChaCha Ciphers are available since NetScaler 12.0.
+
 ```
-add ssl cipher cipher_custom_secure
-bind ssl cipher cipher_custom_secure -cipherName TLS1.2-ECDHE-RSA-AES256-GCM-SHA384
-bind ssl cipher cipher_custom_secure -cipherName TLS1.2-ECDHE-RSA-AES128-GCM-SHA256
-bind ssl cipher cipher_custom_secure -cipherName TLS1.2-ECDHE-RSA-AES-256-SHA384
-bind ssl cipher cipher_custom_secure -cipherName TLS1.2-ECDHE-RSA-AES-128-SHA256
-bind ssl cipher cipher_custom_secure -cipherName TLS1-ECDHE-RSA-AES256-SHA
-bind ssl cipher cipher_custom_secure -cipherName TLS1-ECDHE-RSA-AES128-SHA
-bind ssl cipher cipher_custom_secure -cipherName TLS1.2-DHE-RSA-AES256-GCM-SHA384
-bind ssl cipher cipher_custom_secure -cipherName TLS1.2-DHE-RSA-AES128-GCM-SHA256
-bind ssl cipher cipher_custom_secure -cipherName TLS1-DHE-RSA-AES-256-CBC-SHA
-bind ssl cipher cipher_custom_secure -cipherName TLS1-DHE-RSA-AES-128-CBC-SHA
-bind ssl cipher cipher_custom_secure -cipherName TLS1-AES-256-CBC-SHA
-bind ssl cipher cipher_custom_secure -cipherName TLS1-AES-128-CBC-SHA
+add ssl cipher CUSTOM_MODERN
+bind ssl cipher CUSTOM_MODERN -cipherName TLS1.2-ECDHE-ECDSA-CHACHA20-POLY1305 -cipherPriority 1
+bind ssl cipher CUSTOM_MODERN -cipherName TLS1.2-ECDHE-RSA-CHACHA20-POLY1305 -cipherPriority 2
+bind ssl cipher CUSTOM_MODERN -cipherName TLS1.2-ECDHE-RSA-AES256-GCM-SHA384 -cipherPriority 3
+bind ssl cipher CUSTOM_MODERN -cipherName TLS1.2-ECDHE-RSA-AES128-GCM-SHA256 -cipherPriority 4
+bind ssl cipher CUSTOM_MODERN -cipherName TLS1.2-ECDHE-RSA-AES-256-SHA384 -cipherPriority 5
+bind ssl cipher CUSTOM_MODERN -cipherName TLS1.2-ECDHE-RSA-AES-128-SHA256 -cipherPriority 6
+bind ssl cipher CUSTOM_MODERN -cipherName TLS1.2-ECDHE-ECDSA-AES256-GCM-SHA384 -cipherPriority 7
+bind ssl cipher CUSTOM_MODERN -cipherName TLS1.2-ECDHE-ECDSA-AES256-SHA384 -cipherPriority 8
+bind ssl cipher CUSTOM_MODERN -cipherName TLS1.2-ECDHE-ECDSA-AES128-GCM-SHA256 -cipherPriority 9
+bind ssl cipher CUSTOM_MODERN -cipherName TLS1.2-ECDHE-ECDSA-AES128-SHA256 -cipherPriority 10
+```
+
+If support for TLS 1.0 and/or TLS 1.1 is required:
+
+```
+add ssl cipher CUSTOM_MODERN_LEGACY
+bind ssl cipher CUSTOM_MODERN_LEGACY -cipherName TLS1.2-ECDHE-ECDSA-CHACHA20-POLY1305 -cipherPriority 1
+bind ssl cipher CUSTOM_MODERN_LEGACY -cipherName TLS1.2-ECDHE-RSA-CHACHA20-POLY1305 -cipherPriority 2
+bind ssl cipher CUSTOM_MODERN_LEGACY -cipherName TLS1.2-ECDHE-RSA-AES256-GCM-SHA384 -cipherPriority 3
+bind ssl cipher CUSTOM_MODERN_LEGACY -cipherName TLS1.2-ECDHE-RSA-AES128-GCM-SHA256 -cipherPriority 4
+bind ssl cipher CUSTOM_MODERN_LEGACY -cipherName TLS1.2-ECDHE-RSA-AES-256-SHA384 -cipherPriority 5
+bind ssl cipher CUSTOM_MODERN_LEGACY -cipherName TLS1.2-ECDHE-RSA-AES-128-SHA256 -cipherPriority 6
+bind ssl cipher CUSTOM_MODERN_LEGACY -cipherName TLS1.2-ECDHE-ECDSA-AES256-GCM-SHA384 -cipherPriority 7
+bind ssl cipher CUSTOM_MODERN_LEGACY -cipherName TLS1.2-ECDHE-ECDSA-AES256-SHA384 -cipherPriority 8
+bind ssl cipher CUSTOM_MODERN_LEGACY -cipherName TLS1.2-ECDHE-ECDSA-AES128-GCM-SHA256 -cipherPriority 9
+bind ssl cipher CUSTOM_MODERN_LEGACY -cipherName TLS1.2-ECDHE-ECDSA-AES128-SHA256 -cipherPriority 10
+bind ssl cipher CUSTOM_MODERN_LEGACY -cipherName TLS1-ECDHE-ECDSA-AES256-SHA -cipherPriority 12
+bind ssl cipher CUSTOM_MODERN_LEGACY -cipherName TLS1-ECDHE-RSA-AES256-SHA -cipherPriority 11
+bind ssl cipher CUSTOM_MODERN_LEGACY -cipherName TLS1-ECDHE-ECDSA-AES128-SHA -cipherPriority 13
+bind ssl cipher CUSTOM_MODERN_LEGACY -cipherName TLS1-ECDHE-RSA-AES128-SHA -cipherPriority 14
+```
+
+=== Intermediate Ciphers
+
+These are the recommended ciphers as of Jun 2017. As of now using then is no longer recommended (SHA).
+
+I currently working on a new intermediate ciphergroup.
+
+```
+add ssl cipher CUSTOM_INTERMEDIATE
+bind ssl cipher CUSTOM_INTERMEDIATE -cipherName TLS1.2-ECDHE-RSA-AES256-GCM-SHA384
+bind ssl cipher CUSTOM_INTERMEDIATE -cipherName TLS1.2-ECDHE-RSA-AES128-GCM-SHA256
+bind ssl cipher CUSTOM_INTERMEDIATE -cipherName TLS1.2-ECDHE-RSA-AES-256-SHA384
+bind ssl cipher CUSTOM_INTERMEDIATE -cipherName TLS1.2-ECDHE-RSA-AES-128-SHA256
+bind ssl cipher CUSTOM_INTERMEDIATE -cipherName TLS1-ECDHE-RSA-AES256-SHA
+bind ssl cipher CUSTOM_INTERMEDIATE -cipherName TLS1-ECDHE-RSA-AES128-SHA
+bind ssl cipher CUSTOM_INTERMEDIATE -cipherName TLS1.2-DHE-RSA-AES256-GCM-SHA384
+bind ssl cipher CUSTOM_INTERMEDIATE -cipherName TLS1.2-DHE-RSA-AES128-GCM-SHA256
+bind ssl cipher CUSTOM_INTERMEDIATE -cipherName TLS1-DHE-RSA-AES-256-CBC-SHA
+bind ssl cipher CUSTOM_INTERMEDIATE -cipherName TLS1-DHE-RSA-AES-128-CBC-SHA
+bind ssl cipher CUSTOM_INTERMEDIATE -cipherName TLS1-AES-256-CBC-SHA
+bind ssl cipher CUSTOM_INTERMEDIATE -cipherName TLS1-AES-128-CBC-SHA
 ```
 
 If support for Windows XP and some older devices is required, you can also add
 the the following cipher. A SSL check on ssllabs.com will show a warning if this 
 cipher is in use.
 ```
-bind ssl cipher cipher_custom_secure -cipherName SSL3-DES-CBC3-SHA
+bind ssl cipher CUSTOM_INTERMEDIATE -cipherName SSL3-DES-CBC3-SHA
 ```
 === Default Profile
 
@@ -32,11 +73,11 @@ set ssl parameter -defaultProfile ENABLED
 Y
 
 set ssl profile ns_default_ssl_profile_frontend -denySSLReneg NONSECURE
-bind ssl profile ns_default_ssl_profile_frontend -cipherName cipher_custom_secure
+bind ssl profile ns_default_ssl_profile_frontend -cipherName CUSTOM_INTERMEDIATE
 unbind ssl profile ns_default_ssl_profile_frontend -cipherName DEFAULT
 
 set ssl profile ns_default_ssl_profile_backend -denySSLReneg NONSECURE
-bind ssl profile ns_default_ssl_profile_backend -cipherName cipher_custom_secure
+bind ssl profile ns_default_ssl_profile_backend -cipherName CUSTOM_INTERMEDIATE
 unbind ssl profile ns_default_ssl_profile_backend -cipherName DEFAULT_BACKEND
 ```
 
@@ -44,6 +85,7 @@ unbind ssl profile ns_default_ssl_profile_backend -cipherName DEFAULT_BACKEND
 
 This adds the STS header to all HTTP responses. This is required to get an A+ rating
 on ssllabs.com.
+
 ```
 add rewrite action act_rewrite_inject_http_sts_header insert_http_header Strict-Transport-Security "\"max-age=31536000\""
 add rewrite policy pol_rewrite_inject_http_sts_header true act_rewrite_inject_http_sts_header
@@ -57,8 +99,10 @@ Since version 12.0 NetScaler has a builtin HSTS feature. The rewrite policy from
 set ssl profile ns_default_ssl_profile_frontend -HSTS ENABLED -maxage 31536000
 ```
 
-=== Enable ECDHE
-Create a ECDHE key to bind it to the default frontend profile (this could take a lot of time).
+=== Diffie-Hellman key
+
+Create a Diffie-Hellman key and bind it to the default frontend profile (be aware, this could take a lot of time).
+
 ```
 create dhParam /nsconfig/ssl/ECDHE.key -gen 5 2048
 set ssl profile ns_default_ssl_profile_frontend -dh ENABLED -dhFile "/nsconfig/ssl/ECDHE.key"
