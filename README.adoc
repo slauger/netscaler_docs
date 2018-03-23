@@ -76,4 +76,6 @@ include::sharefile.adoc[]
 
 include::smspasscode.adoc[]
 
+include::vcsa.adoc[]
+
 include::links.adoc[]

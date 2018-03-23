@@ -1,4 +1,4 @@
-== VMware vCenter (vCSA)
+== Preauth for VMware vCenter (vCSA)
 
 - Publishing VMware vSphere 6.5 vCSA HTML5 UI behind NetScaler
 - Rewriting the internal dnsname for external access
