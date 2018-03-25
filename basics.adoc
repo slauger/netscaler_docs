@@ -1,5 +1,14 @@
 == Basics
 
+=== Share CPU ressources on a VPX
+
+You may want to re-enable the sharing of CPU resources (yielding) on your VPX.
+Yielding is disabled by default on NetScaler 12.0 and onwards.
+
+```
+set ns vpxparam -cpuyield YES
+```
+
 === Timezone
 
 If not already done you should also configure your local timezone:
