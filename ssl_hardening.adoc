@@ -32,10 +32,12 @@ bind ssl cipher CUSTOM_MODERN_LEGACY -cipherName TLS1.2-ECDHE-ECDSA-AES256-GCM-S
 bind ssl cipher CUSTOM_MODERN_LEGACY -cipherName TLS1.2-ECDHE-ECDSA-AES256-SHA384 -cipherPriority 8
 bind ssl cipher CUSTOM_MODERN_LEGACY -cipherName TLS1.2-ECDHE-ECDSA-AES128-GCM-SHA256 -cipherPriority 9
 bind ssl cipher CUSTOM_MODERN_LEGACY -cipherName TLS1.2-ECDHE-ECDSA-AES128-SHA256 -cipherPriority 10
-bind ssl cipher CUSTOM_MODERN_LEGACY -cipherName TLS1-ECDHE-ECDSA-AES256-SHA -cipherPriority 12
-bind ssl cipher CUSTOM_MODERN_LEGACY -cipherName TLS1-ECDHE-RSA-AES256-SHA -cipherPriority 11
+bind ssl cipher CUSTOM_MODERN_LEGACY -cipherName TLS1-ECDHE-ECDSA-AES256-SHA -cipherPriority 11
+bind ssl cipher CUSTOM_MODERN_LEGACY -cipherName TLS1-ECDHE-RSA-AES256-SHA -cipherPriority 12
 bind ssl cipher CUSTOM_MODERN_LEGACY -cipherName TLS1-ECDHE-ECDSA-AES128-SHA -cipherPriority 13
 bind ssl cipher CUSTOM_MODERN_LEGACY -cipherName TLS1-ECDHE-RSA-AES128-SHA -cipherPriority 14
+bind ssl cipher CUSTOM_MODERN_LEGACY -cipherName TLS1-DHE-RSA-AES-256-CBC-SHA -cipherPriority 15
+bind ssl cipher CUSTOM_MODERN_LEGACY -cipherName TLS1-DHE-RSA-AES-128-CBC-SHA - cipherPriority 16
 ```
 
 === Intermediate Ciphers
