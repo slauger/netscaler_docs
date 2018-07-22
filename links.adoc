@@ -21,6 +21,8 @@
 
 - http://support.citrix.com/article/CTX205578[CTX205578] - Back-End Connection on TLS 1.1/1.2 from NetScaler to IIS Server Breaks
 
+- https://support.citrix.com/article/CTX225681[CTX225681] - Large File Uploads Fails on NetScaler with Content Length 0 POST Requests
+
 **SSL Tips**
 
 - https://testssl.sh/ - Shell script for testing TLS/SSL encryption
