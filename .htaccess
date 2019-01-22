@@ -1,4 +1,11 @@
+# only allow html pages
 <FilesMatch "(?i)\.(php|cgi|sh)$">
   Order Deny,Allow
   Deny from All
 </FilesMatch>
+
+# redirect to index.html
+RewriteEngine on
+RewriteCond %{REQUEST_URI} !^/index.html$
+RewriteCond %{REQUEST_URI} \.(html)$
+RewriteRule .* /index.html [L,R=302]
