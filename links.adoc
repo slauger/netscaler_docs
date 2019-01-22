@@ -39,5 +39,5 @@
 
 - https://github.com/slauger/check_netscaler[check_netscaler_gateway] - check_netscaler_gateway Nagios Plugin
 
-
+- https://github.com/slauger/check_nsupdates[check_nsupdates] - check_nsupdates Nagios Plugin
 
