@@ -6,6 +6,7 @@
 
 # redirect to index.html
 RewriteEngine on
-RewriteCond %{REQUEST_URI} !^index.html$
-RewriteCond %{REQUEST_URI} \.(html)$
-RewriteRule .* index.html [L,R=302]
+RewriteBase /netscaler/
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^.*$ index.html [L,R=301]
