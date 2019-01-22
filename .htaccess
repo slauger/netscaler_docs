@@ -6,6 +6,6 @@
 
 # redirect to index.html
 RewriteEngine on
-RewriteCond %{REQUEST_URI} !^/index.html$
+RewriteCond %{REQUEST_URI} !^index.html$
 RewriteCond %{REQUEST_URI} \.(html)$
-RewriteRule .* /index.html [L,R=302]
+RewriteRule .* index.html [L,R=302]
