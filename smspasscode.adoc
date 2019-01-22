@@ -6,3 +6,24 @@ RADIUS configuration for SMS Passcode, also known as CensorNet MFA.
 add authentication radiusAction act_radius_smspasscode -serverName ${SMSPC_SERVER} -serverPort 1812 -radKey ${SMSPC_PSK} -radVendorID 1 -radAttributeType 99 -radGroupsPrefix CTXUserGroups= -radGroupSeparator "," -accounting ON -callingstationid ENABLED
 add authentication radiusPolicy pol_radius_smspasscode ns_true act_radius_smspasscode
 ```
+
+=== Hide second password field
+
+Hide second password field via HTTP header for Citrix Receiver.
+
+```
+add rewrite action act_rewrite_auth_type_SMS insert_http_header X-Citrix-AM-GatewayAuthType "\"SMS\""
+add rewrite policy pol_rewrite_auth_type_SMS true act_rewrite_auth_type_SMS
+```
+
+```
+add rewrite action act_rewrite_auth_type_CertAndRSA insert_http_header X-Citrix-AM-GatewayAuthType "\"CertAndRSA\""
+add rewrite policy pol_rewrite_auth_type_CertAndRSA true act_rewrite_auth_type_CertAndRSA
+```
+
+Hide second password field via Cookie (Webbrowser).
+
+```
+add rewrite action act_rewrite_pwcount_cookie insert_http_header Set-Cookie "\"pwcount=0\""
+add rewrite policy pol_rewrite_pwcount_cookie true act_rewrite_pwcount_cookie
+```
