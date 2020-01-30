@@ -76,7 +76,7 @@ unbind ssl profile ns_default_ssl_profile_frontend -cipherName DEFAULT
 set ssl profile ns_default_ssl_profile_backend -denySSLReneg NONSECURE
 bind ssl profile ns_default_ssl_profile_backend -cipherName CUSTOM_INTERMEDIATE
 unbind ssl profile ns_default_ssl_profile_backend -cipherName DEFAULT_BACKEND
-``
+```
 
 === Disable TLS 1.0 and TLS 1.1
 
