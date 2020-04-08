@@ -37,7 +37,7 @@ A RPM package for Enterprise Linux (RHEL, CentOS, Fedora) is available trough EP
 yum install rubygem-asciidoctor.noarch
 ```
 
-A HTML version of this documentation is also available on https://blog.simlau.net/netscaler/[my website].
+A HTML version of this documentation is also available on https://slauger.github.io/netscaler_docs/[GitHub Pages].
 
 The asciidoc source is available on https://github.com/slauger/netscaler_docs[GitHub].
 
