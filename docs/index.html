@@ -1,0 +1,2423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.10">
+<meta name="author" content="Simon Lauger">
+<title>Netscaler Guide</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
+<style>
+/* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
+/* Uncomment @import statement to use as custom stylesheet */
+/*@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";*/
+article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section{display:block}
+audio,video{display:inline-block}
+audio:not([controls]){display:none;height:0}
+html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}
+a{background:none}
+a:focus{outline:thin dotted}
+a:active,a:hover{outline:0}
+h1{font-size:2em;margin:.67em 0}
+abbr[title]{border-bottom:1px dotted}
+b,strong{font-weight:bold}
+dfn{font-style:italic}
+hr{-moz-box-sizing:content-box;box-sizing:content-box;height:0}
+mark{background:#ff0;color:#000}
+code,kbd,pre,samp{font-family:monospace;font-size:1em}
+pre{white-space:pre-wrap}
+q{quotes:"\201C" "\201D" "\2018" "\2019"}
+small{font-size:80%}
+sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}
+sup{top:-.5em}
+sub{bottom:-.25em}
+img{border:0}
+svg:not(:root){overflow:hidden}
+figure{margin:0}
+fieldset{border:1px solid silver;margin:0 2px;padding:.35em .625em .75em}
+legend{border:0;padding:0}
+button,input,select,textarea{font-family:inherit;font-size:100%;margin:0}
+button,input{line-height:normal}
+button,select{text-transform:none}
+button,html input[type="button"],input[type="reset"],input[type="submit"]{-webkit-appearance:button;cursor:pointer}
+button[disabled],html input[disabled]{cursor:default}
+input[type="checkbox"],input[type="radio"]{box-sizing:border-box;padding:0}
+button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0}
+textarea{overflow:auto;vertical-align:top}
+table{border-collapse:collapse;border-spacing:0}
+*,*::before,*::after{-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box}
+html,body{font-size:100%}
+body{background:#fff;color:rgba(0,0,0,.8);padding:0;margin:0;font-family:"Noto Serif","DejaVu Serif",serif;font-weight:400;font-style:normal;line-height:1;position:relative;cursor:auto;tab-size:4;-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased}
+a:hover{cursor:pointer}
+img,object,embed{max-width:100%;height:auto}
+object,embed{height:100%}
+img{-ms-interpolation-mode:bicubic}
+.left{float:left!important}
+.right{float:right!important}
+.text-left{text-align:left!important}
+.text-right{text-align:right!important}
+.text-center{text-align:center!important}
+.text-justify{text-align:justify!important}
+.hide{display:none}
+img,object,svg{display:inline-block;vertical-align:middle}
+textarea{height:auto;min-height:50px}
+select{width:100%}
+.center{margin-left:auto;margin-right:auto}
+.stretch{width:100%}
+.subheader,.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{line-height:1.45;color:#7a2518;font-weight:400;margin-top:0;margin-bottom:.25em}
+div,dl,dt,dd,ul,ol,li,h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6,pre,form,p,blockquote,th,td{margin:0;padding:0;direction:ltr}
+a{color:#2156a5;text-decoration:underline;line-height:inherit}
+a:hover,a:focus{color:#1d4b8f}
+a img{border:0}
+p{font-family:inherit;font-weight:400;font-size:1em;line-height:1.6;margin-bottom:1.25em;text-rendering:optimizeLegibility}
+p aside{font-size:.875em;line-height:1.35;font-style:italic}
+h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{font-family:"Open Sans","DejaVu Sans",sans-serif;font-weight:300;font-style:normal;color:#ba3925;text-rendering:optimizeLegibility;margin-top:1em;margin-bottom:.5em;line-height:1.0125em}
+h1 small,h2 small,h3 small,#toctitle small,.sidebarblock>.content>.title small,h4 small,h5 small,h6 small{font-size:60%;color:#e99b8f;line-height:0}
+h1{font-size:2.125em}
+h2{font-size:1.6875em}
+h3,#toctitle,.sidebarblock>.content>.title{font-size:1.375em}
+h4,h5{font-size:1.125em}
+h6{font-size:1em}
+hr{border:solid #dddddf;border-width:1px 0 0;clear:both;margin:1.25em 0 1.1875em;height:0}
+em,i{font-style:italic;line-height:inherit}
+strong,b{font-weight:bold;line-height:inherit}
+small{font-size:60%;line-height:inherit}
+code{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;font-weight:400;color:rgba(0,0,0,.9)}
+ul,ol,dl{font-size:1em;line-height:1.6;margin-bottom:1.25em;list-style-position:outside;font-family:inherit}
+ul,ol{margin-left:1.5em}
+ul li ul,ul li ol{margin-left:1.25em;margin-bottom:0;font-size:1em}
+ul.square li ul,ul.circle li ul,ul.disc li ul{list-style:inherit}
+ul.square{list-style-type:square}
+ul.circle{list-style-type:circle}
+ul.disc{list-style-type:disc}
+ol li ul,ol li ol{margin-left:1.25em;margin-bottom:0}
+dl dt{margin-bottom:.3125em;font-weight:bold}
+dl dd{margin-bottom:1.25em}
+abbr,acronym{text-transform:uppercase;font-size:90%;color:rgba(0,0,0,.8);border-bottom:1px dotted #ddd;cursor:help}
+abbr{text-transform:none}
+blockquote{margin:0 0 1.25em;padding:.5625em 1.25em 0 1.1875em;border-left:1px solid #ddd}
+blockquote cite{display:block;font-size:.9375em;color:rgba(0,0,0,.6)}
+blockquote cite::before{content:"\2014 \0020"}
+blockquote cite a,blockquote cite a:visited{color:rgba(0,0,0,.6)}
+blockquote,blockquote p{line-height:1.6;color:rgba(0,0,0,.85)}
+@media screen and (min-width:768px){h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2}
+h1{font-size:2.75em}
+h2{font-size:2.3125em}
+h3,#toctitle,.sidebarblock>.content>.title{font-size:1.6875em}
+h4{font-size:1.4375em}}
+table{background:#fff;margin-bottom:1.25em;border:solid 1px #dedede}
+table thead,table tfoot{background:#f7f8f7}
+table thead tr th,table thead tr td,table tfoot tr th,table tfoot tr td{padding:.5em .625em .625em;font-size:inherit;color:rgba(0,0,0,.8);text-align:left}
+table tr th,table tr td{padding:.5625em .625em;font-size:inherit;color:rgba(0,0,0,.8)}
+table tr.even,table tr.alt{background:#f8f8f7}
+table thead tr th,table tfoot tr th,table tbody tr td,table tr td,table tfoot tr td{display:table-cell;line-height:1.6}
+h1,h2,h3,#toctitle,.sidebarblock>.content>.title,h4,h5,h6{line-height:1.2;word-spacing:-.05em}
+h1 strong,h2 strong,h3 strong,#toctitle strong,.sidebarblock>.content>.title strong,h4 strong,h5 strong,h6 strong{font-weight:400}
+.clearfix::before,.clearfix::after,.float-group::before,.float-group::after{content:" ";display:table}
+.clearfix::after,.float-group::after{clear:both}
+:not(pre):not([class^=L])>code{font-size:.9375em;font-style:normal!important;letter-spacing:0;padding:.1em .5ex;word-spacing:-.15em;background:#f7f7f8;-webkit-border-radius:4px;border-radius:4px;line-height:1.45;text-rendering:optimizeSpeed;word-wrap:break-word}
+:not(pre)>code.nobreak{word-wrap:normal}
+:not(pre)>code.nowrap{white-space:nowrap}
+pre{color:rgba(0,0,0,.9);font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;line-height:1.45;text-rendering:optimizeSpeed}
+pre code,pre pre{color:inherit;font-size:inherit;line-height:inherit}
+pre>code{display:block}
+pre.nowrap,pre.nowrap pre{white-space:pre;word-wrap:normal}
+em em{font-style:normal}
+strong strong{font-weight:400}
+.keyseq{color:rgba(51,51,51,.8)}
+kbd{font-family:"Droid Sans Mono","DejaVu Sans Mono",monospace;display:inline-block;color:rgba(0,0,0,.8);font-size:.65em;line-height:1.45;background:#f7f7f7;border:1px solid #ccc;-webkit-border-radius:3px;border-radius:3px;-webkit-box-shadow:0 1px 0 rgba(0,0,0,.2),0 0 0 .1em white inset;box-shadow:0 1px 0 rgba(0,0,0,.2),0 0 0 .1em #fff inset;margin:0 .15em;padding:.2em .5em;vertical-align:middle;position:relative;top:-.1em;white-space:nowrap}
+.keyseq kbd:first-child{margin-left:0}
+.keyseq kbd:last-child{margin-right:0}
+.menuseq,.menuref{color:#000}
+.menuseq b:not(.caret),.menuref{font-weight:inherit}
+.menuseq{word-spacing:-.02em}
+.menuseq b.caret{font-size:1.25em;line-height:.8}
+.menuseq i.caret{font-weight:bold;text-align:center;width:.45em}
+b.button::before,b.button::after{position:relative;top:-1px;font-weight:400}
+b.button::before{content:"[";padding:0 3px 0 2px}
+b.button::after{content:"]";padding:0 2px 0 3px}
+p a>code:hover{color:rgba(0,0,0,.9)}
+#header,#content,#footnotes,#footer{width:100%;margin-left:auto;margin-right:auto;margin-top:0;margin-bottom:0;max-width:62.5em;*zoom:1;position:relative;padding-left:.9375em;padding-right:.9375em}
+#header::before,#header::after,#content::before,#content::after,#footnotes::before,#footnotes::after,#footer::before,#footer::after{content:" ";display:table}
+#header::after,#content::after,#footnotes::after,#footer::after{clear:both}
+#content{margin-top:1.25em}
+#content::before{content:none}
+#header>h1:first-child{color:rgba(0,0,0,.85);margin-top:2.25rem;margin-bottom:0}
+#header>h1:first-child+#toc{margin-top:8px;border-top:1px solid #dddddf}
+#header>h1:only-child,body.toc2 #header>h1:nth-last-child(2){border-bottom:1px solid #dddddf;padding-bottom:8px}
+#header .details{border-bottom:1px solid #dddddf;line-height:1.45;padding-top:.25em;padding-bottom:.25em;padding-left:.25em;color:rgba(0,0,0,.6);display:-ms-flexbox;display:-webkit-flex;display:flex;-ms-flex-flow:row wrap;-webkit-flex-flow:row wrap;flex-flow:row wrap}
+#header .details span:first-child{margin-left:-.125em}
+#header .details span.email a{color:rgba(0,0,0,.85)}
+#header .details br{display:none}
+#header .details br+span::before{content:"\00a0\2013\00a0"}
+#header .details br+span.author::before{content:"\00a0\22c5\00a0";color:rgba(0,0,0,.85)}
+#header .details br+span#revremark::before{content:"\00a0|\00a0"}
+#header #revnumber{text-transform:capitalize}
+#header #revnumber::after{content:"\00a0"}
+#content>h1:first-child:not([class]){color:rgba(0,0,0,.85);border-bottom:1px solid #dddddf;padding-bottom:8px;margin-top:0;padding-top:1rem;margin-bottom:1.25rem}
+#toc{border-bottom:1px solid #e7e7e9;padding-bottom:.5em}
+#toc>ul{margin-left:.125em}
+#toc ul.sectlevel0>li>a{font-style:italic}
+#toc ul.sectlevel0 ul.sectlevel1{margin:.5em 0}
+#toc ul{font-family:"Open Sans","DejaVu Sans",sans-serif;list-style-type:none}
+#toc li{line-height:1.3334;margin-top:.3334em}
+#toc a{text-decoration:none}
+#toc a:active{text-decoration:underline}
+#toctitle{color:#7a2518;font-size:1.2em}
+@media screen and (min-width:768px){#toctitle{font-size:1.375em}
+body.toc2{padding-left:15em;padding-right:0}
+#toc.toc2{margin-top:0!important;background:#f8f8f7;position:fixed;width:15em;left:0;top:0;border-right:1px solid #e7e7e9;border-top-width:0!important;border-bottom-width:0!important;z-index:1000;padding:1.25em 1em;height:100%;overflow:auto}
+#toc.toc2 #toctitle{margin-top:0;margin-bottom:.8rem;font-size:1.2em}
+#toc.toc2>ul{font-size:.9em;margin-bottom:0}
+#toc.toc2 ul ul{margin-left:0;padding-left:1em}
+#toc.toc2 ul.sectlevel0 ul.sectlevel1{padding-left:0;margin-top:.5em;margin-bottom:.5em}
+body.toc2.toc-right{padding-left:0;padding-right:15em}
+body.toc2.toc-right #toc.toc2{border-right-width:0;border-left:1px solid #e7e7e9;left:auto;right:0}}
+@media screen and (min-width:1280px){body.toc2{padding-left:20em;padding-right:0}
+#toc.toc2{width:20em}
+#toc.toc2 #toctitle{font-size:1.375em}
+#toc.toc2>ul{font-size:.95em}
+#toc.toc2 ul ul{padding-left:1.25em}
+body.toc2.toc-right{padding-left:0;padding-right:20em}}
+#content #toc{border-style:solid;border-width:1px;border-color:#e0e0dc;margin-bottom:1.25em;padding:1.25em;background:#f8f8f7;-webkit-border-radius:4px;border-radius:4px}
+#content #toc>:first-child{margin-top:0}
+#content #toc>:last-child{margin-bottom:0}
+#footer{max-width:100%;background:rgba(0,0,0,.8);padding:1.25em}
+#footer-text{color:rgba(255,255,255,.8);line-height:1.44}
+#content{margin-bottom:.625em}
+.sect1{padding-bottom:.625em}
+@media screen and (min-width:768px){#content{margin-bottom:1.25em}
+.sect1{padding-bottom:1.25em}}
+.sect1:last-child{padding-bottom:0}
+.sect1+.sect1{border-top:1px solid #e7e7e9}
+#content h1>a.anchor,h2>a.anchor,h3>a.anchor,#toctitle>a.anchor,.sidebarblock>.content>.title>a.anchor,h4>a.anchor,h5>a.anchor,h6>a.anchor{position:absolute;z-index:1001;width:1.5ex;margin-left:-1.5ex;display:block;text-decoration:none!important;visibility:hidden;text-align:center;font-weight:400}
+#content h1>a.anchor::before,h2>a.anchor::before,h3>a.anchor::before,#toctitle>a.anchor::before,.sidebarblock>.content>.title>a.anchor::before,h4>a.anchor::before,h5>a.anchor::before,h6>a.anchor::before{content:"\00A7";font-size:.85em;display:block;padding-top:.1em}
+#content h1:hover>a.anchor,#content h1>a.anchor:hover,h2:hover>a.anchor,h2>a.anchor:hover,h3:hover>a.anchor,#toctitle:hover>a.anchor,.sidebarblock>.content>.title:hover>a.anchor,h3>a.anchor:hover,#toctitle>a.anchor:hover,.sidebarblock>.content>.title>a.anchor:hover,h4:hover>a.anchor,h4>a.anchor:hover,h5:hover>a.anchor,h5>a.anchor:hover,h6:hover>a.anchor,h6>a.anchor:hover{visibility:visible}
+#content h1>a.link,h2>a.link,h3>a.link,#toctitle>a.link,.sidebarblock>.content>.title>a.link,h4>a.link,h5>a.link,h6>a.link{color:#ba3925;text-decoration:none}
+#content h1>a.link:hover,h2>a.link:hover,h3>a.link:hover,#toctitle>a.link:hover,.sidebarblock>.content>.title>a.link:hover,h4>a.link:hover,h5>a.link:hover,h6>a.link:hover{color:#a53221}
+details,.audioblock,.imageblock,.literalblock,.listingblock,.stemblock,.videoblock{margin-bottom:1.25em}
+details>summary:first-of-type{cursor:pointer;display:list-item;outline:none;margin-bottom:.75em}
+.admonitionblock td.content>.title,.audioblock>.title,.exampleblock>.title,.imageblock>.title,.listingblock>.title,.literalblock>.title,.stemblock>.title,.openblock>.title,.paragraph>.title,.quoteblock>.title,table.tableblock>.title,.verseblock>.title,.videoblock>.title,.dlist>.title,.olist>.title,.ulist>.title,.qlist>.title,.hdlist>.title{text-rendering:optimizeLegibility;text-align:left;font-family:"Noto Serif","DejaVu Serif",serif;font-size:1rem;font-style:italic}
+table.tableblock.fit-content>caption.title{white-space:nowrap;width:0}
+.paragraph.lead>p,#preamble>.sectionbody>[class="paragraph"]:first-of-type p{font-size:1.21875em;line-height:1.6;color:rgba(0,0,0,.85)}
+table.tableblock #preamble>.sectionbody>[class="paragraph"]:first-of-type p{font-size:inherit}
+.admonitionblock>table{border-collapse:separate;border:0;background:none;width:100%}
+.admonitionblock>table td.icon{text-align:center;width:80px}
+.admonitionblock>table td.icon img{max-width:none}
+.admonitionblock>table td.icon .title{font-weight:bold;font-family:"Open Sans","DejaVu Sans",sans-serif;text-transform:uppercase}
+.admonitionblock>table td.content{padding-left:1.125em;padding-right:1.25em;border-left:1px solid #dddddf;color:rgba(0,0,0,.6)}
+.admonitionblock>table td.content>:last-child>:last-child{margin-bottom:0}
+.exampleblock>.content{border-style:solid;border-width:1px;border-color:#e6e6e6;margin-bottom:1.25em;padding:1.25em;background:#fff;-webkit-border-radius:4px;border-radius:4px}
+.exampleblock>.content>:first-child{margin-top:0}
+.exampleblock>.content>:last-child{margin-bottom:0}
+.sidebarblock{border-style:solid;border-width:1px;border-color:#dbdbd6;margin-bottom:1.25em;padding:1.25em;background:#f3f3f2;-webkit-border-radius:4px;border-radius:4px}
+.sidebarblock>:first-child{margin-top:0}
+.sidebarblock>:last-child{margin-bottom:0}
+.sidebarblock>.content>.title{color:#7a2518;margin-top:0;text-align:center}
+.exampleblock>.content>:last-child>:last-child,.exampleblock>.content .olist>ol>li:last-child>:last-child,.exampleblock>.content .ulist>ul>li:last-child>:last-child,.exampleblock>.content .qlist>ol>li:last-child>:last-child,.sidebarblock>.content>:last-child>:last-child,.sidebarblock>.content .olist>ol>li:last-child>:last-child,.sidebarblock>.content .ulist>ul>li:last-child>:last-child,.sidebarblock>.content .qlist>ol>li:last-child>:last-child{margin-bottom:0}
+.literalblock pre,.listingblock>.content>pre{-webkit-border-radius:4px;border-radius:4px;word-wrap:break-word;overflow-x:auto;padding:1em;font-size:.8125em}
+@media screen and (min-width:768px){.literalblock pre,.listingblock>.content>pre{font-size:.90625em}}
+@media screen and (min-width:1280px){.literalblock pre,.listingblock>.content>pre{font-size:1em}}
+.literalblock pre,.listingblock>.content>pre:not(.highlight),.listingblock>.content>pre[class="highlight"],.listingblock>.content>pre[class^="highlight "]{background:#f7f7f8}
+.literalblock.output pre{color:#f7f7f8;background:rgba(0,0,0,.9)}
+.listingblock>.content{position:relative}
+.listingblock code[data-lang]::before{display:none;content:attr(data-lang);position:absolute;font-size:.75em;top:.425rem;right:.5rem;line-height:1;text-transform:uppercase;color:inherit;opacity:.5}
+.listingblock:hover code[data-lang]::before{display:block}
+.listingblock.terminal pre .command::before{content:attr(data-prompt);padding-right:.5em;color:inherit;opacity:.5}
+.listingblock.terminal pre .command:not([data-prompt])::before{content:"$"}
+.listingblock pre.highlightjs{padding:0}
+.listingblock pre.highlightjs>code{padding:1em;-webkit-border-radius:4px;border-radius:4px}
+.listingblock pre.prettyprint{border-width:0}
+.prettyprint{background:#f7f7f8}
+pre.prettyprint .linenums{line-height:1.45;margin-left:2em}
+pre.prettyprint li{background:none;list-style-type:inherit;padding-left:0}
+pre.prettyprint li code[data-lang]::before{opacity:1}
+pre.prettyprint li:not(:first-child) code[data-lang]::before{display:none}
+table.linenotable{border-collapse:separate;border:0;margin-bottom:0;background:none}
+table.linenotable td[class]{color:inherit;vertical-align:top;padding:0;line-height:inherit;white-space:normal}
+table.linenotable td.code{padding-left:.75em}
+table.linenotable td.linenos{border-right:1px solid currentColor;opacity:.35;padding-right:.5em}
+pre.pygments .lineno{border-right:1px solid currentColor;opacity:.35;display:inline-block;margin-right:.75em}
+pre.pygments .lineno::before{content:"";margin-right:-.125em}
+.quoteblock{margin:0 1em 1.25em 1.5em;display:table}
+.quoteblock:not(.excerpt)>.title{margin-left:-1.5em;margin-bottom:.75em}
+.quoteblock blockquote,.quoteblock p{color:rgba(0,0,0,.85);font-size:1.15rem;line-height:1.75;word-spacing:.1em;letter-spacing:0;font-style:italic;text-align:justify}
+.quoteblock blockquote{margin:0;padding:0;border:0}
+.quoteblock blockquote::before{content:"\201c";float:left;font-size:2.75em;font-weight:bold;line-height:.6em;margin-left:-.6em;color:#7a2518;text-shadow:0 1px 2px rgba(0,0,0,.1)}
+.quoteblock blockquote>.paragraph:last-child p{margin-bottom:0}
+.quoteblock .attribution{margin-top:.75em;margin-right:.5ex;text-align:right}
+.verseblock{margin:0 1em 1.25em}
+.verseblock pre{font-family:"Open Sans","DejaVu Sans",sans;font-size:1.15rem;color:rgba(0,0,0,.85);font-weight:300;text-rendering:optimizeLegibility}
+.verseblock pre strong{font-weight:400}
+.verseblock .attribution{margin-top:1.25rem;margin-left:.5ex}
+.quoteblock .attribution,.verseblock .attribution{font-size:.9375em;line-height:1.45;font-style:italic}
+.quoteblock .attribution br,.verseblock .attribution br{display:none}
+.quoteblock .attribution cite,.verseblock .attribution cite{display:block;letter-spacing:-.025em;color:rgba(0,0,0,.6)}
+.quoteblock.abstract blockquote::before,.quoteblock.excerpt blockquote::before,.quoteblock .quoteblock blockquote::before{display:none}
+.quoteblock.abstract blockquote,.quoteblock.abstract p,.quoteblock.excerpt blockquote,.quoteblock.excerpt p,.quoteblock .quoteblock blockquote,.quoteblock .quoteblock p{line-height:1.6;word-spacing:0}
+.quoteblock.abstract{margin:0 1em 1.25em;display:block}
+.quoteblock.abstract>.title{margin:0 0 .375em;font-size:1.15em;text-align:center}
+.quoteblock.excerpt>blockquote,.quoteblock .quoteblock{padding:0 0 .25em 1em;border-left:.25em solid #dddddf}
+.quoteblock.excerpt,.quoteblock .quoteblock{margin-left:0}
+.quoteblock.excerpt blockquote,.quoteblock.excerpt p,.quoteblock .quoteblock blockquote,.quoteblock .quoteblock p{color:inherit;font-size:1.0625rem}
+.quoteblock.excerpt .attribution,.quoteblock .quoteblock .attribution{color:inherit;text-align:left;margin-right:0}
+table.tableblock{max-width:100%;border-collapse:separate}
+p.tableblock:last-child{margin-bottom:0}
+td.tableblock>.content>:last-child{margin-bottom:-1.25em}
+td.tableblock>.content>:last-child.sidebarblock{margin-bottom:0}
+table.tableblock,th.tableblock,td.tableblock{border:0 solid #dedede}
+table.grid-all>thead>tr>.tableblock,table.grid-all>tbody>tr>.tableblock{border-width:0 1px 1px 0}
+table.grid-all>tfoot>tr>.tableblock{border-width:1px 1px 0 0}
+table.grid-cols>*>tr>.tableblock{border-width:0 1px 0 0}
+table.grid-rows>thead>tr>.tableblock,table.grid-rows>tbody>tr>.tableblock{border-width:0 0 1px}
+table.grid-rows>tfoot>tr>.tableblock{border-width:1px 0 0}
+table.grid-all>*>tr>.tableblock:last-child,table.grid-cols>*>tr>.tableblock:last-child{border-right-width:0}
+table.grid-all>tbody>tr:last-child>.tableblock,table.grid-all>thead:last-child>tr>.tableblock,table.grid-rows>tbody>tr:last-child>.tableblock,table.grid-rows>thead:last-child>tr>.tableblock{border-bottom-width:0}
+table.frame-all{border-width:1px}
+table.frame-sides{border-width:0 1px}
+table.frame-topbot,table.frame-ends{border-width:1px 0}
+table.stripes-all tr,table.stripes-odd tr:nth-of-type(odd),table.stripes-even tr:nth-of-type(even),table.stripes-hover tr:hover{background:#f8f8f7}
+th.halign-left,td.halign-left{text-align:left}
+th.halign-right,td.halign-right{text-align:right}
+th.halign-center,td.halign-center{text-align:center}
+th.valign-top,td.valign-top{vertical-align:top}
+th.valign-bottom,td.valign-bottom{vertical-align:bottom}
+th.valign-middle,td.valign-middle{vertical-align:middle}
+table thead th,table tfoot th{font-weight:bold}
+tbody tr th{display:table-cell;line-height:1.6;background:#f7f8f7}
+tbody tr th,tbody tr th p,tfoot tr th,tfoot tr th p{color:rgba(0,0,0,.8);font-weight:bold}
+p.tableblock>code:only-child{background:none;padding:0}
+p.tableblock{font-size:1em}
+ol{margin-left:1.75em}
+ul li ol{margin-left:1.5em}
+dl dd{margin-left:1.125em}
+dl dd:last-child,dl dd:last-child>:last-child{margin-bottom:0}
+ol>li p,ul>li p,ul dd,ol dd,.olist .olist,.ulist .ulist,.ulist .olist,.olist .ulist{margin-bottom:.625em}
+ul.checklist,ul.none,ol.none,ul.no-bullet,ol.no-bullet,ol.unnumbered,ul.unstyled,ol.unstyled{list-style-type:none}
+ul.no-bullet,ol.no-bullet,ol.unnumbered{margin-left:.625em}
+ul.unstyled,ol.unstyled{margin-left:0}
+ul.checklist{margin-left:.625em}
+ul.checklist li>p:first-child>.fa-square-o:first-child,ul.checklist li>p:first-child>.fa-check-square-o:first-child{width:1.25em;font-size:.8em;position:relative;bottom:.125em}
+ul.checklist li>p:first-child>input[type="checkbox"]:first-child{margin-right:.25em}
+ul.inline{display:-ms-flexbox;display:-webkit-box;display:flex;-ms-flex-flow:row wrap;-webkit-flex-flow:row wrap;flex-flow:row wrap;list-style:none;margin:0 0 .625em -1.25em}
+ul.inline>li{margin-left:1.25em}
+.unstyled dl dt{font-weight:400;font-style:normal}
+ol.arabic{list-style-type:decimal}
+ol.decimal{list-style-type:decimal-leading-zero}
+ol.loweralpha{list-style-type:lower-alpha}
+ol.upperalpha{list-style-type:upper-alpha}
+ol.lowerroman{list-style-type:lower-roman}
+ol.upperroman{list-style-type:upper-roman}
+ol.lowergreek{list-style-type:lower-greek}
+.hdlist>table,.colist>table{border:0;background:none}
+.hdlist>table>tbody>tr,.colist>table>tbody>tr{background:none}
+td.hdlist1,td.hdlist2{vertical-align:top;padding:0 .625em}
+td.hdlist1{font-weight:bold;padding-bottom:1.25em}
+.literalblock+.colist,.listingblock+.colist{margin-top:-.5em}
+.colist td:not([class]):first-child{padding:.4em .75em 0;line-height:1;vertical-align:top}
+.colist td:not([class]):first-child img{max-width:none}
+.colist td:not([class]):last-child{padding:.25em 0}
+.thumb,.th{line-height:0;display:inline-block;border:solid 4px #fff;-webkit-box-shadow:0 0 0 1px #ddd;box-shadow:0 0 0 1px #ddd}
+.imageblock.left{margin:.25em .625em 1.25em 0}
+.imageblock.right{margin:.25em 0 1.25em .625em}
+.imageblock>.title{margin-bottom:0}
+.imageblock.thumb,.imageblock.th{border-width:6px}
+.imageblock.thumb>.title,.imageblock.th>.title{padding:0 .125em}
+.image.left,.image.right{margin-top:.25em;margin-bottom:.25em;display:inline-block;line-height:0}
+.image.left{margin-right:.625em}
+.image.right{margin-left:.625em}
+a.image{text-decoration:none;display:inline-block}
+a.image object{pointer-events:none}
+sup.footnote,sup.footnoteref{font-size:.875em;position:static;vertical-align:super}
+sup.footnote a,sup.footnoteref a{text-decoration:none}
+sup.footnote a:active,sup.footnoteref a:active{text-decoration:underline}
+#footnotes{padding-top:.75em;padding-bottom:.75em;margin-bottom:.625em}
+#footnotes hr{width:20%;min-width:6.25em;margin:-.25em 0 .75em;border-width:1px 0 0}
+#footnotes .footnote{padding:0 .375em 0 .225em;line-height:1.3334;font-size:.875em;margin-left:1.2em;margin-bottom:.2em}
+#footnotes .footnote a:first-of-type{font-weight:bold;text-decoration:none;margin-left:-1.05em}
+#footnotes .footnote:last-of-type{margin-bottom:0}
+#content #footnotes{margin-top:-.625em;margin-bottom:0;padding:.75em 0}
+.gist .file-data>table{border:0;background:#fff;width:100%;margin-bottom:0}
+.gist .file-data>table td.line-data{width:99%}
+div.unbreakable{page-break-inside:avoid}
+.big{font-size:larger}
+.small{font-size:smaller}
+.underline{text-decoration:underline}
+.overline{text-decoration:overline}
+.line-through{text-decoration:line-through}
+.aqua{color:#00bfbf}
+.aqua-background{background:#00fafa}
+.black{color:#000}
+.black-background{background:#000}
+.blue{color:#0000bf}
+.blue-background{background:#0000fa}
+.fuchsia{color:#bf00bf}
+.fuchsia-background{background:#fa00fa}
+.gray{color:#606060}
+.gray-background{background:#7d7d7d}
+.green{color:#006000}
+.green-background{background:#007d00}
+.lime{color:#00bf00}
+.lime-background{background:#00fa00}
+.maroon{color:#600000}
+.maroon-background{background:#7d0000}
+.navy{color:#000060}
+.navy-background{background:#00007d}
+.olive{color:#606000}
+.olive-background{background:#7d7d00}
+.purple{color:#600060}
+.purple-background{background:#7d007d}
+.red{color:#bf0000}
+.red-background{background:#fa0000}
+.silver{color:#909090}
+.silver-background{background:#bcbcbc}
+.teal{color:#006060}
+.teal-background{background:#007d7d}
+.white{color:#bfbfbf}
+.white-background{background:#fafafa}
+.yellow{color:#bfbf00}
+.yellow-background{background:#fafa00}
+span.icon>.fa{cursor:default}
+a span.icon>.fa{cursor:inherit}
+.admonitionblock td.icon [class^="fa icon-"]{font-size:2.5em;text-shadow:1px 1px 2px rgba(0,0,0,.5);cursor:default}
+.admonitionblock td.icon .icon-note::before{content:"\f05a";color:#19407c}
+.admonitionblock td.icon .icon-tip::before{content:"\f0eb";text-shadow:1px 1px 2px rgba(155,155,0,.8);color:#111}
+.admonitionblock td.icon .icon-warning::before{content:"\f071";color:#bf6900}
+.admonitionblock td.icon .icon-caution::before{content:"\f06d";color:#bf3400}
+.admonitionblock td.icon .icon-important::before{content:"\f06a";color:#bf0000}
+.conum[data-value]{display:inline-block;color:#fff!important;background:rgba(0,0,0,.8);-webkit-border-radius:100px;border-radius:100px;text-align:center;font-size:.75em;width:1.67em;height:1.67em;line-height:1.67em;font-family:"Open Sans","DejaVu Sans",sans-serif;font-style:normal;font-weight:bold}
+.conum[data-value] *{color:#fff!important}
+.conum[data-value]+b{display:none}
+.conum[data-value]::after{content:attr(data-value)}
+pre .conum[data-value]{position:relative;top:-.125em}
+b.conum *{color:inherit!important}
+.conum:not([data-value]):empty{display:none}
+dt,th.tableblock,td.content,div.footnote{text-rendering:optimizeLegibility}
+h1,h2,p,td.content,span.alt{letter-spacing:-.01em}
+p strong,td.content strong,div.footnote strong{letter-spacing:-.005em}
+p,blockquote,dt,td.content,span.alt{font-size:1.0625rem}
+p{margin-bottom:1.25rem}
+.sidebarblock p,.sidebarblock dt,.sidebarblock td.content,p.tableblock{font-size:1em}
+.exampleblock>.content{background:#fffef7;border-color:#e0e0dc;-webkit-box-shadow:0 1px 4px #e0e0dc;box-shadow:0 1px 4px #e0e0dc}
+.print-only{display:none!important}
+@page{margin:1.25cm .75cm}
+@media print{*{-webkit-box-shadow:none!important;box-shadow:none!important;text-shadow:none!important}
+html{font-size:80%}
+a{color:inherit!important;text-decoration:underline!important}
+a.bare,a[href^="#"],a[href^="mailto:"]{text-decoration:none!important}
+a[href^="http:"]:not(.bare)::after,a[href^="https:"]:not(.bare)::after{content:"(" attr(href) ")";display:inline-block;font-size:.875em;padding-left:.25em}
+abbr[title]::after{content:" (" attr(title) ")"}
+pre,blockquote,tr,img,object,svg{page-break-inside:avoid}
+thead{display:table-header-group}
+svg{max-width:100%}
+p,blockquote,dt,td.content{font-size:1em;orphans:3;widows:3}
+h2,h3,#toctitle,.sidebarblock>.content>.title{page-break-after:avoid}
+#toc,.sidebarblock,.exampleblock>.content{background:none!important}
+#toc{border-bottom:1px solid #dddddf!important;padding-bottom:0!important}
+body.book #header{text-align:center}
+body.book #header>h1:first-child{border:0!important;margin:2.5em 0 1em}
+body.book #header .details{border:0!important;display:block;padding:0!important}
+body.book #header .details span:first-child{margin-left:0!important}
+body.book #header .details br{display:block}
+body.book #header .details br+span::before{content:none!important}
+body.book #toc{border:0!important;text-align:left!important;padding:0!important;margin:0!important}
+body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-break-before:always}
+.listingblock code[data-lang]::before{display:block}
+#footer{padding:0 .9375em}
+.hide-on-print{display:none!important}
+.print-only{display:block!important}
+.hide-for-print{display:none!important}
+.show-for-print{display:inherit!important}}
+@media print,amzn-kf8{#header>h1:first-child{margin-top:1.25rem}
+.sect1{padding:0!important}
+.sect1+.sect1{border:0}
+#footer{background:none}
+#footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
+@media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
+</style>
+</head>
+<body class="book toc2 toc-left">
+<div id="header">
+<h1>Netscaler Guide</h1>
+<div class="details">
+<span id="author" class="author">Simon Lauger</span><br>
+<span id="email" class="email"><a href="mailto:simon@lauger.name">simon@lauger.name</a></span><br>
+</div>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_intro">1. Intro</a>
+<ul class="sectlevel2">
+<li><a href="#_whats_this">1.1. What&#8217;s this?</a></li>
+<li><a href="#_build_html">1.2. Build HTML</a></li>
+<li><a href="#_contribute">1.3. Contribute</a></li>
+<li><a href="#_available_guides">1.4. Available Guides</a></li>
+</ul>
+</li>
+<li><a href="#_best_practices">2. Best Practices</a>
+<ul class="sectlevel2">
+<li><a href="#_layer_3_mode">2.1. Layer 3 mode</a></li>
+<li><a href="#_external_auth_for_nsroot">2.2. External auth for nsroot</a></li>
+<li><a href="#_optmize_httptcp">2.3. Optmize HTTP/TCP</a></li>
+</ul>
+</li>
+<li><a href="#_basics">3. Basics</a>
+<ul class="sectlevel2">
+<li><a href="#_share_cpu_ressources_on_a_vpx">3.1. Share CPU ressources on a VPX</a></li>
+<li><a href="#_timezone">3.2. Timezone</a></li>
+<li><a href="#_basic_features">3.3. Basic Features</a></li>
+<li><a href="#_ldap">3.4. LDAP</a></li>
+<li><a href="#_syslog">3.5. Syslog</a></li>
+<li><a href="#_snmp">3.6. SNMP</a></li>
+<li><a href="#_ntp">3.7. NTP</a></li>
+<li><a href="#_vlan_binding">3.8. VLAN Binding</a></li>
+<li><a href="#_dns_loadbalancing">3.9. DNS Loadbalancing</a></li>
+<li><a href="#_dns_suffix">3.10. DNS Suffix</a></li>
+<li><a href="#_generic_ssl_redirect">3.11. Generic SSL Redirect</a></li>
+<li><a href="#_access_log">3.12. Access Log</a></li>
+</ul>
+</li>
+<li><a href="#_ssl_hardening">4. SSL Hardening</a>
+<ul class="sectlevel2">
+<li><a href="#_secure_ciphers">4.1. Secure Ciphers</a></li>
+<li><a href="#_default_profile">4.2. Default Profile</a></li>
+<li><a href="#_disable_tls_1_0_and_tls_1_1">4.3. Disable TLS 1.0 and TLS 1.1</a></li>
+<li><a href="#_enable_hsts">4.4. Enable HSTS</a></li>
+<li><a href="#_diffie_hellman_key">4.5. Diffie-Hellman key</a></li>
+</ul>
+</li>
+<li><a href="#_ssh_hardening">5. SSH Hardening</a>
+<ul class="sectlevel2">
+<li><a href="#_create_ed25519_hostkey">5.1. Create ed25519 hostkey</a></li>
+<li><a href="#_secure_configuration">5.2. Secure configuration</a></li>
+</ul>
+</li>
+<li><a href="#_exchange_2016">6. Exchange 2016</a>
+<ul class="sectlevel2">
+<li><a href="#_content_switching">6.1. Content Switching</a></li>
+<li><a href="#_persistence">6.2. Persistence</a></li>
+<li><a href="#_preauth_for_activesync">6.3. Preauth for Activesync</a></li>
+<li><a href="#_preauth_for_owa">6.4. Preauth for OWA</a></li>
+<li><a href="#_preauth_for_outlook_anywhere">6.5. Preauth for Outlook Anywhere</a></li>
+<li><a href="#_smtp_imap_pop3">6.6. SMTP, IMAP, POP3</a></li>
+</ul>
+</li>
+<li><a href="#_netscaler_gateway">7. NetScaler Gateway</a>
+<ul class="sectlevel2">
+<li><a href="#_ica_only">7.1. ICA only</a></li>
+<li><a href="#_smartaccess">7.2. SmartAccess</a></li>
+</ul>
+</li>
+<li><a href="#_xenmobile">8. XenMobile</a>
+<ul class="sectlevel2">
+<li><a href="#_mdm_loadbalancing">8.1. MDM Loadbalancing</a></li>
+<li><a href="#_mam_loadbalancing">8.2. MAM Loadbalancing</a></li>
+<li><a href="#_mam_gateway">8.3. MAM Gateway</a></li>
+</ul>
+</li>
+<li><a href="#_sharefile_storagezone">9. ShareFile StorageZone</a></li>
+<li><a href="#_sms_passcode">10. SMS Passcode</a>
+<ul class="sectlevel2">
+<li><a href="#_hide_second_password_field">10.1. Hide second password field</a></li>
+</ul>
+</li>
+<li><a href="#_preauth_for_vmware_vcenter_vcsa">11. Preauth for VMware vCenter (vCSA)</a>
+<ul class="sectlevel2">
+<li><a href="#_loadbalancing">11.1. Loadbalancing</a></li>
+<li><a href="#_content_switching_2">11.2. Content Switching</a></li>
+<li><a href="#_url_rewriting">11.3. URL Rewriting</a></li>
+<li><a href="#_preauth">11.4. Preauth</a></li>
+</ul>
+</li>
+<li><a href="#_external_links">12. External links</a></li>
+</ul>
+</div>
+</div>
+<div id="content">
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>Best practices and example configurations for Citrix NetScaler.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_intro">1. Intro</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_whats_this">1.1. What&#8217;s this?</h3>
+<div class="paragraph">
+<p>In this documents i will share all my NetScaler best practices and guidelines.</p>
+</div>
+<div class="paragraph">
+<p>This is not a "no-brainer" copy &amp; paste guide. Double check every configuration line before
+you paste it in your NetScaler.</p>
+</div>
+<div class="paragraph">
+<p>Custom configurations (like binding of ssl certificates) are not part of this document.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_build_html">1.2. Build HTML</h3>
+<div class="paragraph">
+<p>All content is written in ASCII Doc. You can convert the content to HTML via asciidoctor.
+A Makefile is included in this repository. Just run the following command to build it.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>make all</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Ruby and the asciidoctor gem need to be installed.
+A RPM package for Enterprise Linux (RHEL, CentOS, Fedora) is available trough EPEL.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>yum install rubygem-asciidoctor.noarch</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>A HTML version of this documentation is also available on <a href="https://blog.simlau.net/netscaler/">my website</a>.</p>
+</div>
+<div class="paragraph">
+<p>The asciidoc source is available on <a href="https://github.com/slauger/netscaler_docs">GitHub</a>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_contribute">1.3. Contribute</h3>
+<div class="paragraph">
+<p>Feedback and suggestion for improvement are appreciated. Just create a issue on GitHub.
+You can also send me an Pull requests to suggest changes.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_available_guides">1.4. Available Guides</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>Best Practices</p>
+</li>
+<li>
+<p>SSL Hardening</p>
+</li>
+<li>
+<p>SSH Hardening</p>
+</li>
+<li>
+<p>Exchange 2016</p>
+</li>
+<li>
+<p>NetScaler Gateway (ICA only)</p>
+</li>
+<li>
+<p>NetScaler Gateway (Smartaccess)</p>
+</li>
+<li>
+<p>XenMobile</p>
+</li>
+<li>
+<p>Sharefile</p>
+</li>
+<li>
+<p>SMS Passcode</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_best_practices">2. Best Practices</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_layer_3_mode">2.1. Layer 3 mode</h3>
+<div class="paragraph">
+<p>Layer 3 mode is enabled by default. This enables IP fowarding and is only required in a few situations
+(e.g. if you need to fowrard Client IPs in different procotols than HTTP with the feature "USIP").</p>
+</div>
+<div class="paragraph">
+<p>If you don&#8217;t need this Layer 3 mode should be disabled for security reasons.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>disable mode L3mode</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_external_auth_for_nsroot">2.2. External auth for nsroot</h3>
+<div class="paragraph">
+<p>External auth for nsroot is enabled by default. If not needed this should be disabled for security
+reasons.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>set system user nsroot -externalAuth DISABLED</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_optmize_httptcp">2.3. Optmize HTTP/TCP</h3>
+<div class="paragraph">
+<p>These are a combination of the Citrix best practices from <a href="https://support.citrix.com/article/CTX121149">CTX121149</a> and
+my personal experience.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code># configure timeout (GUI, SSH) to 10 minutes
+set system parameter -timeout 600 -doppler DISABLED
+
+# tips from CTX121149
+set ns tcpProfile nstcp_default_profile -WS ENABLED -SACK ENABLED -nagle ENABLED
+set ns httpProfile nshttp_default_profile -dropInvalReqs ENABLED -markHttp09Inval ENABLED -markConnReqInval ENABLED
+set ns tcpParam -WS ENABLED -SACK ENABLED -nagle ENABLED
+
+# drop invalid HTTP requests
+set ns httpParam -dropInvalReqs ON -markHttp09Inval ON -markConnReqInval ON
+
+# enable X-Forwarded-For header globaly, set Cookie version to v1
+set ns param -cip ENABLED X-Forwarded-For -cookieversion 1</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_basics">3. Basics</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_share_cpu_ressources_on_a_vpx">3.1. Share CPU ressources on a VPX</h3>
+<div class="paragraph">
+<p>You may want to re-enable the sharing of CPU resources (yielding) on your VPX.
+Yielding is disabled by default on NetScaler 12.0 and onwards.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>set ns vpxparam -cpuyield YES</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_timezone">3.2. Timezone</h3>
+<div class="paragraph">
+<p>If not already done you should also configure your local timezone:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>set ns param -timezone "GMT+01:00-CET-Europe/Berlin"</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_basic_features">3.3. Basic Features</h3>
+<div class="paragraph">
+<p>This is an example for enabling the most used features. This depends by the installed license
+and your individual needs.</p>
+</div>
+<div class="paragraph">
+<p>Here are some examples.</p>
+</div>
+<div class="paragraph">
+<p><strong>NetScaler Gateway Platform license</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>enable ns feature SSL SSLVPN REWRITE RESPONDER</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>NetScaler Standard</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>enable ns feature LB CS SSL CF SSLVPN REWRITE RESPONDER</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>NetScaler Enteprise</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>enable ns feature LB CS SSL CF SSLVPN AAA REWRITE RESPONDER RDPProxy</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ldap">3.4. LDAP</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>add authentication ldapAction act_auth_ldap -serverName ${DC} -serverPort 636 -ldapBase "${LDAP_BASEDN}" -ldapBindDn "${LDAP_BINDDN}" -ldapBindDnPassword "${LDAP_BINDPW}" -ldapLoginName sAMAccountName -searchFilter "${LDAP_FILTER}" -groupAttrName memberOf -subAttributeName CN -secType SSL -ssoNameAttribute sAMAccountName -passwdChange ENABLED -nestedGroupExtraction ON -ldapHostname ${LDAP_FQDN} -groupNameIdentifier sAMAccountName -groupSearchAttribute memberOf -groupSearchSubAttribute CN
+add authentication ldapPolicy pol_auth_ldap ns_true act_auth_ldap</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Admin authentication</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>bind system global pol_auth_ldap</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>add system group "${LDAP_ADMINS}"
+bind system group "${LDAP_ADMINS}" -policyName superuser 100</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_syslog">3.5. Syslog</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>add audit syslogAction act_audit_syslog ${SYSLOG} -logLevel ${SYSLOG_LOGLEVEL}
+add audit syslogPolicy pol_audit_syslog ns_true act_audit_syslog
+bind system global pol_audit_syslog -priority 100</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_snmp">3.6. SNMP</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>add snmp community ${SNMP_COMMUNITY} GET_NEXT
+set snmp mib -name ${SNMP_NAME} -contact ${SNMP_CONTACT} -customID ${SNMP_CUSTOM_ID} -location ${SNMP_LOCATION}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_ntp">3.7. NTP</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>add ntp server ${NTP1}
+add ntp server ${NTP2}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>NTP synchronisation is disabled by default.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>enable ntp sync</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_vlan_binding">3.8. VLAN Binding</h3>
+<div class="paragraph">
+<p>You should configure a SNIP for each network interface and bind it to a VLAN.
+This avoids MAC flapping between ports (NetScaler auto discovery).</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>add vlan ${VLAN_EXT} -aliasName ${VLAN_EXT_ALIAS}
+bind vlan ${VLAN_EXT} -IPAddress ${SNIP_EXT} ${SNIP_EXT_MASK}
+bind vlan ${VLAN_EXT} -ifnum ${VLAN_EXT_INTERFACE}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_dns_loadbalancing">3.9. DNS Loadbalancing</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>add server ${DNS1_FQDN} ${DNS1_IP}
+add server ${DNS2_FQDN} ${DNS2_IP}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>add serviceGroup sg_dns_ad DNS -maxClient 0 -maxReq 0 -usip NO -useproxyport NO -cltTimeout 180 -svrTimeout 360 -CKA NO -TCPB NO -CMP NO</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>bind serviceGroup sg_dns_ad ${DNS1_FQDN} 53
+bind serviceGroup sg_dns_ad ${DNS2_FQDN} 53</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>add lb vserver vs_lb_dns_ad DNS 0.0.0.0 0 -persistenceType NONE -cltTimeout 180</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>bind lb vserver vs_lb_dns_ad sg_dns_ad</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>add dns nameServer vs_lb_dns_ad</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_dns_suffix">3.10. DNS Suffix</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>add dns suffix ${DNS_SUFFIX}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_generic_ssl_redirect">3.11. Generic SSL Redirect</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>add responder action act_responder_ssl_redirect_generic redirect "\"https://\" + HTTP.REQ.HOSTNAME.HTTP_URL_SAFE + HTTP.REQ.URL.HTTP_URL_SAFE" -responseStatusCode 301
+add responder policy pol_responder_ssl_redirect_generic true act_responder_ssl_redirect_generic</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_access_log">3.12. Access Log</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>add audit messageaction access_log INFORMATIONAL q/CLIENT.IP.SRC + HTTP.REQ.HEADER("X-Forwarded-For").HTTP_HEADER_SAFE + " " + HTTP.REQ.HOSTNAME + " \"" +HTTP.REQ.METHOD + " " +HTTP.REQ.URL.PATH_AND_QUERY.HTTP_URL_SAFE + "\"" +" \"" + HTTP.REQ.HEADER("User-Agent").HTTP_HEADER_SAFE + "\"" /</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_ssl_hardening">4. SSL Hardening</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_secure_ciphers">4.1. Secure Ciphers</h3>
+<div class="paragraph">
+<p>High secure ciphers only - TLS 1.3 and TLS 1.2.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>add ssl cipher CUSTOM_MODERN
+bind ssl cipher CUSTOM_MODERN -cipherName TLS1.3-AES256-GCM-SHA384
+bind ssl cipher CUSTOM_MODERN -cipherName TLS1.3-AES128-GCM-SHA256
+bind ssl cipher CUSTOM_MODERN -cipherName TLS1.3-CHACHA20-POLY1305-SHA256
+bind ssl cipher CUSTOM_MODERN -cipherName TLS1.2-ECDHE-ECDSA-CHACHA20-POLY1305
+bind ssl cipher CUSTOM_MODERN -cipherName TLS1.2-ECDHE-RSA-CHACHA20-POLY1305
+bind ssl cipher CUSTOM_MODERN -cipherName TLS1.2-ECDHE-RSA-AES256-GCM-SHA384
+bind ssl cipher CUSTOM_MODERN -cipherName TLS1.2-ECDHE-RSA-AES128-GCM-SHA256
+bind ssl cipher CUSTOM_MODERN -cipherName TLS1.2-ECDHE-ECDSA-AES256-GCM-SHA384
+bind ssl cipher CUSTOM_MODERN -cipherName TLS1.2-ECDHE-ECDSA-AES128-GCM-SHA256</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>High secure ciphers for TLS 1.3 and TLS 1.2, but keep some legacy ciphers enabled.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>add ssl cipher CUSTOM_INTERMEDIATE
+bind ssl cipher CUSTOM_INTERMEDIATE -cipherName TLS1.3-AES256-GCM-SHA384
+bind ssl cipher CUSTOM_INTERMEDIATE -cipherName TLS1.3-AES128-GCM-SHA256
+bind ssl cipher CUSTOM_INTERMEDIATE -cipherName TLS1.3-CHACHA20-POLY1305-SHA256
+bind ssl cipher CUSTOM_INTERMEDIATE -cipherName TLS1.2-ECDHE-ECDSA-CHACHA20-POLY1305
+bind ssl cipher CUSTOM_INTERMEDIATE -cipherName TLS1.2-ECDHE-RSA-CHACHA20-POLY1305
+bind ssl cipher CUSTOM_INTERMEDIATE -cipherName TLS1.2-ECDHE-RSA-AES256-GCM-SHA384
+bind ssl cipher CUSTOM_INTERMEDIATE -cipherName TLS1.2-ECDHE-RSA-AES128-GCM-SHA256
+bind ssl cipher CUSTOM_INTERMEDIATE -cipherName TLS1.2-ECDHE-RSA-AES-256-SHA384
+bind ssl cipher CUSTOM_INTERMEDIATE -cipherName TLS1.2-ECDHE-RSA-AES-128-SHA256
+bind ssl cipher CUSTOM_INTERMEDIATE -cipherName TLS1.2-ECDHE-ECDSA-AES256-GCM-SHA384
+bind ssl cipher CUSTOM_INTERMEDIATE -cipherName TLS1.2-ECDHE-ECDSA-AES256-SHA384
+bind ssl cipher CUSTOM_INTERMEDIATE -cipherName TLS1.2-ECDHE-ECDSA-AES128-GCM-SHA256
+bind ssl cipher CUSTOM_INTERMEDIATE -cipherName TLS1.2-ECDHE-ECDSA-AES128-SHA256</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If support for TLS 1.0 or TLS 1.1 is required. Also a good choice for your backend profile.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>add ssl cipher CUSTOM_MODERN_LEGACY
+bind ssl cipher CUSTOM_MODERN_LEGACY -cipherName TLS1.3-AES256-GCM-SHA384
+bind ssl cipher CUSTOM_MODERN_LEGACY -cipherName TLS1.3-AES128-GCM-SHA256
+bind ssl cipher CUSTOM_MODERN_LEGACY -cipherName TLS1.3-CHACHA20-POLY1305-SHA256
+bind ssl cipher CUSTOM_MODERN_LEGACY -cipherName TLS1.2-ECDHE-ECDSA-CHACHA20-POLY1305
+bind ssl cipher CUSTOM_MODERN_LEGACY -cipherName TLS1.2-ECDHE-RSA-CHACHA20-POLY1305
+bind ssl cipher CUSTOM_MODERN_LEGACY -cipherName TLS1.2-ECDHE-RSA-AES256-GCM-SHA384
+bind ssl cipher CUSTOM_MODERN_LEGACY -cipherName TLS1.2-ECDHE-ECDSA-AES256-GCM-SHA384
+bind ssl cipher CUSTOM_MODERN_LEGACY -cipherName TLS1.2-DHE-RSA-AES256-GCM-SHA384
+bind ssl cipher CUSTOM_MODERN_LEGACY -cipherName TLS1.2-ECDHE-RSA-AES128-GCM-SHA256
+bind ssl cipher CUSTOM_MODERN_LEGACY -cipherName TLS1.2-ECDHE-ECDSA-AES128-GCM-SHA256
+bind ssl cipher CUSTOM_MODERN_LEGACY -cipherName TLS1.2-DHE-RSA-AES128-GCM-SHA256
+bind ssl cipher CUSTOM_MODERN_LEGACY -cipherName TLS1.2-ECDHE-ECDSA-AES256-SHA384
+bind ssl cipher CUSTOM_MODERN_LEGACY -cipherName TLS1.2-ECDHE-RSA-AES-256-SHA384
+bind ssl cipher CUSTOM_MODERN_LEGACY -cipherName TLS1.2-ECDHE-ECDSA-AES128-SHA256
+bind ssl cipher CUSTOM_MODERN_LEGACY -cipherName TLS1.2-ECDHE-RSA-AES-128-SHA256
+bind ssl cipher CUSTOM_MODERN_LEGACY -cipherName TLS1-ECDHE-RSA-AES256-SHA
+bind ssl cipher CUSTOM_MODERN_LEGACY -cipherName TLS1-ECDHE-RSA-AES128-SHA
+bind ssl cipher CUSTOM_MODERN_LEGACY -cipherName TLS1-DHE-RSA-AES-256-CBC-SHA
+bind ssl cipher CUSTOM_MODERN_LEGACY -cipherName TLS1-DHE-RSA-AES-128-CBC-SHA
+bind ssl cipher CUSTOM_MODERN_LEGACY -cipherName TLS1-AES-256-CBC-SHA
+bind ssl cipher CUSTOM_MODERN_LEGACY -cipherName TLS1-AES-128-CBC-SHA</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_default_profile">4.2. Default Profile</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>set ssl parameter -defaultProfile ENABLED
+Y
+
+set ssl profile ns_default_ssl_profile_frontend -denySSLReneg NONSECURE
+bind ssl profile ns_default_ssl_profile_frontend -cipherName CUSTOM_INTERMEDIATE
+unbind ssl profile ns_default_ssl_profile_frontend -cipherName DEFAULT
+
+set ssl profile ns_default_ssl_profile_backend -denySSLReneg NONSECURE
+bind ssl profile ns_default_ssl_profile_backend -cipherName CUSTOM_INTERMEDIATE
+unbind ssl profile ns_default_ssl_profile_backend -cipherName DEFAULT_BACKEND</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_disable_tls_1_0_and_tls_1_1">4.3. Disable TLS 1.0 and TLS 1.1</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>disable TLS 1.0</p>
+</li>
+<li>
+<p>disable TLS 1.1</p>
+</li>
+<li>
+<p>enable TLS 1.2</p>
+</li>
+<li>
+<p>enable TLS 1.3</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>set ssl profile ns_default_ssl_profile_frontend -tls1 DISABLED -tls11 DISABLED -tls12 ENABLED -tls13 ENABLED
+
+set ssl profile ns_default_ssl_profile_backend -tls1 DISABLED -tls11 DISABLED -tls12 ENABLED -tls13 ENABLED</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_enable_hsts">4.4. Enable HSTS</h3>
+<div class="paragraph">
+<p>This adds the STS header to all HTTP responses. This is required to get an A+ rating
+on ssllabs.com.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>add rewrite action act_rewrite_inject_http_sts_header insert_http_header Strict-Transport-Security "\"max-age=31536000\""
+add rewrite policy pol_rewrite_inject_http_sts_header true act_rewrite_inject_http_sts_header
+bind rewrite global pol_rewrite_inject_http_sts_header 100 NEXT -type RES_OVERRIDE</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>NetScaler 12.0+</strong>
+Since version 12.0 NetScaler has a builtin HSTS feature. The rewrite policy from above is no longer needed.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>set ssl profile ns_default_ssl_profile_frontend -HSTS ENABLED -maxage 31536000</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_diffie_hellman_key">4.5. Diffie-Hellman key</h3>
+<div class="paragraph">
+<p>Create a Diffie-Hellman key and bind it to the default frontend profile (be aware, this could take a lot of time).</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>create dhParam /nsconfig/ssl/ECDHE.key -gen 5 2048
+set ssl profile ns_default_ssl_profile_frontend -dh ENABLED -dhFile "/nsconfig/ssl/ECDHE.key"</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_ssh_hardening">5. SSH Hardening</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_create_ed25519_hostkey">5.1. Create ed25519 hostkey</h3>
+<div class="paragraph">
+<p>The default configuration does not use ed25519 hostkeys.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>ssh-keygen -t ed25519 -f /nsconfig/ssh/ssh_host_ed25519_key -N ""</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_secure_configuration">5.2. Secure configuration</h3>
+<div class="paragraph">
+<p>This will disable legacy ciphers, the dsa hostkey and the password authentication.</p>
+</div>
+<div class="paragraph">
+<p>Copy this file to /nsconfig/sshd_config and reboot your NetScaler.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>Port 22
+ListenAddress 0.0.0.0
+ListenAddress ::
+#HostKey /nsconfig/ssh/ssh_host_dsa_key
+#HostKey /nsconfig/ssh/ssh_host_ecdsa_key
+HostKey /nsconfig/ssh/ssh_host_rsa_key
+HostKey /nsconfig/ssh/ssh_host_ed25519_key
+LoginGraceTime 120
+PermitRootLogin without-password
+LogLevel INFO
+IgnoreRhosts no
+StrictModes yes
+X11Forwarding no
+X11DisplayOffset 10
+PrintMotd no
+KeepAlive yes
+SyslogFacility AUTH
+PasswordAuthentication no
+PermitEmptyPasswords no
+UsePam no
+UseDNS no
+ClientAliveInterval 10
+ClientAliveCountMax 5
+Subsystem sftp /usr/libexec/sftp-server
+AllowTcpForwarding no
+MaxStartups 10:30:60
+MaxAuthTries 3
+KexAlgorithms curve25519-sha256@libssh.org
+Ciphers chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr
+MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,umac-128-etm@openssh.com</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_exchange_2016">6. Exchange 2016</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This is an example configuration for Exchange 2016 on NetScaler.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Content Switching for every single service/directory</p>
+</li>
+<li>
+<p>Formbased Preauth for Outlook Web Access</p>
+</li>
+<li>
+<p>401 Preauth for Active Sync Traffic</p>
+</li>
+<li>
+<p>NTLM Preauth for Outlook Anywhere Traffic</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>To use all features (e.g. preauth) at least a Enterprise license is required (AAA).</p>
+</div>
+<div class="paragraph">
+<p>This configuration was built for my Citrix Networking specialist exam and Exchange 2013.
+I added some improvements and support for Exchange 2016 (e.g. MAPI over HTTPS) afterwards.</p>
+</div>
+<div class="paragraph">
+<p>This configuration runs in production on 10+ customer setups (not all of them use preauth).</p>
+</div>
+<div class="sect2">
+<h3 id="_content_switching">6.1. Content Switching</h3>
+<div class="paragraph">
+<p><strong>Add your exchange servers</strong></p>
+</div>
+<div class="paragraph">
+<p>Be sure that you use the real FQDN of the machine as name for the server object.
+This is important if you plan to use Kerberos preauth for Outlook Anywhere.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>add server ${EX1_FQDN} ${EX1_IP}
+add server ${EX2_FQDN} ${EX2_IP}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Service groups</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>add serviceGroup sg_ssl_ex2016_owa SSL -maxClient 0 -maxReq 0 -cip ENABLED X-Forwarded-For -usip NO -useproxyport YES -cltTimeout 180 -svrTimeout 360 -CKA YES -TCPB NO -CMP NO
+add serviceGroup sg_ssl_ex2016_ews SSL -maxClient 0 -maxReq 0 -cacheable YES -cip ENABLED X-Forwarded-For -usip NO -useproxyport YES -cltTimeout 180 -svrTimeout 360 -CKA YES -TCPB NO -CMP NO
+add serviceGroup sg_ssl_ex2016_activesync SSL -maxClient 0 -maxReq 0 -cacheable YES -cip ENABLED X-Forwarded-For -usip NO -useproxyport YES -cltTimeout 180 -svrTimeout 360 -CKA YES -TCPB NO -CMP NO
+add serviceGroup sg_ssl_ex2016_rpc SSL -maxClient 0 -maxReq 0 -cacheable YES -cip ENABLED X-Forwarded-For -usip NO -useproxyport YES -cltTimeout 180 -svrTimeout 360 -CKA YES -TCPB NO -CMP NO
+add serviceGroup sg_ssl_ex2016_autodiscover SSL -maxClient 0 -maxReq 0 -cacheable YES -cip ENABLED X-Forwarded-For -usip NO -useproxyport YES -cltTimeout 180 -svrTimeout 360 -CKA YES -TCPB NO -CMP NO
+add serviceGroup sg_ssl_ex2016_ecp SSL -maxClient 0 -maxReq 0 -cacheable YES -cip ENABLED X-Forwarded-For -usip NO -useproxyport YES -cltTimeout 180 -svrTimeout 360 -CKA YES -TCPB NO -CMP NO
+add serviceGroup sg_ssl_ex2016_oab SSL -maxClient 0 -maxReq 0 -cacheable YES -cip ENABLED X-Forwarded-For -usip NO -useproxyport YES -cltTimeout 180 -svrTimeout 360 -CKA YES -TCPB NO -CMP NO
+add serviceGroup sg_ssl_ex2016_mapi SSL -maxClient 0 -maxReq 0 -cacheable YES -cip ENABLED X-Forwarded-For -usip NO -useproxyport YES -cltTimeout 180 -svrTimeout 360 -CKA YES -TCPB NO -CMP NO</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Add Exchange servers to the servicegroups</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>bind serviceGroup sg_ssl_ex2016_owa ${EX1_FQDN} 443
+bind serviceGroup sg_ssl_ex2016_owa ${EX2_FQDN} 443
+
+bind serviceGroup sg_ssl_ex2016_ews ${EX1_FQDN} 443
+bind serviceGroup sg_ssl_ex2016_ews ${EX2_FQDN} 443
+
+bind serviceGroup sg_ssl_ex2016_activesync ${EX1_FQDN} 443
+bind serviceGroup sg_ssl_ex2016_activesync ${EX2_FQDN} 443
+
+bind serviceGroup sg_ssl_ex2016_rpc ${EX1_FQDN} 443
+bind serviceGroup sg_ssl_ex2016_rpc ${EX2_FQDN} 443
+
+bind serviceGroup sg_ssl_ex2016_autodiscover ${EX1_FQDN} 443
+bind serviceGroup sg_ssl_ex2016_autodiscover ${EX2_FQDN} 443
+
+bind serviceGroup sg_ssl_ex2016_ecp ${EX1_FQDN} 443
+bind serviceGroup sg_ssl_ex2016_ecp ${EX2_FQDN} 443
+
+bind serviceGroup sg_ssl_ex2016_oab ${EX1_FQDN} 443
+bind serviceGroup sg_ssl_ex2016_oab ${EX2_FQDN} 443
+
+bind serviceGroup sg_ssl_ex2016_mapi ${EX1_FQDN} 443
+bind serviceGroup sg_ssl_ex2016_mapi ${EX2_FQDN} 443</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Monitoring</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>add lb monitor mon_ex2016_owa HTTP -respCode 200 -httpRequest "GET /owa/healthcheck.htm" -LRTM ENABLED -secure YES
+add lb monitor mon_ex2016_ews HTTP -respCode 200 -httpRequest "GET /ews/healthcheck.htm" -LRTM ENABLED -secure YES
+add lb monitor mon_ex2016_activesync HTTP -respCode 200 -httpRequest "GET /Microsoft-Server-ActiveSync/healthcheck.htm" -LRTM ENABLED -secure YES
+add lb monitor mon_ex2016_rpc HTTP -respCode 200 -httpRequest "GET /rpc/healthcheck.htm" -LRTM ENABLED -secure YES
+add lb monitor mon_ex2016_autodiscover HTTP -respCode 200 -httpRequest "GET /Autodiscover/healthcheck.htm" -LRTM ENABLED -secure YES
+add lb monitor mon_ex2016_ecp HTTP -respCode 200 -httpRequest "GET /ecp/healthcheck.htm" -LRTM ENABLED -secure YES
+add lb monitor mon_ex2016_oab HTTP -respCode 200 -httpRequest "GET /oab/healthcheck.htm" -LRTM ENABLED -secure YES
+add lb monitor mon_ex2016_mapi HTTP -respCode 200 -httpRequest "GET /mapi/healthcheck.htm" -LRTM ENABLED -secure YES</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>bind serviceGroup sg_ssl_ex2016_owa -monitorName mon_ex2016_owa
+bind serviceGroup sg_ssl_ex2016_ews -monitorName mon_ex2016_ews
+bind serviceGroup sg_ssl_ex2016_activesync -monitorName mon_ex2016_activesync
+bind serviceGroup sg_ssl_ex2016_rpc -monitorName mon_ex2016_rpc
+bind serviceGroup sg_ssl_ex2016_autodiscover -monitorName mon_ex2016_autodiscover
+bind serviceGroup sg_ssl_ex2016_ecp -monitorName mon_ex2016_ecp
+bind serviceGroup sg_ssl_ex2016_oab -monitorName mon_ex2016_oab
+bind serviceGroup sg_ssl_ex2016_mapi -monitorName mon_ex2016_mapi</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Internal LB vServers</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>add lb vserver vs_lb_http_ex2016_owa HTTP 0.0.0.0 0 -lbMethod LEASTRESPONSETIME -cltTimeout 180
+add lb vserver vs_lb_http_ex2016_owa_redirect HTTP 0.0.0.0 0 -cltTimeout 180
+add lb vserver vs_lb_http_ex2016_ews HTTP 0.0.0.0 0 -lbMethod LEASTRESPONSETIME -cltTimeout 180
+add lb vserver vs_lb_http_ex2016_activesync HTTP 0.0.0.0 0 -lbMethod LEASTRESPONSETIME -cltTimeout 180
+add lb vserver vs_lb_http_ex2016_rpc HTTP 0.0.0.0 0 -lbMethod LEASTRESPONSETIME -cltTimeout 180
+add lb vserver vs_lb_http_ex2016_autodiscover HTTP 0.0.0.0 0 -lbMethod LEASTRESPONSETIME -cltTimeout 180
+add lb vserver vs_lb_http_ex2016_ecp HTTP 0.0.0.0 0 -lbMethod LEASTRESPONSETIME -cltTimeout 180
+add lb vserver vs_lb_http_ex2016_oab HTTP 0.0.0.0 0 -lbMethod LEASTRESPONSETIME -cltTimeout 180
+add lb vserver vs_lb_http_ex2016_mapi HTTP 0.0.0.0 0 -lbMethod LEASTRESPONSETIME -cltTimeout 180</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Connect LB vServers and the servicegroups</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>bind lb vserver vs_lb_http_ex2016_owa sg_ssl_ex2016_owa
+bind lb vserver vs_lb_http_ex2016_owa_redirect sg_ssl_ex2016_owa
+bind lb vserver vs_lb_http_ex2016_ews sg_ssl_ex2016_ews
+bind lb vserver vs_lb_http_ex2016_activesync sg_ssl_ex2016_activesync
+bind lb vserver vs_lb_http_ex2016_rpc sg_ssl_ex2016_rpc
+bind lb vserver vs_lb_http_ex2016_autodiscover sg_ssl_ex2016_autodiscover
+bind lb vserver vs_lb_http_ex2016_ecp sg_ssl_ex2016_ecp
+bind lb vserver vs_lb_http_ex2016_oab sg_ssl_ex2016_oab
+bind lb vserver vs_lb_http_ex2016_mapi sg_ssl_ex2016_mapi</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Content Switching policies</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>add cs action act_cs_ex2016_owa -targetLBVserver vs_lb_http_ex2016_owa
+add cs action act_cs_ex2016_ews -targetLBVserver vs_lb_http_ex2016_ews
+add cs action act_cs_ex2016_activesync -targetLBVserver vs_lb_http_ex2016_activesync
+add cs action act_cs_ex2016_rpc -targetLBVserver vs_lb_http_ex2016_rpc
+add cs action act_cs_ex2016_autodiscover -targetLBVserver vs_lb_http_ex2016_autodiscover
+add cs action act_cs_ex2016_ecp -targetLBVserver vs_lb_http_ex2016_ecp
+add cs action act_cs_ex2016_oab -targetLBVserver vs_lb_http_ex2016_oab
+add cs action act_cs_ex2016_mapi -targetLBVserver vs_lb_http_ex2016_mapi</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>add cs policy pol_cs_ex2016_owa -rule "HTTP.REQ.URL.SET_TEXT_MODE(IGNORECASE).EQ(\"/owa\")\n|| HTTP.REQ.URL.SET_TEXT_MODE(IGNORECASE).STARTSWITH(\"/owa\")\n||HTTP.REQ.URL.SET_TEXT_MODE(IGNORECASE).EQ(\"/cgi/selfauth\") ||\nHTTP.REQ.URL.SET_TEXT_MODE(IGNORECASE).STARTSWITH(\"/cgi/selfauth\")" -action act_cs_ex2016_owa
+add cs policy pol_cs_ex2016_ews -rule "HTTP.REQ.URL.SET_TEXT_MODE(IGNORECASE).EQ(\"/ews\") || HTTP.REQ.URL.SET_TEXT_MODE(IGNORECASE).STARTSWITH(\"/ews\")" -action act_cs_ex2016_ews
+add cs policy pol_cs_ex2016_rpc -rule "HTTP.REQ.URL.SET_TEXT_MODE(IGNORECASE).EQ(\"/rpc\") || HTTP.REQ.URL.SET_TEXT_MODE(IGNORECASE).STARTSWITH(\"/rpc\")" -action act_cs_ex2016_rpc
+add cs policy pol_cs_ex2016_autodiscover -rule "HTTP.REQ.URL.SET_TEXT_MODE(IGNORECASE).EQ(\"/Autodiscover\") || HTTP.REQ.URL.SET_TEXT_MODE(IGNORECASE).STARTSWITH(\"/Autodiscover\")" -action act_cs_ex2016_autodiscover
+add cs policy pol_cs_ex2016_ecp -rule "HTTP.REQ.URL.SET_TEXT_MODE(IGNORECASE).EQ(\"/ecp\") || HTTP.REQ.URL.SET_TEXT_MODE(IGNORECASE).STARTSWITH(\"/ecp\")" -action act_cs_ex2016_ecp
+add cs policy pol_cs_ex2016_oab -rule "HTTP.REQ.URL.SET_TEXT_MODE(IGNORECASE).EQ(\"/oab\") || HTTP.REQ.URL.SET_TEXT_MODE(IGNORECASE).STARTSWITH(\"/oab\")" -action act_cs_ex2016_oab
+add cs policy pol_cs_ex2016_mapi -rule "HTTP.REQ.URL.SET_TEXT_MODE(IGNORECASE).EQ(\"/mapi\") || HTTP.REQ.URL.SET_TEXT_MODE(IGNORECASE).STARTSWITH(\"/mapi\")" -action act_cs_ex2016_mapi
+add cs policy pol_cs_ex2016_activesync -rule "HTTP.REQ.URL.SET_TEXT_MODE(IGNORECASE).EQ(\"/Microsoft-Server-ActiveSync\") || HTTP.REQ.URL.SET_TEXT_MODE(IGNORECASE).STARTSWITH(\"/Microsoft-Server-ActiveSync\")" -action act_cs_ex2016_activesync</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Create CS vServer</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>add cs vserver vs_cs_ssl_ex2016 SSL ${EX_VIP} 443 -cltTimeout 180
+add cs vserver vs_cs_http_ex2016 HTTP ${EX_VIP} 80 -cltTimeout 180</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Add the CS policies to the CS vServer</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>bind cs vserver vs_cs_ssl_ex2016 -policyName pol_cs_ex2016_owa -priority 100
+bind cs vserver vs_cs_ssl_ex2016 -policyName pol_cs_ex2016_ews -priority 110
+bind cs vserver vs_cs_ssl_ex2016 -policyName pol_cs_ex2016_activesync -priority 120
+bind cs vserver vs_cs_ssl_ex2016 -policyName pol_cs_ex2016_rpc -priority 130
+bind cs vserver vs_cs_ssl_ex2016 -policyName pol_cs_ex2016_autodiscover -priority 140
+bind cs vserver vs_cs_ssl_ex2016 -policyName pol_cs_ex2016_ecp -priority 150
+bind cs vserver vs_cs_ssl_ex2016 -policyName pol_cs_ex2016_oab -priority 160
+bind cs vserver vs_cs_ssl_ex2016 -policyName pol_cs_ex2016_mapi -priority 170
+bind cs vserver vs_cs_ssl_ex2016 -lbvserver vs_lb_http_ex2016_owa_redirect</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Redirect all HTTP requests to SSL</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>bind cs vserver vs_cs_http_ex2016 -policyName pol_responder_ssl_redirect_generic -priority 100 -gotoPriorityExpression END -type REQUEST</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Redirect invalid requests to OWA</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>add responder action act_responder_ssl_redirect_owa redirect "\"https://\" + HTTP.REQ.HOSTNAME.HTTP_URL_SAFE + \"/owa/\"" -responseStatusCode 302
+add responder policy pol_responder_ssl_redirect_owa "true" act_responder_ssl_redirect_owa</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>bind lb vserver vs_lb_http_ex2016_owa_redirect -policyName pol_responder_ssl_redirect_owa -priority 100 -gotoPriorityExpression END -type REQUEST</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_persistence">6.2. Persistence</h3>
+<div class="paragraph">
+<p>This creates a SOURCEIP persistence group for Exchange services.
+This is not required, but it can make your troubleshooting a lot easier.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>bind lb group persistency_group_ex2016_web vs_lb_http_ex2016_ews
+bind lb group persistency_group_ex2016_web vs_lb_http_ex2016_activesync
+bind lb group persistency_group_ex2016_web vs_lb_http_ex2016_rpc
+bind lb group persistency_group_ex2016_web vs_lb_http_ex2016_autodiscover
+bind lb group persistency_group_ex2016_web vs_lb_http_ex2016_oab
+bind lb group persistency_group_ex2016_web vs_lb_http_ex2016_mapi
+set lb group persistency_group_ex2016_web -persistenceType SOURCEIP</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_preauth_for_activesync">6.3. Preauth for Activesync</h3>
+<div class="paragraph">
+<p><strong>AAA vServer</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>add authentication vserver vs_aaa_ex2016_auth_basic SSL 0.0.0.0 -AuthenticationDomain ${AAA_DOMAIN}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Bind LDAP policy</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>bind authentication vserver aaa_vs_ex2016_auth_basic -policy pol_auth_ldap -priority 100</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Enable 401 auth for ActiveSync</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>set lb vserver vs_lb_http_ex2016_activesync -authn401 ON -authnVsName aaa_vs_ex2016_auth_basic</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_group_filtering_for_activesync">6.3.1. Group Filtering for ActiveSync</h4>
+<div class="paragraph">
+<p><strong>Authorization policy</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>add authorization policy pol_authorization_activesync "HTTP.REQ.USER.IS_MEMBER_OF(\"Netscaler-ActiveSync\").NOT" DENY</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Bind authorization policy</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>bind lb vserver vs_lb_http_ex2016_activesync -policyName pol_authorization_activesync -priority 100 -gotoPriorityExpression END -type REQUEST</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_preauth_for_owa">6.4. Preauth for OWA</h3>
+<div class="paragraph">
+<p><strong>AAA vServer</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>add authentication vserver vs_aaa_ex2016_auth_form SSL ${AAA_VIP} 443 -AuthenticationDomain ${AAA_DOMAIN}
+add cs vserver vs_cs_http_ex2016_auth_form HTTP ${AAA_VIP} 80 -cltTimeout 180</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Redirect all requests to SSL</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>bind cs vserver vs_cs_http_ex2016_auth_form -policyName pol_responder_ssl_redirect_owa -priority 100 -gotoPriorityExpression END -type REQUEST</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Bind authentication policies</strong></p>
+</div>
+<div class="paragraph">
+<p>Bind your authentication policies as you like. This is an example with 2-factor (LDAP+RADIUS).</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>bind authentication vserver aaa_vs_ex2016_auth_form -policy pol_auth_ldap -priority 100
+bind authentication vserver aaa_vs_ex2016_auth_form -policy pol_auth_radius -priority 100 -secondary</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Enable formbased auth for OWA and ECP</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>set lb vserver vs_lb_http_ex2016_owa -AuthenticationHost ${AAA_FQDN} -Authentication ON -authnVsName vs_aaa_ex2016_auth_form
+set lb vserver vs_lb_http_ex2016_ecp -AuthenticationHost ${AAA_FQDN} -Authentication ON -authnVsName vs_aaa_ex2016_auth_form</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_group_filtering_for_owa">6.4.1. Group Filtering for OWA</h4>
+<div class="paragraph">
+<p><strong>Authorization policy</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>add authorization policy pol_authorization_owa "HTTP.REQ.USER.IS_MEMBER_OF(\"Netscaler-OWA\").NOT" DENY</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Bind authorization policy</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>bind lb vserver vs_lb_http_ex2016_owa -policyName pol_authorization_owa -priority 100 -gotoPriorityExpression END -type REQUEST
+bind lb vserver vs_lb_http_ex2016_ecp -policyName pol_authorization_owa -priority 100 -gotoPriorityExpression END -type REQUEST</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>FormSSO and Logout from OWA</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>add tm formSSOAction prof_formsso_exchange_sso -actionURL "/owa/auth.owa" -userField username -passwdField password -ssoSuccessRule "HTTP.RES.SET_COOKIE.COOKIE(\"cadata\").VALUE(\"cadata\").LENGTH.GT(70)" -nameValuePair "destination=https://${EX_FQDN}/owa/#authRedirect=true&amp;flags=4&amp;forcedownlevel=0&amp;passwordText=&amp;isUtf8=1" -responsesize 60000 -submitMethod POST
+
+add tm trafficAction prof_traffic_exchange_sso_login -appTimeout 1 -SSO ON -formSSOAction prof_formsso_exchange_sso -persistentCookie ON -InitiateLogout OFF -kcdAccount NONE
+add tm trafficAction prof_traffic_exchange_sso_logout -appTimeout 1 -SSO ON -persistentCookie OFF -InitiateLogout ON -kcdAccount NONE
+
+add tm trafficPolicy pol_traffic_exchange_sso_login "HTTP.REQ.URL.SET_TEXT_MODE(IGNORECASE).CONTAINS(\"/owa/auth/logon.aspx\")" prof_traffic_exchange_sso_login
+add tm trafficPolicy pol_traffic_exchange_sso_logout "HTTP.REQ.URL.SET_TEXT_MODE(IGNORECASE).CONTAINS(\"/owa/logoff.owa\")" prof_traffic_exchange_sso_logout</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_preauth_for_outlook_anywhere">6.5. Preauth for Outlook Anywhere</h3>
+<div class="paragraph">
+<p>You should already have an Keytab file. See <a href="https://support.citrix.com/article/CTX129314">CTX129314</a> for more information.</p>
+</div>
+<div class="paragraph">
+<p><strong>AAA vServer</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>add authentication vserver vs_aaa_ex2016_auth_kerberos SSL 0.0.0.0 -AuthenticationDomain ${AAA_DOMAIN}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Enable 401 based auth with Kerberos/NTLM</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>set lb vserver vs_lb_http_ex2016_ews -authn401 ON -authnVsName vs_aaa_ex2016_auth_kerberos
+set lb vserver vs_lb_http_ex2016_rpc -authn401 ON -authnVsName vs_aaa_ex2016_auth_kerberos
+set lb vserver vs_lb_http_ex2016_autodiscover -authn401 ON -authnVsName vs_aaa_ex2016_auth_kerberos
+set lb vserver vs_lb_http_ex2016_oab -authn401 ON -authnVsName vs_aaa_ex2016_auth_kerberos
+set lb vserver vs_lb_http_ex2016_mapi -authn401 ON -authnVsName vs_aaa_ex2016_auth_kerberos</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Negotiate policy</strong></p>
+</div>
+<div class="paragraph">
+<p>For "NTML external path" a url with NTLM enabled auth on the target is required.
+This example may work if formbased auth is disabled for OWA.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>add authentication negotiateAction act_negotiate_ex2016 -keytab "/nsconfig/krb/ns_kcd.keytab" -NTLMPath "https://${INT_EX_LB}/owa/"
+add authentication negotiatePolicy pol_negotiate_ex2016 ns_true act_negotiate_ex2016</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Bind negotiate policy</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>bind authentication vserver aaa_vs_ex2016_auth_kerberos -policy pol_negotiate_ex2016 -priority 100</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Add KCD account</strong></p>
+</div>
+<div class="paragraph">
+<p>The realm should be your internal domain name in uppercase.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>add aaa kcdAccount svc_ctxnetscaler_krb -keytab "/nsconfig/krb/nskrb.keytab" -userRealm ${REALM}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Session policy</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>add tm sessionPolicy pol_session_ex2016 true prof_session_kerberos
+add tm sessionAction act_session_ex2016 -sessTimeout 60 -defaultAuthorizationAction ALLOW -SSO ON -ssoCredential PRIMARY -ssoDomain ${SSO_DOMAIN} -httpOnlyCookie NO -kcdAccount svc_ctxnetscaler_krb</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Bind session policy</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>bind authentication vserver aaa_vs_ex2016_auth_kerberos -policy pol_session_ex2016 -priority 100 -gotoPriorityExpression NEXT</code></pre>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_group_filtering_for_outlook_anywhere">6.5.1. Group Filtering for Outlook Anywhere</h4>
+<div class="paragraph">
+<p>It&#8217;s not possible to extract the groups from a user when NTLM or Kerberos authentication is used. Instead you could use
+a HTTP callout to a PHP script with and simple ldapsearch. You can find an example written in PHP inside of the contrib directory.</p>
+</div>
+<div class="paragraph">
+<p>It&#8217;s possible to host the file directly on the NetScaler (NetScaler has php and php-ldap installed). I only recommend this if a
+Platinum license is available (so caching of callout responses is possible). Otherwise consider hosting the script on a different machine.</p>
+</div>
+<div class="paragraph">
+<p>Just put the file ldapgroups.php inside of /nsconfig and create a symlink from /var/ns_gui/shared/ldapgroups.php to
+/nsconfig/ldapgroups.php. Use the nsbefore.sh to make this persistent across reboots.</p>
+</div>
+<div class="paragraph">
+<p>Callouts to the NSIP are blocked. Make sure you use a SNIP with management access (HTTP or HTTPS) enabled.</p>
+</div>
+<div class="paragraph">
+<p><strong>nsbefore.sh</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code># /nsconfig/nsbefore.sh
+cd /var/ns_gui/shared &amp;&amp; ln -s /nsconfig/ldapgroups.php .</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>HTTP Callout</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>add policy httpCallout callout_http_usergroups -IPAddress ${MGMT_SNIP} -port 80 -returnType TEXT -hostExpr "\"${MGMT_SNIP}\"" -urlStemExpr "\"/shared/ldapgroups.php\"" -parameters username(HTTP.REQ.USER.LOGIN_NAME) -scheme http -resultExpr "HTTP.RES.BODY(99999)" -cacheForSecs 3600 -comment "get groups from active directory"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Responder filtering policy</strong></p>
+</div>
+<div class="paragraph">
+<p>The HTTP response code is set to 503. If a user is blocked he will receive an error in his Outlook client.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>add responder action act_responder_filter_outlook respondwithhtmlpage ex2016_deny.html -responseStatusCode 503
+add responder policy pol_responder_filter_outlook "SYS.HTTP_CALLOUT(callout_http_usergroups).CONTAINS(\"Netscaler-Outlook\").NOT" act_responder_filter_outlook</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Bind responder policy</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>bind lb vserver vs_lb_http_ex2016_ews -policyName pol_responder_filter_outlook -priority 100 -gotoPriorityExpression END -type REQUEST
+bind lb vserver vs_lb_http_ex2016_rpc -policyName pol_responder_filter_outlook -priority 100 -gotoPriorityExpression END -type REQUEST
+bind lb vserver vs_lb_http_ex2016_autodiscover -policyName pol_responder_filter_outlook -priority 100 -gotoPriorityExpression END -type REQUEST
+bind lb vserver vs_lb_http_ex2016_oab -policyName pol_responder_filter_outlook -priority 100 -gotoPriorityExpression END -type REQUEST
+bind lb vserver vs_lb_http_ex2016_mapi -policyName pol_responder_filter_outlook -priority 100 -gotoPriorityExpression END -type REQUEST</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_smtp_imap_pop3">6.6. SMTP, IMAP, POP3</h3>
+<div class="paragraph">
+<p>Be sure that you use USIP to forward the client IPs to the Exchange servers.</p>
+</div>
+<div class="paragraph">
+<p><strong>LB vServers</strong></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>add lb vserver vs_lb_tcp_ex2016_pop3 TCP ${EX_VIP} 110 -persistenceType NONE -state DISABLED -cltTimeout 180
+add lb vserver vs_lb_tcp_ex2016_imap TCP ${EX_VIP} 143 -persistenceType NONE -state DISABLED -cltTimeout 180
+add lb vserver vs_lb_ssl_tcp_ex2016_imaps SSL ${EX_VIP} 993 -persistenceType NONE -state DISABLED -cltTimeout 180
+add lb vserver vs_lb_ssl_tcp_ex2016_pop3s SSL ${EX_VIP} 995 -persistenceType NONE -state DISABLED -cltTimeout 180
+add lb vserver vs_lb_tcp_ex2016_smtp TCP ${EX_VIP} 25 -persistenceType NONE -state DISABLED -cltTimeout 180
+add lb vserver vs_lb_ssl_tcp_ex2016_smtps SSL ${EX_VIP} 465 -persistenceType NONE -state DISABLED -cltTimeout 180
+add lb vserver vs_lb_tcp_ex2016_msa TCP ${EX_VIP} 587 -persistenceType NONE -state DISABLED -cltTimeout 180</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>@TODO: configuration of service groups</p>
+</div>
+<div class="paragraph">
+<p>@TODO: configuration of peristence</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_netscaler_gateway">7. NetScaler Gateway</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_ica_only">7.1. ICA only</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>add vpn sessionAction action_session_receiver -splitTunnel OFF -transparentInterception OFF -defaultAuthorizationAction ALLOW -SSO ON -icaProxy ON -wihome "https://${SF_FQDN}/Citrix/StoreWeb" -ClientChoices OFF -ntDomain CTXDEMO -clientlessVpnMode OFF -storefronturl "https://${SF_FQDN}"
+add vpn sessionAction action_session_web -transparentInterception OFF -defaultAuthorizationAction ALLOW -SSO ON -homePage "https://${SF_FQDN}/Citrix/StoreWeb" -icaProxy ON -wihome "http://${SF_FQDN}/Citrix/StoreWeb" -ClientChoices OFF -ntDomain CTXDEMO -clientlessVpnMode OFF
+
+add vpn sessionPolicy pol_session_receiver "REQ.HTTP.HEADER User-Agent CONTAINS CitrixReceiver" action_session_receiver
+add vpn sessionPolicy pol_session_web ns_true action_session_web</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>add vpn vserver vs_vpn_citrix SSL ${VIP_GW} 443 -icaOnly ON -downStateFlush DISABLED -Listenpolicy NONE</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>bind vpn vserver vs_vpn_citrix -staServer "http://${XDC1_FQDN}"
+bind vpn vserver vs_vpn_citrix -staServer "http://${XDC2_FQDN}"</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>bind vpn vserver vs_vpn_citrix -policy pol_auth_ldap</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>bind vpn vserver vs_vpn_citrix -policy pol_session_receiver -priority 100
+bind vpn vserver vs_vpn_citrix -policy pol_session_web -priority 200</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>Workaround: Inject internal Storefront FQDN into each Requests</strong>
+Sometimes the request to Storefront is sent with the external FQDN. This causes that the
+request is dropped in some situations (e.g. with Loadbalancing on a Sophos UTM).</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>add rewrite action act_rewrite_hostname replace HTTP.REQ.HOSTNAME "${SF_FQDN}"
+add rewrite policy pol_rewrite_hostname true act_rewrite_hostname
+bind vpn vserver vs_vpn_citrix -policy pol_rewrite_hostname -priority 100 -gotoPriorityExpression END -type REQUEST</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_smartaccess">7.2. SmartAccess</h3>
+<div class="paragraph">
+<p>Rewriting of Storefront Cookies need to be disabled.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>add policy patset patset_storefront_cookies
+bind policy patset patset_storefront_cookies CsrfToken -index 1
+bind policy patset patset_storefront_cookies ASP.NET_SessionId -index 2
+bind policy patset patset_storefront_cookies CtxsPluginAssistantState -index 3
+bind policy patset patset_storefront_cookies CtxsAuthId -index 4
+add vpn clientlessAccessProfile profile_clientless_storefront
+set vpn clientlessAccessProfile profile_clientless_storefront -URLRewritePolicyLabel ns_cvpn_default_inet_url_label -ClientConsumedCookies patset_storefront_cookies
+add vpn clientlessAccessPolicy pol_clientless_storefront true profile_clientless_storefront</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Setting for Storefront (web.config) to allow use in HTML Frames.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>&lt;add name="X-Frame-Options" value="SAMEORIGIN" /&gt;
+&lt;add name="Content-Security-Policy" value="frame-ancestors 'self'" /&gt;</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>add vpn sessionPolicy pol_session_web_portal ns_true profile_session_web_portal
+add vpn sessionAction profile_session_web_portal -sessTimeout 1440 -transparentInterception ON -defaultAuthorizationAction ALLOW -clientIdleTimeout 1440 -clientCleanupPrompt OFF -forceCleanup none -clientConfiguration trace -SSO ON -homePage none -icaProxy ON -wihome "https://${SF_FQDN}/Citrix/LabWeb" -citrixReceiverHome "https://${SF_FQDN}/Citrix/LabWeb" -wiPortalMode NORMAL -ClientChoices ON -ntDomain ${SSO_DOMAIN} -clientlessVpnMode OFF -emailHome "https://${EX_FQDN}/owa" -clientlessModeUrlEncoding TRANSPARENT -storefronturl "https://${SF_FQDN}/Citrix/Lab" -rdpClientProfileName profile_rdp_client_default -iconWithReceiver ON</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_xenmobile">8. XenMobile</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_mdm_loadbalancing">8.1. MDM Loadbalancing</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code># Server
+add server ${XMS_FQDN} ${XMS_IP}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Servicegroups</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>add serviceGroup sg_xm_mdm SSL_BRIDGE -maxClient 0 -maxReq 0 -usip NO -useproxyport YES -cltTimeout 180 -svrTimeout 360 -CKA YES -TCPB NO -CMP NO
+add serviceGroup sg_xm_mdm_ios SSL_BRIDGE -maxClient 0 -maxReq 0 -cacheable YES -usip NO -useproxyport YES -cltTimeout 180 -svrTimeout 360 -CKA YES -TCPB NO -CMP NO</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Server Binding</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>bind serviceGroup sg_xm_mdm ${XMS_FQDN} 443
+bind serviceGroup sg_xm_mdm_ios ${XMS_FQDN} 8443</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Monitor</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>bind serviceGroup sg_xm_mdm -monitorName tcp
+bind serviceGroup sg_xm_mdm_ios -monitorName tcp</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>vServers</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>add lb vserver vs_lb_ssl_bridge_xm_mdm SSL_BRIDGE ${MDM_VIP} 443 -persistenceType SSLSESSION -cltTimeout 180
+add lb vserver vs_lb_ssl_bridge_xm_mdm_ios SSL_BRIDGE ${MDM_VIP} 8443 -persistenceType SSLSESSION -cltTimeout 180</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Servicegroup Binding</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>bind lb vserver vs_lb_ssl_bridge_xm_mdm sg_xm_mdm
+bind lb vserver vs_lb_ssl_bridge_xm_mdm_ios sg_xm_mdm_ios</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_mam_loadbalancing">8.2. MAM Loadbalancing</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code># Servicegroup
+add serviceGroup sg_xm_mam_http HTTP -maxClient 0 -maxReq 0 -cacheable YES -cip ENABLED X-Forwarded-For -usip NO -useproxyport YES -cltTimeout 180 -svrTimeout 360 -CKA YES -TCPB NO -CMP NO
+
+# Server Binding
+bind serviceGroup sg_xm_mam_http ${XMS_FQDN} 80
+
+# Monitor
+bind serviceGroup sg_xm_mam_http -monitorName tcp
+
+# vServer
+add lb vserver vs_lb_xm_mam SSL ${MAM_LB_VIP} 8443 -persistenceType SOURCEIP -cltTimeout 180
+
+# Service Binding
+bind lb vserver vs_lb_xm_mam sg_xm_mam_http</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_mam_gateway">8.3. MAM Gateway</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code># Intranet Domains (Client VPN)
+bind vpn global -intranetDomain customer.local
+
+# Intranet Domains (Clientless VPN)
+bind policy patset ns_cvpn_default_inet_domains customer.local -index 2
+bind policy patset ns_cvpn_default_inet_domains mdm.customer.com -index 3
+bind policy patset ns_cvpn_default_inet_domains mdm.customer.com:8443 -index 4
+
+# Traffic fuer mdm.customer.com an den MAM Loadbalancer schicken
+add dns addRec mdm.customer.com ${MAM_LB_VIP}
+
+# Storefront Cookies Patternset
+add policy patset storefront_cookies
+bind policy patset storefront_cookies CsrfToken -index 1
+bind policy patset storefront_cookies ASP.NET_SessionId -index 2
+bind policy patset storefront_cookies CtxsPluginAssistantState -index 3
+bind policy patset storefront_cookies CtxsAuthId -index 4
+
+# Clientless Access Rewrite
+add vpn clientlessAccessProfile prof_clientless_rewrite_sf
+add vpn clientlessAccessProfile prof_clientless_norewrite
+set vpn clientlessAccessProfile prof_clientless_rewrite_sf -URLRewritePolicyLabel ns_cvpn_default_inet_url_label -ClientConsumedCookies storefront_cookies
+add vpn clientlessAccessPolicy pol_clientless_rewrite_sf true prof_clientless_rewrite_sf
+add  vpn clientlessAccessPolicy pol_clientless_norewrite "HTTP.REQ.HEADER(\"User-Agent\").CONTAINS(\"CitrixReceiver\") &amp;&amp;  HTTP.REQ.HEADER(\"X-Citrix-Gateway\").EXISTS" prof_clientless_norewrite
+
+# Session Policies
+add vpn sessionAction act_session_xenmobile_os -splitDns BOTH -sessTimeout 1440 -splitTunnel OFF -transparentInterception ON -defaultAuthorizationAction ALLOW -SSO ON -ssoCredential PRIMARY -icaProxy OFF -ClientChoices OFF -forcedTimeout 1440 -clientlessVpnMode ON -clientlessModeUrlEncoding TRANSPARENT -SecureBrowse ENABLED -storefronturl "https://mdm.customer.com:8443"
+add vpn sessionAction act_session_xenmobile_web -defaultAuthorizationAction ALLOW -SSO ON -ssoCredential PRIMARY -homePage "https://mdm.customer.com:8443/Citrix/StoreWeb" -icaProxy OFF -wihome "https://mdm.customer.de:8443/Citrix/StoreWeb" -ClientChoices OFF -clientlessVpnMode ON -SecureBrowse ENABLED
+add  vpn sessionAction act_session_xenmobile_ag -splitDns BOTH -splitTunnel OFF -transparentInterception ON -defaultAuthorizationAction ALLOW -SSO ON -ssoCredential PRIMARY -homePage "https://mdm.customer.com:8443/Citrix/StoreWeb"
+ -icaProxy OFF -ClientChoices OFF -clientlessVpnMode OFF -clientlessModeUrlEncoding TRANSPARENT -SecureBrowse ENABLED -storefronturl "https://mdm.customer.com:8443"
+add  vpn sessionPolicy pol_session_xenmobile_os "REQ.HTTP.HEADER User-Agent CONTAINS CitrixReceiver &amp;&amp; REQ.HTTP.HEADER X-Citrix-Gateway EXISTS" act_session_xenmobile_os
+add vpn sessionPolicy pol_session_xenmobile_web "REQ.HTTP.HEADER User-Agent NOTCONTAINS CitrixReceiver &amp;&amp; REQ.HTTP.HEADER Referer EXISTS" act_session_xenmobile_web
+add vpn sessionPolicy pol_session_xenmobile_ag "REQ.HTTP.HEADER User-Agent NOTCONTAINS CitrixReceiver &amp;&amp; REQ.HTTP.HEADER Referer NOTEXISTS" act_session_xenmobile_ag
+
+# VPN vServer
+add vpn vserver vs_vpn_xm_mam_gateway SSL ${MAM_VIP} 443 -Listenpolicy NONE -cginfraHomePageRedirect DISABLED
+
+# Binding Auth (UPN)
+bind vpn vserver vs_vpn_xm_mam_gateway -policy pol_auth_ldaps_lm_xenmobile -priority 100
+
+# Binding Session Policies
+bind vpn vserver vs_vpn_xm_mam_gateway -policy pol_session_xenmobile_os -priority 100
+bind vpn vserver vs_vpn_xm_mam_gateway -policy pol_session_xenmobile_web -priority 110
+bind vpn vserver vs_vpn_xm_mam_gateway -policy pol_session_xenmobile_ag -priority 120
+
+# Binding Clientless Access Policies
+bind vpn vserver vs_vpn_xm_mam_gateway -policy prof_clientless_norewrite -priority 80 -gotoPriorityExpression END -type REQUEST
+bind vpn vserver vs_vpn_xm_mam_gateway -policy pol_clientless_rewrite_sf -priority 100 -gotoPriorityExpression END -type REQUEST
+
+# STA; Sharefile, AppController (obsolet)
+bind vpn vserver vs_vpn_xm_mam_gateway -staServer "http://mdm.customer.com:8443"
+bind vpn vserver vs_vpn_xm_mam_gateway -appController "https://mdm.customer.com:8443"
+bind vpn vserver vs_vpn_xm_mam_gateway -sharefile mdm.customer.com:8443
+
+# Default Cache Policies
+bind vpn vserver vs_vpn_xm_mam_gateway -policy _cacheTCVPNStaticObjects -priority 10 -gotoPriorityExpression END -type REQUEST
+bind vpn vserver vs_vpn_xm_mam_gateway -policy _cacheOCVPNStaticObjects -priority 20 -gotoPriorityExpression END -type REQUEST
+bind vpn vserver vs_vpn_xm_mam_gateway -policy _cacheVPNStaticObjects -priority 30 -gotoPriorityExpression END -type REQUEST
+bind vpn vserver vs_vpn_xm_mam_gateway -policy _noCacheRest -priority 40 -gotoPriorityExpression END -type REQUEST
+bind vpn vserver vs_vpn_xm_mam_gateway -policy _cacheWFStaticObjects -priority 10 -gotoPriorityExpression END -type RESPONSE</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_sharefile_storagezone">9. ShareFile StorageZone</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>add server %{SZC_FQDN} ${SZC_IP}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>add serviceGroup sg_ssl_sharefile SSL -maxClient 0 -maxReq 0 -cacheable YES -cip ENABLED X-Forwarded-For -usip NO -useproxyport YES -cltTimeout 180 -svrTimeout 360 -CKA YES -TCPB NO -CMP NO</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>bind serviceGroup sg_ssl_sharefile %{SZC_FQDN} 443</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>add lb vserver vs_lb_http_sharefile_storagezone HTTP 0.0.0.0 0 -persistenceType SOURCEIP -lbMethod TOKEN -rule "http.REQ.URL.QUERY.VALUE(\"uploadid\")" -Listenpolicy NONE -cltTimeout 180
+add lb vserver vs_lb_http_sharefile_cifs_sp HTTP 0.0.0.0 0 -persistenceType COOKIEINSERT -timeout 240 -Listenpolicy NONE -cltTimeout 180 -authn401 ON -authnVsName vs_aaa_sharefile_auth
+add lb vserver vs_lb_http_sf_zone_options HTTP 0.0.0.0 0 -persistenceType SOURCEIP -Listenpolicy NONE -cltTimeout 180</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>bind lb vserver vs_lb_ssl_sharefile_storagezone sg_http_sharefile
+bind lb vserver vs_lb_ssl_sharefile_cifs_sp sg_http_sharefile
+bind lb vserver vs_lb_ssl_sf_zone_options sg_http_sharefile</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>add cs vserver vs_cs_ssl_sharefile SSL ${SZC_LB_VIP} 443 -cltTimeout 180 -Listenpolicy NONE
+add cs vserver vs_cs_http_sharefile_redirect_to_ssl HTTP ${SZC_LB_VIP} 80 -cltTimeout 180 -Listenpolicy NONE</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>add authentication vserver vs_aaa_sharefile_auth SSL ${AAA_VIP} 443
+add cs vserver vs_cs_http_shareauth_redirect_to_ssl HTTP ${AAA_VIP} 80 -cltTimeout 180 -Listenpolicy NONE</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>add policy httpCallout callout_sharefile -vServer vs_lb_http_sharefile_storagezone -returnType BOOL -hostExpr "\"ShareFile\"" -urlStemExpr "\"/validate.ashx?RequestURI=\" + HTTP.REQ.URL.BEFORE_STR(\"&amp;h\").HTTP_URL_SAFE.B64ENCODE + \"&amp;h=\"+ HTTP.REQ.URL.QUERY.VALUE(\"h\")" -scheme http -resultExpr "HTTP.RES.STATUS.EQ(200).N192OT"
+add policy httpCallout callout_sharefile_y -vServer vs_lb_http_sharefile_storagezone -returnType BOOL -hostExpr "\"ShareFile\"" -urlStemExpr "\"/validate.ashx?RequestURI=\" + HTTP.REQ.URL.HTTP_URL_SAFE.B64ENCODE + \"&amp;h=\"" -scheme http -resultExpr "HTTP.RES.STATUS.EQ(200).NOT"
+set policy httpCallout callout_sharefile -vServer vs_lb_http_sharefile_storagezone -returnType BOOL -hostExpr "\"ShareFile\"" -urlStemExpr "\"/validate.ashx?RequestURI=\" + HTTP.REQ.URL.BEFORE_STR(\"&amp;h\").HTTP_URL_SAFE.B64ENCODE + \"&amp;h=\"+ HTTP.REQ.URL.QUERY.VALUE(\"h\")" -scheme http -resultExpr "HTTP.RES.STATUS.EQ(200).NOT"
+set policy httpCallout callout_sharefile_y -vServer vs_lb_http_sharefile_storagezone -returnType BOOL -hostExpr "\"ShareFile\"" -urlStemExpr "\"/validate.ashx?RequestURI=\" + HTTP.REQ.URL.HTTP_URL_SAFE.B64ENCODE + \"&amp;h=\"" -scheme http -resultExpr "HTTP.RES.STATUS.EQ(200).NOT"</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>add responder policy pol_responder_sharefile "HTTP.REQ.URL.CONTAINS(\"&amp;h=\") &amp;&amp; HTTP.REQ.URL.CONTAINS(\"/crossdomain.xml\").NOT&amp;&amp; HTTP.REQ.URL.CONTAINS(\"/validate.ashxrequri\").NOT&amp;&amp; SYS.HTTP_CALLOUT(callout_sharefile) || HTTP.REQ.URL.CONTAINS(\"&amp;h=\").NOT &amp;&amp; HTTP.REQ.URL.CONTAINS(\"/crossdomain.xml\").NOT&amp;&amp; HTTP.REQ.URL.CONTAINS(\"/validate.ashxrequri\").NOT&amp;&amp; SYS.HTTP_CALLOUT(callout_sharefile_y)" DROP</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Import the SAML certificate from sharefile.com.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>add ssl certKey saml_sharefile.com -cert saml_sharefile.com.crt</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>add authentication samlIdPProfile profile_auth_saml_idp_sharefile -samlSPCertName ${SF_SUBDOMAIN}.sharefile.com -samlIdPCertName sharefile.customer.de -assertionConsumerServiceURL "https://customer.sharefile.com/saml/acs" -samlIssuerName "https://shareauth.customer.de" -rejectUnsignedRequests OFF -audience "https://customer.sharefile.com"
+add authentication samlIdPPolicy pol_auth_saml_idp_sharefile -rule "HTTP.REQ.URL.CONTAINS(\"saml\")" -action profile_auth_saml_idp_sharefile
+
+add cs action act_cs_sharefile_options -targetLBVserver vs_lb_http_sf_zone_options
+add cs policy pol_cs_sharefile_options -rule "HTTP.REQ.METHOD.EQ(\"OPTIONS\")" -action act_cs_sharefile_options
+
+add cs policy pol_cs_sharefile_not_cifs_sp_proxy -rule "HTTP.REQ.URL.CONTAINS(\"/cifs/\").NOT &amp;&amp; HTTP.REQ.URL.CONTAINS(\"/sp/\").NOT || HTTP.REQ.URL.CONTAINS(\"/ProxyService/\").NOT"
+add cs policy pol_cs_sharefile_cifs_sp_proxy -rule "HTTP.REQ.URL.CONTAINS(\"/cifs/\") || HTTP.REQ.URL.CONTAINS(\"/sp/\") || HTTP.REQ.URL.CONTAINS(\"/ProxyService/\") "
+
+bind lb vserver vs_lb_http_sharefile_storagezone sg_http_sharefile
+bind lb vserver vs_lb_http_sharefile_cifs_sp sg_http_sharefile
+bind lb vserver vs_lb_http_sf_zone_options sg_http_sharefile
+bind lb vserver vs_lb_http_sharefile_storagezone -policyName pol_responder_sharefile -priority 100 -gotoPriorityExpression END -type REQUEST
+bind cs vserver vs_cs_ssl_sharefile -policyName pol_cs_sharefile_options -priority 80
+bind cs vserver vs_cs_ssl_sharefile -policyName pol_cs_sharefile_cifs_sp_proxy -targetLBVserver vs_lb_http_sharefile_cifs_sp -priority 90
+bind cs vserver vs_cs_ssl_sharefile -policyName pol_cs_sharefile_not_cifs_sp_proxy -targetLBVserver vs_lb_http_sharefile_storagezone -priority 100
+bind cs vserver vs_cs_http_sharefile_redirect_to_ssl -policyName pol_responder_generic_redirect_ssl -priority 100 -gotoPriorityExpression END -type REQUEST
+
+
+add tm sessionAction act_session_sharefile -SSO ON -ssoCredential PRIMARY -ssoDomain CUSTOMER -homePage "https://${SF_SUBDOMAIN}.sharefile.com/saml/login"
+add tm sessionPolicy pol_session_sharefile ns_true act_session_sharefile
+
+bind authentication vserver vs_aaa_sharefile_auth -policy pol_ldap_sharefile -priority 100
+bind authentication vserver vs_aaa_sharefile_auth -policy pol_session_sharefile -priority 100
+bind authentication vserver vs_aaa_sharefile_auth -policy pol_auth_saml_idp_sharefile -priority 100 -gotoPriorityExpression END</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_sms_passcode">10. SMS Passcode</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>RADIUS configuration for SMS Passcode, also known as CensorNet MFA.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>add authentication radiusAction act_radius_smspasscode -serverName ${SMSPC_SERVER} -serverPort 1812 -radKey ${SMSPC_PSK} -radVendorID 1 -radAttributeType 99 -radGroupsPrefix CTXUserGroups= -radGroupSeparator "," -accounting ON -callingstationid ENABLED
+add authentication radiusPolicy pol_radius_smspasscode ns_true act_radius_smspasscode</code></pre>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_hide_second_password_field">10.1. Hide second password field</h3>
+<div class="paragraph">
+<p>Hide second password field via HTTP header for Citrix Receiver.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>add rewrite action act_rewrite_auth_type_SMS insert_http_header X-Citrix-AM-GatewayAuthType "\"SMS\""
+add rewrite policy pol_rewrite_auth_type_SMS true act_rewrite_auth_type_SMS</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>add rewrite action act_rewrite_auth_type_CertAndRSA insert_http_header X-Citrix-AM-GatewayAuthType "\"CertAndRSA\""
+add rewrite policy pol_rewrite_auth_type_CertAndRSA true act_rewrite_auth_type_CertAndRSA</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Hide second password field via Cookie (Webbrowser).</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>add rewrite action act_rewrite_pwcount_cookie insert_http_header Set-Cookie "\"pwcount=0\""
+add rewrite policy pol_rewrite_pwcount_cookie true act_rewrite_pwcount_cookie</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_preauth_for_vmware_vcenter_vcsa">11. Preauth for VMware vCenter (vCSA)</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>Publishing VMware vSphere 6.5 vCSA HTML5 UI behind NetScaler</p>
+</li>
+<li>
+<p>Rewriting the internal dnsname for external access</p>
+</li>
+<li>
+<p>Preauth with NetScaler AAA (SSO: to be done)</p>
+</li>
+</ul>
+</div>
+<div class="sect2">
+<h3 id="_loadbalancing">11.1. Loadbalancing</h3>
+<div class="paragraph">
+<p>Server</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>add server ${VCSA_FQDN} ${VCSA_IP}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Servicegroup</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>add serviceGroup sg_ssl_vcsa SSL -cip ENABLED X-Forwarded-For</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Server Binding</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>bind serviceGroup sg_ssl_vcsa ${VCSA_FQDN} 443</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>vServer</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>add lb vserver vs_lb_http_vcsa HTTP 0.0.0.0 0 -persistenceType NONE -cltTimeout 180</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Servicegroup Binding</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>bind lb vserver vs_lb_http_vcsa sg_ssl_vcsa</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_content_switching_2">11.2. Content Switching</h3>
+<div class="paragraph">
+<p>vServer</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>add cs vserver vs_cs_ssl_vcsa SSL ${VCSA_VIP} 443 -cltTimeout 180
+add cs vserver vs_cs_http_vcsa HTTP ${VCSA_VIP} 80 -cltTimeout 180</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>CS Policy</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>add cs policy pol_cs_vcsa_ui -rule "HTTP.REQ.URL.STARTSWITH(\"/websso/\") || HTTP.REQ.URL.STARTSWITH(\"/ui/\")" -action act_cs_vcsa_ui
+add cs action act_cs_vcsa_ui -targetLBVserver vs_lb_http_vcsa_websso</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Enable Websockets</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>add ns httpProfile profile_http_websockets -dropInvalReqs ENABLED -markHttp09Inval ENABLED -conMultiplex DISABLED -webSocket ENABLED
+set cs vserver vs_cs_ssl_vcsa -httpProfileName profile_http_websockets</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_url_rewriting">11.3. URL Rewriting</h3>
+<div class="paragraph">
+<p>Transform Policy</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>add transform profile prof_transform_vcsa
+add transform action act_transform_vcsa prof_transform_vcsa 100
+set transform action act_transform_vcsa -priority 100 -reqUrlFrom vcsa.example.com -reqUrlInto vcenter01.example.local -resUrlFrom vcenter01.example.local -resUrlInto vcsa.example.com
+add transform policy pol_transform_vcsa "HTTP.REQ.URL.STARTSWITH(\"/ui/login\") || HTTP.REQ.URL.STARTSWITH(\"/ui/logout\") || HTTP.REQ.URL.STARTSWITH(\"/ui/saml\") || HTTP.REQ.URL.STARTSWITH(\"/websso/\")" prof_transform_vcsa</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Binding Policy</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>bind lb vserver vs_lb_http_vcsa -policyName pol_transform_vcsa -priority 100 -gotoPriorityExpression END -type REQUEST</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_preauth">11.4. Preauth</h3>
+<div class="paragraph">
+<p>Traffic Policy (Logout)</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>add tm trafficAction prof_traffic_vcsa_logout -persistentCookie OFF -InitiateLogout ON -kcdAccount NONE
+add tm trafficPolicy pol_traffic_vcsa_logout "HTTP.REQ.URL.EQ(\"/ui/logout\")" prof_traffic_vcsa_logout</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Traffic Policy Binding (also possible on cs level)</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>bind lb vserver vs_lb_http_vcsa -policyName pol_traffic_vcsa_logout -priority 100 -gotoPriorityExpression END -type REQUEST</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_external_links">12. External links</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p><strong>Common</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://www.citrix.com/community/citrix-developer/netscaler/howto-guides.html">Netscaler HowTo Guides</a> - Common Configuration HowTo guides</p>
+</li>
+<li>
+<p><a href="https://www.citrix.de/products/netscaler-adc/resources/deploy.html">NetScaler Deployment Guides</a> - Some offical Deployment Guides by Citrix</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>CTX Articles</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://support.citrix.com/article/CTX214033">CTX214033</a> - NetScaler Networking and VLAN Best Practices</p>
+</li>
+<li>
+<p><a href="https://support.citrix.com/article/CTX121149">CTX121149</a> - Recommended Settings and Best Practices for Generic Implementation of a NetScaler Appliance</p>
+</li>
+<li>
+<p><a href="https://support.citrix.com/article/CTX200278">CTX200278</a> - NetScaler VPX Loses Network Connectivity on VMware ESXi 5.1.0 2191751, VMware ESXi 5.5 2143827 and also on VMware ESXi 6.0</p>
+</li>
+<li>
+<p><a href="https://support.citrix.com/article/CTX224576">CTX224576</a> - NetScaler VPX Loses Network Connectivity Intermittently on VMware ESXi After Upgrading to Version 12.0</p>
+</li>
+<li>
+<p><a href="https://support.citrix.com/article/CTX201949">CTX201949</a> - One Public IP for AAA-TM Deployments on NetScaler</p>
+</li>
+<li>
+<p><a href="https://support.citrix.com/article/CTX138055">CTX138055</a> - How to Force Secure and HttpOnly Cookie Options for Websites Using NetScaler Appliance</p>
+</li>
+<li>
+<p><a href="http://support.citrix.com/article/CTX205578">CTX205578</a> - Back-End Connection on TLS 1.1/1.2 from NetScaler to IIS Server Breaks</p>
+</li>
+<li>
+<p><a href="https://support.citrix.com/article/CTX225681">CTX225681</a> - Large File Uploads Fails on NetScaler with Content Length 0 POST Requests</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>SSL Tips</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://testssl.sh/" class="bare">https://testssl.sh/</a> - Shell script for testing TLS/SSL encryption</p>
+</li>
+<li>
+<p><a href="https://cipherli.st/" class="bare">https://cipherli.st/</a> - Strong Ciphers for Apache, nginx and Lighttpd</p>
+</li>
+<li>
+<p><a href="https://www.ssllabs.com/ssltest/" class="bare">https://www.ssllabs.com/ssltest/</a> - Qualys SSL Labs server test</p>
+</li>
+<li>
+<p><a href="https://observatory.mozilla.org/" class="bare">https://observatory.mozilla.org/</a> - Mozilla Observatory test</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><strong>Monitoring</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://github.com/slauger/check_netscaler">check_netscaler</a> - check_netscaler Nagios Plugin</p>
+</li>
+<li>
+<p><a href="https://github.com/slauger/check_netscaler">check_netscaler_gateway</a> - check_netscaler_gateway Nagios Plugin</p>
+</li>
+<li>
+<p><a href="https://github.com/slauger/check_nsupdates">check_nsupdates</a> - check_nsupdates Nagios Plugin</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+</div>
+</div>
+<style>
+pre.rouge table td { padding: 5px; }
+pre.rouge table pre { margin: 0; }
+pre.rouge .cm {
+  color: #999988;
+  font-style: italic;
+}
+pre.rouge .cp {
+  color: #999999;
+  font-weight: bold;
+}
+pre.rouge .c1 {
+  color: #999988;
+  font-style: italic;
+}
+pre.rouge .cs {
+  color: #999999;
+  font-weight: bold;
+  font-style: italic;
+}
+pre.rouge .c, pre.rouge .ch, pre.rouge .cd, pre.rouge .cpf {
+  color: #999988;
+  font-style: italic;
+}
+pre.rouge .err {
+  color: #a61717;
+  background-color: #e3d2d2;
+}
+pre.rouge .gd {
+  color: #000000;
+  background-color: #ffdddd;
+}
+pre.rouge .ge {
+  color: #000000;
+  font-style: italic;
+}
+pre.rouge .gr {
+  color: #aa0000;
+}
+pre.rouge .gh {
+  color: #999999;
+}
+pre.rouge .gi {
+  color: #000000;
+  background-color: #ddffdd;
+}
+pre.rouge .go {
+  color: #888888;
+}
+pre.rouge .gp {
+  color: #555555;
+}
+pre.rouge .gs {
+  font-weight: bold;
+}
+pre.rouge .gu {
+  color: #aaaaaa;
+}
+pre.rouge .gt {
+  color: #aa0000;
+}
+pre.rouge .kc {
+  color: #000000;
+  font-weight: bold;
+}
+pre.rouge .kd {
+  color: #000000;
+  font-weight: bold;
+}
+pre.rouge .kn {
+  color: #000000;
+  font-weight: bold;
+}
+pre.rouge .kp {
+  color: #000000;
+  font-weight: bold;
+}
+pre.rouge .kr {
+  color: #000000;
+  font-weight: bold;
+}
+pre.rouge .kt {
+  color: #445588;
+  font-weight: bold;
+}
+pre.rouge .k, pre.rouge .kv {
+  color: #000000;
+  font-weight: bold;
+}
+pre.rouge .mf {
+  color: #009999;
+}
+pre.rouge .mh {
+  color: #009999;
+}
+pre.rouge .il {
+  color: #009999;
+}
+pre.rouge .mi {
+  color: #009999;
+}
+pre.rouge .mo {
+  color: #009999;
+}
+pre.rouge .m, pre.rouge .mb, pre.rouge .mx {
+  color: #009999;
+}
+pre.rouge .sb {
+  color: #d14;
+}
+pre.rouge .sc {
+  color: #d14;
+}
+pre.rouge .sd {
+  color: #d14;
+}
+pre.rouge .s2 {
+  color: #d14;
+}
+pre.rouge .se {
+  color: #d14;
+}
+pre.rouge .sh {
+  color: #d14;
+}
+pre.rouge .si {
+  color: #d14;
+}
+pre.rouge .sx {
+  color: #d14;
+}
+pre.rouge .sr {
+  color: #009926;
+}
+pre.rouge .s1 {
+  color: #d14;
+}
+pre.rouge .ss {
+  color: #990073;
+}
+pre.rouge .s, pre.rouge .sa, pre.rouge .dl {
+  color: #d14;
+}
+pre.rouge .na {
+  color: #008080;
+}
+pre.rouge .bp {
+  color: #999999;
+}
+pre.rouge .nb {
+  color: #0086B3;
+}
+pre.rouge .nc {
+  color: #445588;
+  font-weight: bold;
+}
+pre.rouge .no {
+  color: #008080;
+}
+pre.rouge .nd {
+  color: #3c5d5d;
+  font-weight: bold;
+}
+pre.rouge .ni {
+  color: #800080;
+}
+pre.rouge .ne {
+  color: #990000;
+  font-weight: bold;
+}
+pre.rouge .nf, pre.rouge .fm {
+  color: #990000;
+  font-weight: bold;
+}
+pre.rouge .nl {
+  color: #990000;
+  font-weight: bold;
+}
+pre.rouge .nn {
+  color: #555555;
+}
+pre.rouge .nt {
+  color: #000080;
+}
+pre.rouge .vc {
+  color: #008080;
+}
+pre.rouge .vg {
+  color: #008080;
+}
+pre.rouge .vi {
+  color: #008080;
+}
+pre.rouge .nv, pre.rouge .vm {
+  color: #008080;
+}
+pre.rouge .ow {
+  color: #000000;
+  font-weight: bold;
+}
+pre.rouge .o {
+  color: #000000;
+  font-weight: bold;
+}
+pre.rouge .w {
+  color: #bbbbbb;
+}
+pre.rouge {
+  background-color: #f8f8f8;
+}
+</style>
+</body>
+</html>
